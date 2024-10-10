@@ -1,5 +1,4 @@
--- V2__create-notification-table.sql
-CREATE TABLE IF NOT EXISTS "notification"
+CREATE TABLE IF NOT EXISTS "notifications"
 (
     id     SERIAL PRIMARY KEY,
     text   VARCHAR(255),

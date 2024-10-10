@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS "user"
+CREATE TABLE IF NOT EXISTS "users"
 (
     id                        SERIAL PRIMARY KEY,
     refresh_token             VARCHAR(255),
@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS "user"
     ids_persons_i_connect     INTEGER[],
     user_name                 VARCHAR(255),
     email                     VARCHAR(255) NOT NULL,
+    password_hash              VARCHAR(255) NOT NULL,
     normalized_email          VARCHAR(255),
     email_confirmed           BOOLEAN DEFAULT FALSE,
     phone_number              VARCHAR(20),

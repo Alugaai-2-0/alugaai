@@ -1,10 +1,7 @@
 package com.alugaai.backend.models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -19,6 +16,8 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
+@Table(name = "users")
 public class User implements UserDetails {
 
     @Id
@@ -42,6 +41,8 @@ public class User implements UserDetails {
 
     private String userName;
 
+    private String passwordHash;
+
     private String email;
 
     private String normalizedEmail;
@@ -54,6 +55,17 @@ public class User implements UserDetails {
 
     private Boolean twoFactorEnabled;
 
+
+    public User(LocalDateTime birthDate, LocalDateTime createdDate, Character gender, String userName, String email,
+                String passwordHash) {
+        this.birthDate = birthDate;
+        this.createdDate = createdDate;
+        this.gender = gender;
+        this.userName = userName;
+        this.email = email;
+        this.passwordHash = passwordHash;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
@@ -61,12 +73,12 @@ public class User implements UserDetails {
 
     @Override
     public String getPassword() {
-        return null;
+        return this.passwordHash;
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return this.userName;
     }
 
     @Override
