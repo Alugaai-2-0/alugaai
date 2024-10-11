@@ -1,6 +1,0 @@
-CREATE TABLE IF NOT EXISTS images
-(
-    id          BIGINT AUTO_INCREMENT PRIMARY KEY,
-    imageData64 VARCHAR(255),
-    insertedOn  TIMESTAMP
-);

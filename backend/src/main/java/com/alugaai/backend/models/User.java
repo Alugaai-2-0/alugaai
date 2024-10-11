@@ -6,10 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Hashtable;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Getter
@@ -18,6 +15,8 @@ import java.util.List;
 @AllArgsConstructor
 @EqualsAndHashCode
 @Table(name = "users")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "discriminator", discriminatorType = DiscriminatorType.STRING)
 public class User implements UserDetails {
 
     @Id
@@ -33,8 +32,6 @@ public class User implements UserDetails {
     private LocalDateTime createdDate;
 
     private Character gender;
-
-    private String discriminator;
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<Integer> idsPersonsIConnect = new ArrayList<>();
@@ -55,6 +52,17 @@ public class User implements UserDetails {
 
     private Boolean twoFactorEnabled;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "image_id", referencedColumnName = "id")
+    private Image image;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "user_notification",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "notification_id")
+    )
+    private Set<Notification> notifications = new HashSet<>();
 
     public User(LocalDateTime birthDate, LocalDateTime createdDate, Character gender, String userName, String email,
                 String passwordHash) {

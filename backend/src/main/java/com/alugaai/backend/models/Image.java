@@ -19,4 +19,10 @@ public class Image {
     private Integer id;
     private String imageData64;
     private LocalDateTime insertedOn;
+    @ManyToOne
+    @JoinColumn(name = "building_id", nullable = false)
+    private Building building;
+
+    @OneToOne(mappedBy = "image")
+    private User user;
 }

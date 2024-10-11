@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -23,5 +25,8 @@ public class Notification {
     private LocalDateTime moment;
 
     private Boolean isRead;
+
+    @ManyToMany(mappedBy = "notifications")
+    private Set<User> users = new HashSet<>();
 
 }
