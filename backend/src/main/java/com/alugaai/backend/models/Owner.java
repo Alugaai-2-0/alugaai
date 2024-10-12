@@ -1,6 +1,7 @@
 package com.alugaai.backend.models;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
@@ -12,6 +13,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@DiscriminatorValue("OWNER")
 public class Owner extends User {
 
     @OneToMany(mappedBy = "owner", orphanRemoval = true, cascade = CascadeType.ALL)

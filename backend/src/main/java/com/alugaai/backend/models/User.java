@@ -58,7 +58,7 @@ public class User implements UserDetails {
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
-            name = "user_notification",
+            name = "users_notifications",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "notification_id")
     )

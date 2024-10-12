@@ -1,6 +1,7 @@
 package com.alugaai.backend.models;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
@@ -12,6 +13,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@DiscriminatorValue("COLLEGE")
 public class College extends Building {
 
     @OneToMany(mappedBy = "college", cascade = CascadeType.ALL, orphanRemoval = true)

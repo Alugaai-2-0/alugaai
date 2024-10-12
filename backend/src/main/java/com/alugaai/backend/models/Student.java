@@ -12,11 +12,12 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@DiscriminatorValue("STUDENT")
 public class Student extends User {
 
     @ManyToMany
     @JoinTable(
-            name = "student_connections",
+            name = "students_connections",
             joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "connected_student_id")
     )
@@ -28,7 +29,7 @@ public class Student extends User {
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
-            name = "user_property",
+            name = "students_properties",
             joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "property_id")
     )
