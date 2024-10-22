@@ -71,140 +71,18 @@
               </div>
               <ul class="list-group list-group-flush">
                 <li class="list-group-item" style="background: #fcfcfc">
-                  <div class="row g-0 align-items-center">
-                    <div
-                      class="col container-fluid px-0"
-                      style="padding-bottom: 0px; margin-bottom: -9px"
-                    >
-                      <label
-                        class="form-label px-1 rounded-pill me-1"
-                        style="
-                          background: #f2f4f7;
-                          padding-bottom: 0px;
-                          padding-top: 0px;
-                        "
-                        >Label</label
-                      ><label
-                        class="form-label px-1 rounded-pill me-1"
-                        style="
-                          background: #f2f4f7;
-                          padding-bottom: 0px;
-                          padding-top: 0px;
-                          color: rgb(133, 135, 150);
-                        "
-                        >Label</label
-                      ><label
-                        class="form-label px-1 rounded-pill me-1"
-                        style="
-                          background: #f2f4f7;
-                          padding-bottom: 0px;
-                          padding-top: 0px;
-                        "
-                        >Label</label
-                      ><label
-                        class="form-label px-1 rounded-pill me-1"
-                        style="
-                          background: #f2f4f7;
-                          padding-bottom: 0px;
-                          padding-top: 0px;
-                        "
-                        >Label</label
-                      ><label
-                        class="form-label px-1 rounded-pill me-1"
-                        style="
-                          background: #f2f4f7;
-                          padding-bottom: 0px;
-                          padding-top: 0px;
-                        "
-                        >Label</label
-                      ><label
-                        class="form-label px-1 rounded-pill me-1"
-                        style="
-                          background: #f2f4f7;
-                          padding-bottom: 0px;
-                          padding-top: 0px;
-                        "
-                        >Label</label
-                      ><label
-                        class="form-label px-1 rounded-pill me-1"
-                        style="
-                          background: #f2f4f7;
-                          padding-bottom: 0px;
-                          padding-top: 0px;
-                        "
-                        >Label</label
-                      ><label
-                        class="form-label px-1 rounded-pill me-1"
-                        style="
-                          background: #f2f4f7;
-                          padding-bottom: 0px;
-                          padding-top: 0px;
-                        "
-                        >Label</label
-                      ><label
-                        class="form-label px-1 rounded-pill me-1"
-                        style="
-                          background: #f2f4f7;
-                          padding-bottom: 0px;
-                          padding-top: 0px;
-                        "
-                        >Label</label
-                      ><label
-                        class="form-label px-1 rounded-pill me-1"
-                        style="
-                          background: #f2f4f7;
-                          padding-bottom: 0px;
-                          padding-top: 0px;
-                        "
-                        >Label</label
-                      ><label
-                        class="form-label px-1 rounded-pill me-1"
-                        style="
-                          background: #f2f4f7;
-                          padding-bottom: 0px;
-                          padding-top: 0px;
-                        "
-                        >Label</label
-                      ><label
-                        class="form-label px-1 rounded-pill me-1"
-                        style="
-                          background: #f2f4f7;
-                          padding-bottom: 0px;
-                          padding-top: 0px;
-                        "
-                        >Label</label
-                      ><label
-                        class="form-label px-1 rounded-pill me-1"
-                        style="
-                          background: #f2f4f7;
-                          padding-bottom: 0px;
-                          padding-top: 0px;
-                        "
-                        >Label</label
-                      ><label
-                        class="form-label px-1 rounded-pill me-1"
-                        style="
-                          background: #f2f4f7;
-                          padding-bottom: 0px;
-                          padding-top: 0px;
-                        "
-                        >Label</label
-                      ><label
-                        class="form-label px-1 rounded-pill me-1"
-                        style="
-                          background: #f2f4f7;
-                          padding-bottom: 0px;
-                          padding-top: 0px;
-                        "
-                        >Label</label
-                      ><label
-                        class="form-label px-1 rounded-pill"
-                        style="
-                          background: #f2f4f7;
-                          padding-bottom: 0px;
-                          padding-top: 0px;
-                        "
-                      ></label>
+                  <div class="row g-0">
+                    <div class="col">
+                      <div class="tags-container">
+                        <ng-container *ngFor="let tag of tags">
+                          <label
+                            class="tag-label"
+                            [style.color]="tag.color || 'inherit'"
+                          >
+                            {{ tag.name }}
+                          </label>
+                        </ng-container>
+                      </div>
                     </div>
                   </div>
                 </li>
