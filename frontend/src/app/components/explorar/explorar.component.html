@@ -1,57 +1,21 @@
-<div
-  id="page-top"
-  class="d-flex flex-column min-vh-100"
-  style="padding-top: 56px; color: #f3f4f7"
->
-  <nav class="navbar navbar-expand-md fixed-top bg-white py-3 shadow">
-    <div class="container">
-      <a class="navbar-brand d-flex align-items-center" href="#"
-        ><img
-          class="img-fluid"
-          src="assets/common/img/Logo%20(1).png"
-          width="123"
-          height="43" /></a
-      ><button
-        data-bs-toggle="collapse"
-        class="navbar-toggler"
-        data-bs-target="#navcol-2"
-      >
-        <span class="visually-hidden">Toggle navigation</span
-        ><span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navcol-2">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link active" href="#" style="color: #696b77"
-              >Início</a
-            >
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#" style="color: rgb(133, 135, 150)"
-              >Explorar</a
-            >
-          </li>
-          <li class="nav-item"></li>
-        </ul>
-        <a
-          class="btn btn-primary ms-md-2 shadow-sm"
-          role="button"
-          href="#"
-          style="background: rgb(253, 133, 58); border-style: none"
-          >Entrar</a
-        >
-      </div>
-    </div>
-  </nav>
+<!-- Main container for the Explorar component -->
+<div id="page-top" class="d-flex flex-column min-vh-100">
+  <!-- Navigation bar -->
+  <app-navbar></app-navbar>
+
+  <!-- Main content wrapper -->
   <div id="wrapper-1" class="my-auto">
     <div class="d-flex flex-column" id="content-wrapper-1">
       <div class="container-fluid">
         <div class="row d-flex justify-content-center align-items-center">
           <div class="col-12 col-12 col-md-6 col-lg-4">
+            <!-- User profile card -->
+            <!-- TODO: Consider extracting this card into a separate component -->
             <div
               class="card shadow w-auto mx-auto col-6"
               style="border-color: #e4e7ec"
             >
+              <!-- Profile picture section -->
               <div
                 class="card-header py-3"
                 style="
@@ -60,6 +24,7 @@
                   border-bottom-style: none;
                 "
               >
+                <!-- TODO: Implement lazy loading for images -->
                 <img
                   alt="woman in black scoop neck shirt"
                   class="d-block mx-auto circle-img"
@@ -69,10 +34,13 @@
                   style="margin-top: -86px"
                 />
               </div>
+              <!-- User details list -->
               <ul class="list-group list-group-flush">
+                <!-- Tags section -->
                 <li class="list-group-item" style="background: #fcfcfc">
                   <div class="row g-0">
                     <div class="col">
+                      <!-- TODO: Implement tag filtering functionality -->
                       <div class="tags-container">
                         <ng-container *ngFor="let tag of tags">
                           <label
@@ -86,6 +54,7 @@
                     </div>
                   </div>
                 </li>
+                <!-- User description section -->
                 <li
                   class="list-group-item mt-2 mb-2"
                   id="Perfil-Descricao"
@@ -99,7 +68,9 @@
                           <span style="color: rgb(253, 133, 58)"
                             >FACENS</span
                           ></strong
-                        ><svg
+                        >
+                        <!-- Verified icon -->
+                        <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="1em"
                           height="1em"
@@ -126,6 +97,7 @@
                       >
                     </div>
                     <div class="col col-1 d-flex" style="padding-left: 0px">
+                      <!-- TODO: Implement functionality for this icon -->
                       <i
                         class="far fa-arrow-alt-circle-down"
                         style="font-size: 28px; color: rgb(253, 133, 58)"
@@ -133,6 +105,8 @@
                     </div>
                   </div>
                 </li>
+                <!-- Decorative list items -->
+                <!-- TODO: Consider removing these if they serve no functional purpose -->
                 <li
                   class="list-group-item"
                   style="
@@ -156,6 +130,8 @@
           </div>
         </div>
       </div>
+      <!-- Mobile bottom navigation -->
+      <!-- TODO: Consider using Angular Material or Ionic for a more robust mobile navigation -->
       <ul
         class="nav nav-fill fixed-bottom d-lg-none pt-2"
         id="mobile-bottom-navbar"

@@ -1,0 +1,56 @@
+<nav class="navbar navbar-expand-md fixed-top bg-white py-3 shadow">
+  <div class="container">
+    <!-- Logo -->
+    <a class="navbar-brand d-flex align-items-center" href="#">
+      <img
+        class="img-fluid"
+        src="assets/common/img/Logo%20(1).png"
+        width="123"
+        height="43"
+        alt="Logo"
+      />
+    </a>
+    <!-- Mobile menu toggle button -->
+    <button
+      data-bs-toggle="collapse"
+      class="navbar-toggler"
+      data-bs-target="#navcol-2"
+    >
+      <span class="visually-hidden">Toggle navigation</span>
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <!-- Collapsible navbar content -->
+    <div class="collapse navbar-collapse" id="navcol-2">
+      <!-- Navigation links -->
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="/"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            style="color: #696b77"
+            >Início</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="/explorar"
+            routerLinkActive="active"
+            style="color: rgb(133, 135, 150)"
+            >Explorar</a
+          >
+        </li>
+      </ul>
+      <!-- Login button -->
+      <a
+        class="btn btn-primary ms-md-2 shadow-sm"
+        role="button"
+        routerLink="/login"
+        style="background: rgb(253, 133, 58); border-style: none"
+        >Entrar</a
+      >
+    </div>
+  </div>
+</nav>
