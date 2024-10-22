@@ -64,19 +64,17 @@ public class User implements UserDetails {
     )
     private Set<Notification> notifications = new HashSet<>();
 
-    public User(LocalDateTime birthDate, LocalDateTime createdDate, Character gender, String userName, String email,
-                String passwordHash) {
-        this.birthDate = birthDate;
-        this.createdDate = createdDate;
-        this.gender = gender;
-        this.userName = userName;
-        this.email = email;
-        this.passwordHash = passwordHash;
-    }
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return this.roles;
     }
 
     @Override
@@ -107,5 +105,16 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return UserDetails.super.isEnabled();
+    }
+
+
+    public User(LocalDateTime birthDate, LocalDateTime createdDate, Character gender, String userName, String email,
+                String passwordHash) {
+        this.birthDate = birthDate;
+        this.createdDate = createdDate;
+        this.gender = gender;
+        this.userName = userName;
+        this.email = email;
+        this.passwordHash = passwordHash;
     }
 }
