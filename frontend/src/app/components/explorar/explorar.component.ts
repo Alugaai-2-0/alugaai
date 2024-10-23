@@ -7,6 +7,10 @@ import { Component } from '@angular/core';
 })
 export class ExplorarComponent {
   userDescription: string = 'Sou Alina Dias, estudante tranquila, nas horas vagas gosto de ler e estudar.';
+  userName: string = 'Alina Dias';
+  userAge: number = 22;
+  userSchool: string = 'FACENS';
+  profileImageSrc: string = 'assets/common/img/Profile-picture.jpg';
   
   tags: { name: string; color?: string }[] = [
     { name: 'Estudos' },
