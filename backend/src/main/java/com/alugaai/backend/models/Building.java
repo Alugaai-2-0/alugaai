@@ -15,7 +15,7 @@ import java.util.List;
 @Table(name = "buildings")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "discriminator", discriminatorType = DiscriminatorType.STRING)
-public class Building {
+public abstract class Building {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
