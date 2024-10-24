@@ -1,6 +1,8 @@
 package com.alugaai.backend.repositories;
 
 
+import com.alugaai.backend.models.Owner;
+import com.alugaai.backend.models.Student;
 import com.alugaai.backend.models.User;
 import com.sun.istack.NotNull;
 import org.junit.jupiter.api.Test;
@@ -26,26 +28,56 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void testInsertUser() {
-        User user = generateUser("joao@gmail.com", "joao", "passwordHashSenha");
+    public void testInsertOwner() {
+        User user = generateOwner("owner@gmail.com", "owner", "passwordHashSenha");
         User savedUser = userRepository.save(user);
 
         assertNotNull(savedUser.getId());
 
         Optional<User> fetchedUser = userRepository.findById(savedUser.getId());
         assertTrue(fetchedUser.isPresent());
-        assertEquals("joao", fetchedUser.get().getUsername());
-        assertEquals("joao@gmail.com", fetchedUser.get().getEmail());
+        assertEquals("owner", fetchedUser.get().getUsername());
+        assertEquals("owner@gmail.com", fetchedUser.get().getEmail());
     }
 
-    public User generateUser(@NotNull String email, @NotNull String userName, @NotNull String passwordHash) {
-       return new User(
+    @Test
+    public void testInsertStudent() {
+        User user = generateStudent("student@gmail.com", "student", "passwordHashSenha");
+        User savedUser = userRepository.save(user);
+
+        assertNotNull(savedUser.getId());
+
+        Optional<User> fetchedUser = userRepository.findById(savedUser.getId());
+
+        String discriminator = userRepository.findDiscriminatorByUserId(fetchedUser.get().getId());
+
+
+        assertTrue(fetchedUser.isPresent());
+        assertEquals("student", fetchedUser.get().getUsername());
+        assertEquals("student@gmail.com", fetchedUser.get().getEmail());
+        assertEquals("STUDENT", discriminator);
+    }
+
+
+    public User generateOwner(@NotNull String email, @NotNull String userName, @NotNull String passwordHash) {
+       return new Owner(
                 LocalDateTime.now(),
                 LocalDateTime.now(),
                 'M',
                 userName,
                 email,
                passwordHash
+        );
+    }
+
+    public User generateStudent(@NotNull String email, @NotNull String userName, @NotNull String passwordHash) {
+        return new Student(
+                LocalDateTime.now(),
+                LocalDateTime.now(),
+                'M',
+                userName,
+                email,
+                passwordHash
         );
     }
 }

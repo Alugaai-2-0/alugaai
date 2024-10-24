@@ -24,3 +24,18 @@ CREATE TABLE user_roles
     CONSTRAINT fk_user_roles_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
     CONSTRAINT fk_user_roles_role FOREIGN KEY (role_id) REFERENCES roles (id) ON DELETE CASCADE
 );
+
+DO $$
+    BEGIN
+        IF NOT EXISTS (SELECT 1 FROM roles WHERE role_name = 'ROLE_ADMIN') THEN
+            INSERT INTO roles (role_name) VALUES ('ROLE_ADMIN');
+        END IF;
+
+        IF NOT EXISTS (SELECT 1 FROM roles WHERE role_name = 'ROLE_USER') THEN
+            INSERT INTO roles (role_name) VALUES ('ROLE_USER');
+        END IF;
+
+        IF NOT EXISTS (SELECT 1 FROM roles WHERE role_name = 'ROLE_STUDENT') THEN
+            INSERT INTO roles (role_name) VALUES ('ROLE_STUDENT');
+        END IF;
+    END $$;

@@ -39,7 +39,9 @@ CREATE TABLE IF NOT EXISTS users
     two_factor_enabled BOOLEAN,
     image_id INT,
     discriminator VARCHAR(50),
-    CONSTRAINT fk_image FOREIGN KEY (image_id) REFERENCES images (id)
+    college_id INT,
+    CONSTRAINT fk_image FOREIGN KEY (image_id) REFERENCES images (id),
+    CONSTRAINT fk_college FOREIGN KEY (college_id) REFERENCES buildings(id)
 );
 
 -- Criação da tabela 'student_connections'

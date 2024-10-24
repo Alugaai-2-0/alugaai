@@ -1,5 +1,5 @@
 -- Criação da tabela roles
-CREATE TABLE roles
+CREATE TABLE IF NOT EXISTS roles
 (
     id        BIGINT AUTO_INCREMENT PRIMARY KEY,
     role_name VARCHAR(255) UNIQUE NOT NULL
@@ -16,7 +16,7 @@ ALTER TABLE users
             REFERENCES roles (id) ON DELETE CASCADE;
 
 -- Criação da tabela user_roles para relacionamento ManyToMany
-CREATE TABLE user_roles
+CREATE TABLE IF NOT EXISTS user_roles
 (
     user_id BIGINT NOT NULL,
     role_id BIGINT NOT NULL,
@@ -24,3 +24,7 @@ CREATE TABLE user_roles
     CONSTRAINT fk_user_roles_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
     CONSTRAINT fk_user_roles_role FOREIGN KEY (role_id) REFERENCES roles (id) ON DELETE CASCADE
 );
+
+MERGE INTO roles (role_name) KEY (role_name) VALUES ('ROLE_ADMIN');
+MERGE INTO roles (role_name) KEY (role_name) VALUES ('ROLE_USER');
+MERGE INTO roles (role_name) KEY (role_name) VALUES ('ROLE_STUDENT');
