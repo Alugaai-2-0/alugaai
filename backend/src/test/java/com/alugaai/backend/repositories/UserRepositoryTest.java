@@ -1,6 +1,7 @@
 package com.alugaai.backend.repositories;
 
 
+import com.alugaai.backend.asbtractClasses.ClassHelper;
 import com.alugaai.backend.models.Owner;
 import com.alugaai.backend.models.Student;
 import com.alugaai.backend.models.User;
@@ -18,14 +19,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @ActiveProfiles("test")
-public class UserRepositoryTest {
-
-   private UserRepository userRepository;
+public class UserRepositoryTest extends ClassHelper {
 
    @Autowired
-    public UserRepositoryTest(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+   private UserRepository userRepository;
 
     @Test
     public void testInsertOwner() {
@@ -59,25 +56,5 @@ public class UserRepositoryTest {
     }
 
 
-    public User generateOwner(@NotNull String email, @NotNull String userName, @NotNull String passwordHash) {
-       return new Owner(
-                LocalDateTime.now(),
-                LocalDateTime.now(),
-                'M',
-                userName,
-                email,
-               passwordHash
-        );
-    }
 
-    public User generateStudent(@NotNull String email, @NotNull String userName, @NotNull String passwordHash) {
-        return new Student(
-                LocalDateTime.now(),
-                LocalDateTime.now(),
-                'M',
-                userName,
-                email,
-                passwordHash
-        );
-    }
 }
