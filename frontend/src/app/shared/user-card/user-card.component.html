@@ -1,0 +1,114 @@
+<div class="card shadow w-auto mx-auto" [style.borderColor]="'#e4e7ec'">
+  <!-- Profile picture section -->
+  <div
+    class="card-header py-3"
+    [style.background]="'#fcfcfc'"
+    [style.borderBottom]="'none'"
+  >
+    <img
+      [alt]="'Profile picture of ' + userName"
+      class="d-block mx-auto circle-img"
+      width="135"
+      height="135"
+      [src]="profileImageSrc"
+      [style.marginTop]="'-86px'"
+    />
+  </div>
+  <!-- User details list -->
+  <ul class="list-group list-group-flush">
+    <!-- Tags section -->
+    <li class="list-group-item" [style.background]="'#fcfcfc'">
+      <div class="row g-0">
+        <div class="col">
+          <!-- TODO: Implement tag filtering functionality -->
+          <div class="tags-container">
+            <ng-container *ngFor="let tag of tags">
+              <span
+                class="tag-label"
+                [style.color]="tag.color || 'inherit'"
+                [attr.aria-label]="'Tag: ' + tag.name"
+              >
+                {{ tag.name }}
+              </span>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </li>
+    <!-- User description section -->
+    <li
+      class="list-group-item"
+      id="Perfil-Descricao"
+      [style.background]="'#fcfcfc'"
+      [style.borderStyle]="'none'"
+      [style.paddingTop]="'1rem'"
+      [style.paddingBottom]="'0.6rem'"
+    >
+      <div class="row g-0 col-auto d-flex align-items-center">
+        <div class="col-10 me-2">
+          <h6 class="mb-0">
+            <strong class="user-name">
+              {{ userName }}, {{ userAge }} -
+              <span [style.color]="'rgb(253, 133, 58)'">{{ userSchool }}</span>
+            </strong>
+            <!-- Verified icon -->
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="1em"
+              height="1em"
+              viewBox="0 0 20 20"
+              fill="none"
+              class="align-text-bottom"
+              [style.color]="'rgb(253, 133, 58)'"
+              [style.marginBottom]="'2px'"
+              [style.marginLeft]="'4px'"
+              aria-hidden="true"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M2.16611 4.99891C5.17437 4.95809 7.91528 3.81033 10 1.94446C12.0847 3.81033 14.8256 4.95809 17.8339 4.99891C17.9431 5.64968 18 6.31821 18 7.00003C18 12.2249 14.6608 16.6698 10 18.3172C5.33923 16.6698 2 12.2249 2 7.00003C2 6.31821 2.05686 5.64968 2.16611 4.99891ZM13.7071 8.70711C14.0976 8.31658 14.0976 7.68342 13.7071 7.29289C13.3166 6.90237 12.6834 6.90237 12.2929 7.29289L9 10.5858L7.70711 9.29289C7.31658 8.90237 6.68342 8.90237 6.29289 9.29289C5.90237 9.68342 5.90237 10.3166 6.29289 10.7071L8.29289 12.7071C8.68342 13.0976 9.31658 13.0976 9.70711 12.7071L13.7071 8.70711Z"
+                fill="currentColor"
+              ></path>
+            </svg>
+          </h6>
+          <p class="user-description text-sm mt-1 mb-1">
+            {{ truncate(userDescription, 65, true) }}
+          </p>
+        </div>
+        <div
+          class="col col-1 d-flex align-items-center justify-content-center"
+          [style.paddingLeft]="'0px'"
+        >
+          <!-- Updated icon with rounded circle and shadow -->
+          <button
+            class="rounded-circle bg-light d-flex align-items-center justify-content-center"
+            [style.width]="'35px'"
+            [style.height]="'35px'"
+            [style.padding]="'18px'"
+            [style.margin]="'0 0 0 8px'"
+            [style.boxShadow]="'0 2px 4px rgba(0, 0, 0, 0.1)'"
+            [style.border]="'none'"
+            [style.overflow]="'hidden'"
+            aria-label="Expand user information"
+          >
+            <i
+              class="fas fa-angle-down"
+              [style.fontSize]="'24px'"
+              [style.marginTop]="'3px'"
+              [style.color]="'rgb(253, 133, 58)'"
+            ></i>
+          </button>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="action-buttons">
+  <button class="btn rounded-circle" aria-label="Dislike">
+    <i class="fas fa-times" [style.fontSize]="'24px'"></i>
+  </button>
+  <button class="btn rounded-circle" aria-label="Like">
+    <i class="fas fa-handshake" [style.fontSize]="'24px'"></i>
+  </button>
+</div>
