@@ -33,7 +33,7 @@ public class UserService {
             throw e;
 
         } catch (Exception e) {
-            throw new CustomException("Error registering user: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value(), null);
+            throw new CustomException("Error registering user: " + e.getMessage(), HttpStatus.BAD_REQUEST.value(), null);
         }
     }
 

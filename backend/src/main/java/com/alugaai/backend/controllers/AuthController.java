@@ -21,7 +21,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<String> registerUser() throws CustomException {
         userService.registerNewUser(new Owner(LocalDateTime.now(), LocalDateTime.now(), 'M', "joao", "joao2@gmail.com",
-         "senhafoda"), "ROLE_ADMIN");
+         "senhafoda"), "test");
         return ResponseEntity.ok("User registered successfully!");
     }
 }
