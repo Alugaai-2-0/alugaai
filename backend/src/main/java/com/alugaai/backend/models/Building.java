@@ -1,6 +1,7 @@
 package com.alugaai.backend.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -20,20 +21,18 @@ public abstract class Building {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String address;
+    private @NotNull String address;
 
     private String homeComplement;
 
-    private String neighborhood;
+    private @NotNull String neighborhood;
 
-    private String district;
+    private @NotNull  String district;
 
-    private String state;
+    private @NotNull String latitude;
 
-    private String latitude;
-
-    private String longitude;
+    private @NotNull String longitude;
 
     @OneToMany(mappedBy = "building", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Image> images = new ArrayList<>();
+    private @NotNull List<Image> images = new ArrayList<>();
 }

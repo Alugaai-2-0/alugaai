@@ -1,6 +1,7 @@
 package com.alugaai.backend.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +15,7 @@ public class Property extends Building {
 
     @ManyToOne
     @JoinColumn(name = "owner_id", nullable = false)
-    private Owner owner;
+    private @NotNull Owner owner;
 
     @ManyToMany(mappedBy = "propertiesLikes")
     private Set<Student> studentsLikes;

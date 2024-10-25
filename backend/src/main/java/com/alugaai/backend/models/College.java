@@ -1,14 +1,13 @@
 package com.alugaai.backend.models;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -17,6 +16,8 @@ import java.util.List;
 public class College extends Building {
 
     @OneToMany(mappedBy = "college", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Student> students = new ArrayList<>();
+    private List<Student> principalStudents = new ArrayList<>();
 
+    @ManyToMany(mappedBy = "secondsColleges")
+    private Set<Student> secondStudents = new HashSet<>();
 }

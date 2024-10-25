@@ -1,6 +1,7 @@
 package com.alugaai.backend.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,8 +28,16 @@ public class Student extends User {
     private Set<Student> connections = new HashSet<>();
 
     @ManyToOne
-    @JoinColumn(name = "college_id", nullable = true)
-    private College college;
+    @JoinColumn(name = "college_principal_id", nullable = true)
+    private @NotNull College principalCollege;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "students_colleges",
+            joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "college_id")
+    )
+    private Set<College> secondsColleges;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(

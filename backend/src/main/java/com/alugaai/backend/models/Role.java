@@ -1,10 +1,12 @@
 package com.alugaai.backend.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.security.core.GrantedAuthority;
 
 @Entity
@@ -20,7 +22,7 @@ public class Role implements GrantedAuthority {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private RoleName roleName;
+    private @NotNull @UniqueElements RoleName roleName;
 
     @Override
     public String getAuthority() {

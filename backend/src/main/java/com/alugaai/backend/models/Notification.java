@@ -1,6 +1,7 @@
 package com.alugaai.backend.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -20,13 +21,13 @@ public class Notification {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String text;
+    private @NotNull String text;
 
-    private LocalDateTime moment;
+    private @NotNull LocalDateTime moment = LocalDateTime.now();
 
-    private Boolean isRead;
+    private @NotNull Boolean isRead = false;
 
     @ManyToMany(mappedBy = "notifications")
-    private Set<User> users = new HashSet<>();
+    private @NotNull Set<User> users = new HashSet<>();
 
 }
