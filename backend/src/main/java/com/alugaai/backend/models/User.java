@@ -1,7 +1,9 @@
 package com.alugaai.backend.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -27,26 +29,24 @@ public abstract class User implements UserDetails {
 
     private LocalDateTime refreshTokenExpiryTime;
 
-    private LocalDateTime birthDate;
+    private @NotNull LocalDateTime birthDate;
 
-    private LocalDateTime createdDate;
+    private LocalDateTime createdDate = LocalDateTime.now();
 
-    private Character gender;
+    private @NotNull Character gender;
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<Integer> idsPersonsIConnect = new ArrayList<>();
 
-    private String userName;
+    private @NotNull String userName;
 
-    private String passwordHash;
+    private @NotNull String passwordHash;
 
-    private String email;
-
-    private String normalizedEmail;
+    private @NotNull @UniqueElements String email;
 
     private Boolean emailConfirmed;
 
-    private String phoneNumber;
+    private @NotNull @UniqueElements String phoneNumber;
 
     private Boolean phoneNumberConfirmed;
 
@@ -54,7 +54,7 @@ public abstract class User implements UserDetails {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "image_id", referencedColumnName = "id")
-    private Image image;
+    private @NotNull Image image;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
