@@ -1,5 +1,11 @@
-<div class="card shadow w-auto mx-auto" [style.borderColor]="'#e4e7ec'">
-  <!-- Profile picture section -->
+<div
+  class="card shadow w-auto mx-auto"
+  [style.borderColor]="'#e4e7ec'"
+  [@cardAnimator]="animationState"
+  (@cardAnimator.done)="resetAnimationState($event)"
+  (swipeLeft)="startAnimation('swipeleft')"
+  (swipeRight)="startAnimation('swiperight')"
+>
   <div
     class="card-header py-3"
     [style.background]="'#fcfcfc'"
@@ -104,11 +110,20 @@
     </li>
   </ul>
 </div>
+<!-- Action buttons section -->
 <div class="action-buttons">
-  <button class="btn rounded-circle" aria-label="Dislike">
+  <button
+    (click)="startAnimation('swipeleft')"
+    class="btn rounded-circle"
+    aria-label="Dislike"
+  >
     <i class="fas fa-times" [style.fontSize]="'24px'"></i>
   </button>
-  <button class="btn rounded-circle" aria-label="Like">
+  <button
+    (click)="startAnimation('swiperight')"
+    class="btn rounded-circle"
+    aria-label="Like"
+  >
     <i class="fas fa-handshake" [style.fontSize]="'24px'"></i>
   </button>
 </div>

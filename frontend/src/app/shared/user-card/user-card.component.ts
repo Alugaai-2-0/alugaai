@@ -1,11 +1,22 @@
-import { Component, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { trigger, state, style, transition, animate } from '@angular/animations';
+import { keyframes } from '@angular/animations';
+import { Subject } from 'rxjs';
+import * as kf from './keyframes';
 
 @Component({
   selector: 'app-user-card',
   templateUrl: './user-card.component.html',
-  styleUrl: './user-card.component.scss'
+  styleUrl: './user-card.component.scss',
+  animations: [
+    trigger('cardAnimator', [
+      transition('* => swiperight', animate(750, keyframes(kf.swiperight))),
+      transition('* => swipeleft', animate(750, keyframes(kf.swipeleft)))
+    ])
+  ]
 })
-export class UserCardComponent {
+export class UserCardComponent implements OnInit, OnDestroy {
+  // Existing properties
   userDescription: string = 'Sou Alina Dias, estudante tranquila, nas horas vagas gosto de ler e estudar.';
   userName: string = 'Alina Dias';
   userAge: number = 22;
@@ -25,6 +36,35 @@ export class UserCardComponent {
     { name: 'Viagens' },
   ];
 
+  // Animation properties""
+  animationState!: string;
+  parentSubject: Subject<string> = new Subject();
+  index: number = 0;
+
+  constructor() {}
+
+  ngOnInit() {
+    this.parentSubject.subscribe((event) => {
+      this.startAnimation(event);
+    });
+  }
+
+  startAnimation(state: string) {
+    if (!this.animationState) {
+      this.animationState = state;
+    }
+  }
+
+  resetAnimationState(state: any) {
+    this.animationState = '';
+    this.index++;
+  }
+
+  ngOnDestroy() {
+    this.parentSubject.unsubscribe();
+  }
+
+  // Existing method
   truncate(value: string, limit: number = 65, completeWords: boolean = false, ellipsis: string = '...'): string {
     if (!value || typeof value !== 'string') return '';
     if (value.length <= limit) return value;
@@ -40,5 +80,4 @@ export class UserCardComponent {
 
     return truncated + ellipsis;
   }
-
 }
