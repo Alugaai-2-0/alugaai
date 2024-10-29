@@ -22,7 +22,7 @@ public class Role implements GrantedAuthority {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private @NotNull @UniqueElements RoleName roleName;
+    private @NotNull @Column(unique = true) RoleName roleName;
 
     @Override
     public String getAuthority() {

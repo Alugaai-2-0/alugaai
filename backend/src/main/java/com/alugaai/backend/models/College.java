@@ -15,7 +15,7 @@ import java.util.Set;
 @DiscriminatorValue("COLLEGE")
 public class College extends Building {
 
-    @OneToMany(mappedBy = "college", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "principalCollege", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Student> principalStudents = new ArrayList<>();
 
     @ManyToMany(mappedBy = "secondsColleges")

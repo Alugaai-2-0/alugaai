@@ -19,7 +19,7 @@ import java.util.*;
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "discriminator", discriminatorType = DiscriminatorType.STRING)
-public abstract class User implements UserDetails {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,11 +42,13 @@ public abstract class User implements UserDetails {
 
     private @NotNull String passwordHash;
 
-    private @NotNull @UniqueElements String email;
+    private @NotNull @Column(unique = true) String email;
 
     private Boolean emailConfirmed;
 
-    private @NotNull @UniqueElements String phoneNumber;
+    private @NotNull String cpf;
+
+    private @NotNull @Column(unique = true) String phoneNumber;
 
     private Boolean phoneNumberConfirmed;
 

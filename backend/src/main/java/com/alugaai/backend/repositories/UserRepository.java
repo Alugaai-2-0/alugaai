@@ -13,4 +13,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     Optional<User> findByUserName(String name);
     @Query(value = "SELECT discriminator FROM users WHERE id = :userId", nativeQuery = true)
     String findDiscriminatorByUserId(@Param("userId") Integer userId);
+
+    boolean existsByEmail(String email);
+
 }

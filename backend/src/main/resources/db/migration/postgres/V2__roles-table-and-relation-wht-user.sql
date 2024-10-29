@@ -1,41 +1,34 @@
 -- Criação da tabela roles
-CREATE TABLE roles
+CREATE TABLE IF NOT EXISTS roles
 (
-    id        SERIAL PRIMARY KEY,
-    role_name VARCHAR(255) UNIQUE NOT NULL
+    id SERIAL PRIMARY KEY,
+    role_name VARCHAR(255) NOT NULL,
+    CONSTRAINT uk_role_name UNIQUE (role_name)
 );
 
--- Adição da coluna role_id na tabela users
-ALTER TABLE users
-    ADD COLUMN role_id INTEGER;
-
--- Adicionar chave estrangeira da role em users
-ALTER TABLE users
-    ADD CONSTRAINT fk_user_role
-        FOREIGN KEY (role_id)
-            REFERENCES roles (id) ON DELETE CASCADE;
-
 -- Criação da tabela user_roles para relacionamento ManyToMany
-CREATE TABLE user_roles
+CREATE TABLE IF NOT EXISTS user_roles
 (
     user_id INTEGER NOT NULL,
     role_id INTEGER NOT NULL,
-    PRIMARY KEY (user_id, role_id),
-    CONSTRAINT fk_user_roles_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
-    CONSTRAINT fk_user_roles_role FOREIGN KEY (role_id) REFERENCES roles (id) ON DELETE CASCADE
+    CONSTRAINT pk_user_roles PRIMARY KEY (user_id, role_id),
+    CONSTRAINT fk_user_roles_user
+        FOREIGN KEY (user_id)
+            REFERENCES users (id)
+            ON DELETE CASCADE,
+    CONSTRAINT fk_user_roles_role
+        FOREIGN KEY (role_id)
+            REFERENCES roles (id)
+            ON DELETE CASCADE
 );
 
-DO $$
-    BEGIN
-        IF NOT EXISTS (SELECT 1 FROM roles WHERE role_name = 'ROLE_ADMIN') THEN
-            INSERT INTO roles (role_name) VALUES ('ROLE_ADMIN');
-        END IF;
+-- Criar índice para melhorar performance de buscas
+CREATE INDEX IF NOT EXISTS idx_user_roles_role_id ON user_roles(role_id);
 
-        IF NOT EXISTS (SELECT 1 FROM roles WHERE role_name = 'ROLE_USER') THEN
-            INSERT INTO roles (role_name) VALUES ('ROLE_USER');
-        END IF;
-
-        IF NOT EXISTS (SELECT 1 FROM roles WHERE role_name = 'ROLE_STUDENT') THEN
-            INSERT INTO roles (role_name) VALUES ('ROLE_STUDENT');
-        END IF;
-    END $$;
+-- Inserir roles padrão
+INSERT INTO roles (role_name)
+VALUES
+    ('ROLE_ADMIN'),
+    ('ROLE_OWNER'),
+    ('ROLE_STUDENT')
+    ON CONFLICT ON CONSTRAINT uk_role_name DO NOTHING;
