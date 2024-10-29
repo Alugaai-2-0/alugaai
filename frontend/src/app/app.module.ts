@@ -7,8 +7,9 @@ import { ExplorarComponent } from './components/explorar/explorar.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { UserCardComponent } from './shared/user-card/user-card.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
 import { HomeComponent } from './shared/home/home.component';
+import { provideToastr, ToastrModule } from 'ngx-toastr';
 
 
 @NgModule({
@@ -23,10 +24,13 @@ import { HomeComponent } from './shared/home/home.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
   ],
   providers: [
-    provideClientHydration()
+    provideClientHydration(),
+    provideToastr(),
+    provideAnimations(),
   ],
   bootstrap: [AppComponent]
 })
