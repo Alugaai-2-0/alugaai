@@ -10,13 +10,11 @@ export class HomeComponent implements OnInit {
   toastService = inject(ToastrService);
 
   ngOnInit(): void {
-    
+
   }
 
   onClick(){
-    this.toastService.success("Ahashsahsa");
+    this.toastService.success("Atenção", "Destruindo o pc");
   }
-
-
 
 }
