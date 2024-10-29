@@ -17,14 +17,14 @@ import java.time.LocalDateTime;
 public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private @NotNull Integer id;
+    private Integer id;
     private @NotNull String imageData64;
     private @NotNull LocalDateTime insertedOn = LocalDateTime.now();
 
     @ManyToOne
     @JoinColumn(name = "building_id", nullable = false)
-    private @NotNull Building building;
+    private Building building;
 
     @OneToOne(mappedBy = "image")
-    private @NotNull User user;
+    private User user;
 }

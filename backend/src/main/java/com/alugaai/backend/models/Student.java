@@ -29,11 +29,11 @@ public class Student extends User {
 
     @ManyToOne
     @JoinColumn(name = "college_principal_id", nullable = true)
-    private @NotNull College principalCollege;
+    private College principalCollege;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
-            name = "students_colleges",
+            name = "students_seconds_colleges",
             joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "college_id")
     )
@@ -41,7 +41,7 @@ public class Student extends User {
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
-            name = "students_properties",
+            name = "students_properties_likes",
             joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "property_id")
     )
