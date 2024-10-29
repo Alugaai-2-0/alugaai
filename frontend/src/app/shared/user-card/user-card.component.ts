@@ -123,6 +123,7 @@ export class UserCardComponent implements OnInit, OnDestroy {
     if (this.animationStates[index]) {
       this.animationStates[index] = '';
       this.removeCard();
+    
     }
   }
 

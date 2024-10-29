@@ -10,13 +10,14 @@ import { UserCardComponent } from './shared/user-card/user-card.component';
 import { Subject } from 'rxjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+
 @NgModule({
   declarations: [
     AppComponent,
     ExplorarComponent,
     NavbarComponent,
     FooterComponent,
-    UserCardComponent
+    UserCardComponent,
   ],
   imports: [
     BrowserModule,
