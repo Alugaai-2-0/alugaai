@@ -12,6 +12,8 @@ import { HomeComponent } from './shared/home/home.component';
 import { provideToastr, ToastrModule } from 'ngx-toastr';
 import { HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptorsFromDi } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { NotFoundComponent } from './shared/not-found/not-found.component';
+import { NotAuthorizedComponent } from './shared/not-authorized/not-authorized.component';
 
 
 @NgModule({
@@ -22,6 +24,8 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     FooterComponent,
     UserCardComponent,
     HomeComponent,
+    NotFoundComponent,
+    NotAuthorizedComponent,
   ],
   imports: [
     BrowserModule,
