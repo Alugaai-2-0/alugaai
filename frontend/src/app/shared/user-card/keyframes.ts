@@ -1,4 +1,4 @@
-import { keyframes, style,animate } from '@angular/animations';
+import {style} from '@angular/animations';
 
 export const swiperight = [
   style({ opacity: 1 }),
