@@ -7,8 +7,8 @@ import { ExplorarComponent } from './components/explorar/explorar.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { UserCardComponent } from './shared/user-card/user-card.component';
-import { Subject } from 'rxjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HomeComponent } from './shared/home/home.component';
 
 
 @NgModule({
@@ -18,6 +18,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     NavbarComponent,
     FooterComponent,
     UserCardComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
