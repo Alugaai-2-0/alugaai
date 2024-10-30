@@ -7,8 +7,6 @@ import { Observable } from 'rxjs';
 })
 export class StudentService {
 
-
-
   constructor(private http: HttpClient) { }
 
   getStudents(){
