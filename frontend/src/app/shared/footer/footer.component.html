@@ -7,17 +7,21 @@
     <li class="nav-item">
       <a
         class="nav-link active text-capitalize d-flex flex-column justify-content-center align-items-center"
-        href="#"
-        ><i class="fas fa-home fa-fw fa-fw" style="color: rgb(253, 133, 58)"></i
-        ><span class="small" style="color: #fd853a">Início</span></a
+        href="#" routerLink="/home"
+            routerLinkActive="activeRouter"
+            [routerLinkActiveOptions]="{ exact: true }"
+        ><i class="fas fa-home fa-fw fa-fw"></i
+        ><span class="small">Início</span></a
       >
     </li>
     <li class="nav-item">
       <a
         class="nav-link text-capitalize d-flex flex-column justify-content-center align-items-center"
-        href="#"
+        href="#" routerLink="/explorar"
+        routerLinkActive="activeRouter"
+        [routerLinkActiveOptions]="{ exact: true }"
         ><i class="fas fa-search fa-fw fa-fw"></i
-        ><span class="small">Explorar</span></a
+        ><span class="small" >Explorar</span></a
       >
     </li>
     <li class="nav-item">
