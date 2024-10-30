@@ -1,7 +1,9 @@
 <nav class="navbar navbar-expand-md bg-white py-3 shadow">
   <div class="container">
     <!-- Logo -->
-    <a class="navbar-brand d-flex align-items-center" href="#">
+    <a class="navbar-brand d-flex align-items-center" routerLink="/home"
+    routerLinkActive="activeRouter"
+    [routerLinkActiveOptions]="{ exact: true }">
       <img
         class="img-fluid"
         src="assets/common/img/Logo%20(1).png"
@@ -27,9 +29,9 @@
           <a
             class="nav-link"
             routerLink="/home"
-            routerLinkActive="active"
+            routerLinkActive="activeRouter"
             [routerLinkActiveOptions]="{ exact: true }"
-            style="color: #696b77"
+           
             >Início</a
           >
         </li>
@@ -37,8 +39,8 @@
           <a
             class="nav-link"
             routerLink="/explorar"
-            routerLinkActive="active"
-            style="color: rgb(133, 135, 150)"
+            routerLinkActive="activeRouter"
+            
             >Explorar</a
           >
         </li>
