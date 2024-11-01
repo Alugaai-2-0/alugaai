@@ -27,4 +27,8 @@ public class Image {
 
     @OneToOne(mappedBy = "image")
     private User user;
+
+    public Image(String imageData64) {
+        this.imageData64 = imageData64;
+    }
 }

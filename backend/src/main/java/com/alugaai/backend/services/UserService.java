@@ -1,6 +1,9 @@
 package com.alugaai.backend.services;
 
+import com.alugaai.backend.dtos.UserRegisterDTO;
+import com.alugaai.backend.models.Owner;
 import com.alugaai.backend.models.Role;
+import com.alugaai.backend.models.Student;
 import com.alugaai.backend.models.User;
 import com.alugaai.backend.repositories.RoleRepository;
 import com.alugaai.backend.repositories.UserRepository;
@@ -18,24 +21,27 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
 
-    public User registerNewUser(User incomingUser, String incomingRole) throws CustomException {
+    public User registerNewStudent(Student student) throws CustomException {
+        return registerUser(student, Role.RoleName.ROLE_STUDENT);
+    }
+
+    public User registerNewOwner(Owner owner) throws CustomException {
+        return registerUser(owner, Role.RoleName.ROLE_OWNER);
+    }
+
+    private <T extends User> T registerUser(T user, Role.RoleName roleName) throws CustomException {
         try {
-            incomingUser.setPasswordHash(passwordEncoder.encode(incomingUser.getPassword()));
-            Role.RoleName roleNameEnum = Role.RoleName.valueOf(incomingRole);
-            var role = roleRepository.findByRoleName(roleNameEnum)
+            user.setPasswordHash(passwordEncoder.encode(user.getPassword()));
+
+            var role = roleRepository.findByRoleName(roleName)
                     .orElseThrow(() -> new CustomException("Role not found", HttpStatus.NOT_FOUND.value(), null));
-            incomingUser.getRoles().add(role);
-            return userRepository.save(incomingUser);
+            user.getRoles().add(role);
+
+            return userRepository.save(user);
         } catch (IllegalArgumentException e) {
-            throw new CustomException("Invalid role: " + incomingRole, HttpStatus.BAD_REQUEST.value(), null);
-
-        } catch (CustomException e) {
-            throw e;
-
+            throw new CustomException("Invalid role: " + roleName, HttpStatus.BAD_REQUEST.value(), null);
         } catch (Exception e) {
             throw new CustomException("Error registering user: " + e.getMessage(), HttpStatus.BAD_REQUEST.value(), null);
         }
     }
-
 }
-
