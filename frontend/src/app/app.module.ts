@@ -15,6 +15,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { NotFoundComponent } from './shared/not-found/not-found.component';
 import { NotAuthorizedComponent } from './shared/not-authorized/not-authorized.component';
 import { ButtonMapComponent } from './shared/button-map/button-map.component';
+import { LoginComponent } from './components/auth/login/login.component';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import { ButtonMapComponent } from './shared/button-map/button-map.component';
     NotFoundComponent,
     NotAuthorizedComponent,
     ButtonMapComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,

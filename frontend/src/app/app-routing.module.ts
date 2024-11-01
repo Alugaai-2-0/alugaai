@@ -5,6 +5,7 @@ import { ExplorarComponent } from './components/explorar/explorar.component';
 import { HomeComponent } from './shared/home/home.component';
 import { NotFoundComponent } from './shared/not-found/not-found.component';
 import { NotAuthorizedComponent } from './shared/not-authorized/not-authorized.component';
+import { LoginComponent } from './components/auth/login/login.component';
 
 const routes: Routes = [
   { 
@@ -26,6 +27,10 @@ const routes: Routes = [
   { 
     path: 'not-authorized',
      component: NotAuthorizedComponent
+  },
+  { 
+    path: 'login',
+     component: LoginComponent
   },
 
 

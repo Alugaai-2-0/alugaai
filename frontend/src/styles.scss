@@ -1,3 +1,33 @@
 /* You can add global styles to this file, and also import other style files */
 @import 'ngx-toastr/toastr';
+@import 'assets/styles/variables.scss';
 
+
+//Other styles
+
+
+//global styles
+.primary-text-color{
+    color: $primary-text-color;
+   
+}
+.primary-text-weight{
+    font-weight: $font-weight-bold;
+}
+.background-primary-color{
+    background-color: $primary-color;
+}
+
+.primary-button{
+    background-color: $primary-color;
+    color: white;
+    border-radius: 20px;
+}
+.primary-button:hover {
+    background-color: #dd7432;
+    color: white;
+}
+.primary-button:active{
+    background-color: #dd7432 !important;
+    color: white !important;
+}
