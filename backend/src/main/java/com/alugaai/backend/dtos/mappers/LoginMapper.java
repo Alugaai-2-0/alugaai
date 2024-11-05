@@ -1,6 +1,6 @@
 package com.alugaai.backend.dtos.mappers;
 
-import com.alugaai.backend.dtos.LoginResponseDTO;
+import com.alugaai.backend.dtos.auth.LoginResponseDTO;
 import com.alugaai.backend.models.User;
 import java.util.stream.Collectors;
 

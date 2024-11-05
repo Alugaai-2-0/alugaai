@@ -1,4 +1,4 @@
-package com.alugaai.backend.dtos;
+package com.alugaai.backend.dtos.auth;
 
 import lombok.Getter;
 

@@ -1,6 +1,5 @@
 package com.alugaai.backend.services;
 
-import com.alugaai.backend.dtos.UserRegisterDTO;
 import com.alugaai.backend.models.Owner;
 import com.alugaai.backend.models.Role;
 import com.alugaai.backend.models.Student;

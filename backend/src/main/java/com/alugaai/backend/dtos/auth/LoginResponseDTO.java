@@ -1,4 +1,4 @@
-package com.alugaai.backend.dtos;
+package com.alugaai.backend.dtos.auth;
 
 import java.time.LocalDateTime;
 import java.util.List;

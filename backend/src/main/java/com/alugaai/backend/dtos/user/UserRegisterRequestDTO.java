@@ -1,11 +1,12 @@
-package com.alugaai.backend.dtos;
+package com.alugaai.backend.dtos.user;
 
 
+import com.alugaai.backend.dtos.image.ImageRequestDTO;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
-public record UserRegisterDTO(
+public record UserRegisterRequestDTO(
         @NotNull LocalDateTime birthDate,
         @NotNull char gender,
         @NotNull String userName,
@@ -13,5 +14,5 @@ public record UserRegisterDTO(
         @NotNull String password,
         @NotNull String cpf,
         @NotNull String phoneNumber,
-        @NotNull ImageDTO imageDTO
+        @NotNull ImageRequestDTO imageDTO
 ) {}
