@@ -25,7 +25,11 @@
       <!-- Login button -->
       
 
-      @if(userName){
+      @if(!userName){
+        <a class="btn btn-primary ms-md-2 shadow-sm" role="button" routerLink="/login"
+        style="background: rgb(253, 133, 58); border-style: none">Entrar</a>
+      }
+      @else{
         <div class="dropdown">
           <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
             aria-expanded="false">{{userName}}</button>
@@ -33,10 +37,6 @@
             <option class="dropdown-item" (click)="onSairClick()">Sair</option>
           </ul>
         </div>
-      }
-      @if(!userName){
-        <a class="btn btn-primary ms-md-2 shadow-sm" role="button" routerLink="/login"
-        style="background: rgb(253, 133, 58); border-style: none">Entrar</a>
       }
      
 

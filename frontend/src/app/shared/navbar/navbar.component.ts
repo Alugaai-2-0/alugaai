@@ -18,7 +18,7 @@ export class NavbarComponent implements OnInit {
   }
 
   onSairClick(){
-    this.authService.logout();
+    this.authService.logout()
   }
 
 }

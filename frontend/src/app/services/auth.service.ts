@@ -16,11 +16,11 @@ export class AuthService {
 
   constructor(private http: HttpClient) { 
     if (typeof localStorage !== 'undefined') {
-      const storedUser = localStorage.getItem('user');
-      if (storedUser) {
-        this.userLogged.next(JSON.parse(storedUser) as ILoginResponse);
-      }
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      this.userLogged.next(JSON.parse(storedUser) as ILoginResponse);
     }
+  }
   }
 
   getUserLogged() {
