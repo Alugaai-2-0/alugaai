@@ -9,11 +9,13 @@ import { ILoginResponse } from '../../interfaces/ILoginResponse';
 })
 export class NavbarComponent implements OnInit {
   userName: string | null = null;
+  userLogged: boolean = false;
   authService = inject(AuthService)
 
   ngOnInit() {
     this.authService.getUserLogged().subscribe((user: ILoginResponse | null) => {
       this.userName = user ? user.userName : null;
+      this.userLogged = true;
     });
   }
 
