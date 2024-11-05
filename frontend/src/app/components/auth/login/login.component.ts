@@ -1,7 +1,9 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ILogin } from '../../../interfaces/ILogin';
 import { AuthService } from '../../../services/auth.service';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-login',
@@ -12,47 +14,42 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup = new FormGroup({});
   isEmailScreen: boolean = true;
 
-  mockLogin: ILogin = {
-    identifier: 'admin@alugaai.com',
-    password: 'admin123'
-  };
-
   constructor(
     private fb: FormBuilder,
-  ) {}
+  ) { }
 
   authService = inject(AuthService)
- 
+  toastr = inject(ToastrService)
+  router = inject(Router);
+
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
+      identifier: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
     });
 
-    this.authService.login(this.mockLogin).subscribe({
-      next: (response) =>{
-       
-      },
-      error: (error) => {
-        
-      },
-      complete: () => {
-      }
-    })
+
   }
 
 
 
-
- 
-
-  
-  onContinuarClick(){
-
-    console.log("Email: ", this.loginForm.get('email')?.value);
-    console.log("senha: ", this.loginForm.get('password')?.value);
+  onContinuarClick() {
     this.isEmailScreen = false;
+  }
+  onEntrarClick() {
+    this.authService.login(this.loginForm.value).subscribe({
+      next: (response) => {
+        this.toastr.success(response.userName, "Logado com sucesso")
+        this.router.navigate(['/home']);
+
+      },
+      error: (error) => {
+       this.toastr.error( error.message, "Erro ao fazer login")
+      },
+      complete: () => {
+      }
+    })
   }
 
 

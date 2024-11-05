@@ -43,7 +43,7 @@
     <div class="mb-3">
       <label for="email" class="form-label primary-text-color">E-mail</label>
       <input type="email" class="form-control" id="email" name="email" placeholder="josedasilva@gmail.com"
-        formControlName="email">
+        formControlName="identifier">
     </div>
     }
     @else {
@@ -60,7 +60,7 @@
 
     @if(isEmailScreen){
       <button type="submit" class="btn w-100 mb-3 primary-button" (click)="onContinuarClick()"
-      [disabled]="loginForm.get('email')?.invalid">
+      [disabled]="loginForm.get('identifier')?.invalid">
       Continuar
     </button>
 
@@ -69,7 +69,7 @@
     <a href="#" class="text-decoration-none d-block text-center mb-3 orange-text-color primary-text-weight">Criar conta</a>
     }
     @else {
-      <button type="submit" class="btn w-100 mb-3 primary-button" (click)="onContinuarClick()"
+      <button type="submit" class="btn w-100 mb-3 primary-button" (click)="onEntrarClick()"
       [disabled]="loginForm.get('password')?.invalid">
       Entrar
     </button>
