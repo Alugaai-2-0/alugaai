@@ -1,11 +1,15 @@
 package com.alugaai.backend.controllers;
 
+import com.alugaai.backend.dtos.LoginRequestDTO;
+import com.alugaai.backend.dtos.LoginResponseDTO;
 import com.alugaai.backend.dtos.UserRegisterDTO;
+import com.alugaai.backend.dtos.mappers.LoginMapper;
 import com.alugaai.backend.dtos.mappers.UserMapper;
 import com.alugaai.backend.models.Owner;
 import com.alugaai.backend.models.Role;
 import com.alugaai.backend.models.Student;
 import com.alugaai.backend.models.User;
+import com.alugaai.backend.security.JwtSecurity;
 import com.alugaai.backend.services.UserService;
 import com.alugaai.backend.services.errors.CustomException;
 import lombok.AllArgsConstructor;
@@ -21,7 +25,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class AuthController {
 
-    private UserService userService;
+    private final UserService userService;
+    private final JwtSecurity jwtSecurity;
 
     // we need to pass the role to PathVariable equals ROLE_STUDENT | ROLE_OWNER
     @PostMapping("/register/{role}")
@@ -41,5 +46,19 @@ public class AuthController {
 
         return ResponseEntity.ok(UserMapper.toDTO(savedUser));
     }
+
+    @PostMapping(path = "/login")
+    public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO loginRequest) {
+        try {
+            User authenticatedUser = userService.authenticateUser(loginRequest.identifier(), loginRequest.password());
+            String token = jwtSecurity.generateToken(authenticatedUser);
+
+            return ResponseEntity.ok(LoginMapper.toDTO(authenticatedUser, token));
+        } catch (CustomException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+    }
+
+
 }
 

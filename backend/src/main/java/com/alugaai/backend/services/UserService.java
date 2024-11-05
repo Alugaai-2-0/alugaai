@@ -44,4 +44,16 @@ public class UserService {
             throw new CustomException("Error registering user: " + e.getMessage(), HttpStatus.BAD_REQUEST.value(), null);
         }
     }
+
+    public User authenticateUser(String identifier, String password) throws CustomException {
+        User user = userRepository.findByEmailOrCpf(identifier, identifier)
+                .orElseThrow(() -> new CustomException("User not " +
+                "found", HttpStatus.NOT_FOUND.value(), null));
+
+        if (!passwordEncoder.matches(password, user.getPasswordHash())) {
+            throw new CustomException("Invalid credentials", HttpStatus.UNAUTHORIZED.value(), null);
+        }
+
+        return user;
+    }
 }

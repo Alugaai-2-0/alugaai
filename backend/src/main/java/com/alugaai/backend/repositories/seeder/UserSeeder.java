@@ -108,7 +108,6 @@ public class UserSeeder extends BaseSeeder {
             user.setEmailConfirmed(true);
             user.setPhoneNumberConfirmed(true);
             user.setTwoFactorEnabled(false);
-            user.setIdsPersonsIConnect(new ArrayList<>());
 
             Role role = roleRepository.findByRoleName(roleName)
                     .orElseThrow(() -> new CustomException(

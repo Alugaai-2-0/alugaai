@@ -35,9 +35,6 @@ public class User implements UserDetails {
 
     private @NotNull Character gender;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    private List<Integer> idsPersonsIConnect = new ArrayList<>();
-
     private @NotNull String userName;
 
     private @NotNull String passwordHash;
@@ -54,7 +51,7 @@ public class User implements UserDetails {
 
     private Boolean twoFactorEnabled;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "image_id", referencedColumnName = "id")
     private @NotNull Image image;
 
