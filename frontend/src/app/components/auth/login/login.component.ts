@@ -37,6 +37,10 @@ export class LoginComponent implements OnInit {
   onContinuarClick() {
     this.isEmailScreen = false;
   }
+
+  onArrowClick(){
+    this.isEmailScreen = true;
+  }
   onEntrarClick() {
     this.authService.login(this.loginForm.value).subscribe({
       next: (response) => {
