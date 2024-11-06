@@ -23,6 +23,8 @@ public class Building {
 
     private @NotNull String address;
 
+    private @NotNull String homeNumber;
+
     private String homeComplement;
 
     private @NotNull String neighborhood;

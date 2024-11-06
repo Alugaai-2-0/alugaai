@@ -30,6 +30,14 @@ public class UserService {
 
     private <T extends User> T registerUser(T user, Role.RoleName roleName) throws CustomException {
         try {
+
+            var existUser = userRepository.findByEmailOrCpfOrPhoneNumber(user.getEmail(), user.getCpf(), user.getPhoneNumber());
+
+            if (existUser.isPresent()) {
+                throw new CustomException("This cpf, email or phone already exists", HttpStatus.BAD_REQUEST.value(),
+                        null);
+            }
+
             user.setPasswordHash(passwordEncoder.encode(user.getPassword()));
 
             var role = roleRepository.findByRoleName(roleName)
@@ -45,7 +53,7 @@ public class UserService {
     }
 
     public User authenticateUser(String identifier, String password) throws CustomException {
-        User user = userRepository.findByEmailOrCpf(identifier, identifier)
+        User user = userRepository.findByEmailOrCpfOrPhoneNumber(identifier, identifier, identifier)
                 .orElseThrow(() -> new CustomException("User not " +
                 "found", HttpStatus.NOT_FOUND.value(), null));
 

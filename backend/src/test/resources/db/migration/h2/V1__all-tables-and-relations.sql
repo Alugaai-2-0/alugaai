@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS users
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     gender CHAR(1) NOT NULL,
     user_name VARCHAR(255) NOT NULL,
-    cpf VARCHAR(255) NOT NULL,
+    cpf VARCHAR(255) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     email_confirmed BOOLEAN DEFAULT FALSE,
@@ -33,6 +33,8 @@ CREATE TABLE IF NOT EXISTS buildings
 (
     id INT AUTO_INCREMENT PRIMARY KEY,
     address VARCHAR(255) NOT NULL,
+    college_name VARCHAR(255),
+    home_number VARCHAR(255) NOT NULL,
     home_complement VARCHAR(255),
     neighborhood VARCHAR(255) NOT NULL,
     district VARCHAR(255) NOT NULL,

@@ -145,11 +145,13 @@ public class UserSeeder extends BaseSeeder {
 
     private College createCollege() {
         var college = new College();
-        college.setAddress("New college");
+        college.setAddress("New college") ;
+        college.setHomeNumber("120");
         college.setNeighborhood("Brooklyn");
         college.setDistrict("NY");
         college.setLatitude("0");
         college.setLongitude("0");
+        college.setCollegeName("College name");
 
         // Create and set image for college
         Image collegeImage = new Image();

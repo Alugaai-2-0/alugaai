@@ -34,9 +34,10 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/auth/register/**", "/auth/login/**").permitAll()
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/admin/**", "/college/**").hasRole("ADMIN")
                         .requestMatchers("/owner/**", "/cep/**").hasRole("OWNER")
                         .requestMatchers("/student/**").hasRole("STUDENT")
+                        .requestMatchers("/college/**", "/image/**").hasAnyRole("ADMIN", "OWNER", "STUDENT")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

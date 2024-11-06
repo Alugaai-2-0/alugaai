@@ -17,5 +17,5 @@ String findDiscriminatorByUserId(@Param("userId") @NotNull Integer userId);
 
     boolean existsByEmail(@NotNull String email);
 
-    Optional<User> findByEmailOrCpf(@NotNull String email, @NotNull String cpf);
+    Optional<User> findByEmailOrCpfOrPhoneNumber(@NotNull String email, @NotNull String cpf, @NotNull String phoneNumber);
 }

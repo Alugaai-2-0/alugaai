@@ -43,7 +43,7 @@ public class User implements UserDetails {
 
     private Boolean emailConfirmed;
 
-    private @NotNull String cpf;
+    private @NotNull @Column(unique = true) String cpf;
 
     private @NotNull @Column(unique = true) String phoneNumber;
 
