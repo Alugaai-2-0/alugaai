@@ -1,26 +1,28 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { ILoginResponse } from '../../interfaces/ILoginResponse';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.scss'
+  styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
   userName: string | null = null;
   userLogged: boolean = false;
-  authService = inject(AuthService)
+  loading: boolean = true; 
+  authService = inject(AuthService);
 
   ngOnInit() {
     this.authService.getUserLogged().subscribe((user: ILoginResponse | null) => {
       this.userName = user ? user.userName : null;
-      this.userLogged = true;
+      this.userLogged = !!user; 
+      this.loading = false; 
     });
   }
 
-  onSairClick(){
-    this.authService.logout()
+  onSairClick() {
+    this.authService.logout();
+    this.userLogged = false;
   }
-
 }
