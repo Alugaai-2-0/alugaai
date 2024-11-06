@@ -1,14 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import path from 'path';
 import { ExplorarComponent } from './components/explorar/explorar.component';
 import { HomeComponent } from './shared/home/home.component';
 import { NotFoundComponent } from './shared/not-found/not-found.component';
 import { NotAuthorizedComponent } from './shared/not-authorized/not-authorized.component';
 import { LoginComponent } from './components/auth/login/login.component';
+import { loggedGuard } from './guards/logged.guard';
 
 
-const routes: Routes = [
+
+export const routes: Routes = [
   { 
     path: '',
      component: HomeComponent
@@ -31,7 +32,9 @@ const routes: Routes = [
   },
   { 
     path: 'login',
-     component: LoginComponent
+    component: LoginComponent,
+    canActivate: [loggedGuard]
+    
   },
 
 

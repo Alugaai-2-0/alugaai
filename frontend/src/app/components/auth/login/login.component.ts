@@ -32,8 +32,6 @@ export class LoginComponent implements OnInit {
 
   }
 
-
-
   onContinuarClick() {
     this.isEmailScreen = false;
   }
