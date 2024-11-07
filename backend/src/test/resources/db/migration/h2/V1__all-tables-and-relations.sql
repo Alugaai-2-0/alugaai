@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS users
     phone_number VARCHAR(255) UNIQUE NOT NULL,
     phone_number_confirmed BOOLEAN DEFAULT FALSE,
     two_factor_enabled BOOLEAN DEFAULT FALSE,
-    image_id INT NOT NULL,
+    image_id INT,
     discriminator VARCHAR(50),
     college_principal_id INT
 );
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS users
 CREATE TABLE IF NOT EXISTS images
 (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    image_data64 LONGTEXT NOT NULL,
+    image_data BLOB NOT NULL,
     inserted_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     building_id INT
 );

@@ -13,6 +13,5 @@ public record UserRegisterRequestDTO(
         @NotNull String email,
         @NotNull String password,
         @NotNull String cpf,
-        @NotNull String phoneNumber,
-        @NotNull ImageRequestDTO imageDTO
+        @NotNull String phoneNumber
 ) {}

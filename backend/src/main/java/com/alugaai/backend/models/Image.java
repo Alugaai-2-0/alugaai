@@ -18,17 +18,18 @@ public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private @NotNull String imageData64;
+
+    private @NotNull byte[] imageData;
     private @NotNull LocalDateTime insertedOn = LocalDateTime.now();
 
     @ManyToOne
-    @JoinColumn(name = "building_id", nullable = false)
+    @JoinColumn(name = "building_id")
     private Building building;
 
     @OneToOne(mappedBy = "image")
     private User user;
 
-    public Image(String imageData64) {
-        this.imageData64 = imageData64;
+    public Image(byte[] imageData64) {
+        this.imageData = imageData64;
     }
 }

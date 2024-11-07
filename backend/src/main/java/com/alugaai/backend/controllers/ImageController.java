@@ -15,10 +15,15 @@ import com.alugaai.backend.security.SecurityService;
 import com.alugaai.backend.services.ImageService;
 import com.alugaai.backend.services.UserService;
 import com.alugaai.backend.services.errors.CustomException;
+import jakarta.validation.constraints.NotNull;
+import jakarta.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/image")
@@ -27,11 +32,20 @@ public class ImageController {
 
     private final ImageService imageService;
 
-    @PostMapping()
-    public ResponseEntity<ImageResponseDTO> post(@RequestBody ImageRequestDTO request) {
+    @PostMapping
+    public ResponseEntity<ImageResponseDTO> post(@RequestParam("file") MultipartFile file) {
         try {
-            return ResponseEntity.ok(imageService.post(request));
+            return ResponseEntity.ok(imageService.post(file));
         } catch (Exception e) {
+            throw new CustomException(e.getMessage(), 400, null);
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ImageResponseDTO> getById(@PathVariable @NotNull Integer id) {
+        try {
+            return ResponseEntity.ok(imageService.getById(id));
+        } catch (NoSuchElementException e) {
             throw new CustomException(e.getMessage(), 400, null);
         }
     }
