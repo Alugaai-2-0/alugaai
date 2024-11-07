@@ -20,6 +20,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { RegisterChoiceComponent } from './components/auth/register-choice/register-choice.component';
 import { BackgroundComponent } from './shared/background/background.component';
+import { RegisterStudentComponent } from './components/auth/register-student/register-student.component';
+import { RegisterOwnerComponent } from './components/auth/register-owner/register-owner.component';
+import { PhoneMaskDirective } from './directives/phone-mask.directive';
 
 
 
@@ -39,6 +42,9 @@ import { BackgroundComponent } from './shared/background/background.component';
     LoginComponent,
     RegisterChoiceComponent,
     BackgroundComponent,
+    RegisterStudentComponent,
+    RegisterOwnerComponent,
+    PhoneMaskDirective,
   ],
   imports: [
     BrowserModule,

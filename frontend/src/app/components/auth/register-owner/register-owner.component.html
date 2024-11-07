@@ -1,0 +1,77 @@
+<app-background></app-background>
+<div class="d-flex justify-content-center flex-column">
+    <div class="card p-4 mt-5" style="max-width: 450px;">
+
+        <div class="text-center">
+            <div class="card-header d-flex justify-content-center align-items-center">
+                <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="4" y="4" width="48" height="48" rx="24" fill="#FFEAD5" />
+                    <rect x="4" y="4" width="48" height="48" rx="24" stroke="#FFF6ED" stroke-width="8" />
+                    <path
+                        d="M23 27V23C23 21.6739 23.5268 20.4021 24.4645 19.4645C25.4021 18.5268 26.6739 18 28 18C29.3261 18 30.5979 18.5268 31.5355 19.4645C32.4732 20.4021 33 21.6739 33 23V27M21 27H35C36.1046 27 37 27.8954 37 29V36C37 37.1046 36.1046 38 35 38H21C19.8954 38 19 37.1046 19 36V29C19 27.8954 19.8954 27 21 27Z"
+                        stroke="#FD853A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title mb-3 primary-text-weight primary-text-color">Cadastre-se e anuncie sua
+                    propriedade!
+                </h5>
+                <p class="card-text mb-4 primary-text-color">Não perca tempo, comece hoje mesmo e encontre o locatário
+                    ideal
+                    para sua propriedade.</p>
+            </div>
+        </div>
+        <div style="max-width: 450px;">
+            <form [formGroup]="ownerForm">
+
+                <div class="mb-3">
+                    <label for="email" class="form-label primary-text-color">E-mail</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="josedasilva@gmail.com"
+                        formControlName="identifier">
+                </div>
+
+
+                <div class="mb-3">
+                    <label for="senha" class="form-label primary-text-color">Senha</label>
+                    <input type="password" class="form-control" id="senha" name="senha" placeholder="Sua senha"
+                        formControlName="password">
+                </div>
+
+                <div class="mb-3">
+                    <label for="confirmPassword" class="form-label primary-text-color">Confirmar Senha</label>
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirme sua senha"
+                        formControlName="identifier">
+                </div>
+
+                <div class="mb-3">
+                    <label for="birthDate" class="form-label primary-text-color">Data Nascimento</label>
+                    <input type="date" class="form-control" id="birthDate" name="birthDate"
+                        formControlName="identifier"  [attr.max]="maxDate">
+                </div>
+
+                <div class="mb-3">
+                    <label for="phone" class="form-label primary-text-color">Telefone</label>
+                    <input 
+                        type="tel" 
+                        class="form-control" 
+                        id="phone" 
+                        name="phone" 
+                        placeholder="(00) 00000-0000"
+                        pattern="\(\d{2}\) \d{5}-\d{4}" 
+                        maxlength="15"
+                        appPhoneMask
+                        formControlName="identifier"
+                        required>
+                    <div class="form-text">Formato: (XX) XXXXX-XXXX</div>
+                </div>
+                <div class="d-flex justify-content-center mt-4">
+                    <button class="btn primary-button" style="width: 174px; height: 44px;">Registrar</button>
+                </div>
+              
+            </form>
+
+        </div>
+    </div>
+
+
+</div>

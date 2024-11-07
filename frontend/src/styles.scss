@@ -34,3 +34,8 @@
     background-color: #dd7432 !important;
     color: white !important;
 }
+
+.form-control:focus {
+    border-color: $primary-color; /* Change this to your desired color */
+    box-shadow: 0 0 0 0.2rem rgba(252, 120, 39, 0.25); /* Adjust the color and opacity for the shadow */
+}

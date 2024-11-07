@@ -7,6 +7,8 @@ import { NotAuthorizedComponent } from './shared/not-authorized/not-authorized.c
 import { LoginComponent } from './components/auth/login/login.component';
 import { loggedGuard } from './guards/logged.guard';
 import { RegisterChoiceComponent } from './components/auth/register-choice/register-choice.component';
+import { RegisterStudentComponent } from './components/auth/register-student/register-student.component';
+import { RegisterOwnerComponent } from './components/auth/register-owner/register-owner.component';
 
 
 
@@ -30,6 +32,14 @@ export const routes: Routes = [
   { 
     path: 'registrar',
      component: RegisterChoiceComponent
+  },
+  { 
+    path: 'registrar/estudante',
+     component: RegisterStudentComponent
+  },
+  { 
+    path: 'registrar/proprietario',
+     component: RegisterOwnerComponent
   },
   { 
     path: 'not-authorized',
