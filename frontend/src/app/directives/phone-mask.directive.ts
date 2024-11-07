@@ -22,6 +22,6 @@ export class PhoneMaskDirective {
       value = value.replace(/^(\d*)/, '($1');
     }
 
-    this.renderer.setProperty(input, 'value', value); // Use Renderer2 to set the value
+    this.renderer.setProperty(input, 'value', value);
   }
 }
