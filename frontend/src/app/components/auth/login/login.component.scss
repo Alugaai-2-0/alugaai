@@ -1,2 +1,9 @@
 @import '../../../../assets/styles/variables.scss';
 
+.arrowicon{
+    position: relative;
+    left: -50%;
+}
+.arrowicon :hover{
+    cursor: pointer;
+}

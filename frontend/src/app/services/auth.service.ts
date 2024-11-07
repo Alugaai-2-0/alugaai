@@ -49,4 +49,12 @@ export class AuthService {
     );
   }
 
+  isLoggedIn(): boolean {
+    if (typeof localStorage !== 'undefined') {
+      return !!localStorage.getItem('user');
+    }
+    return false;
+   
+  }
+
 }

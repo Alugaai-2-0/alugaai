@@ -1,8 +1,20 @@
-<div class="d-flex flex-column align-items-center p-4 border rounded shadow-sm mt-5"
-  style="max-width: 400px; margin: auto;">
+<br>
+<div class="d-flex flex-column align-items-center p-4 rounded-4 shadow-sm bg-white mx-auto"
+  style="max-width: 400px;">
+
+  @if(!isEmailScreen){
+  <div class="arrowicon" (click)="onArrowClick()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-90deg-left"
+      viewBox="0 0 16 16">
+      <path fill-rule="evenodd"
+        d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708z" />
+    </svg>
+  </div>
+  }
+
+
   <!-- Imagem do perfil -->
   <div class="d-flex mb-3">
-
 
     <svg width="123" height="60" viewBox="0 0 123 60" fill="none" xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -59,40 +71,45 @@
     <!-- Botão de Continuar -->
 
     @if(isEmailScreen){
-      <button type="submit" class="btn w-100 mb-3 primary-button" (click)="onContinuarClick()"
+    <button type="submit" class="btn w-100 mb-3 primary-button" (click)="onContinuarClick()"
       [disabled]="loginForm.get('identifier')?.invalid">
       Continuar
     </button>
 
 
-    <!-- Link para Criar conta -->
-    <a href="#" class="text-decoration-none d-block text-center mb-3 orange-text-color primary-text-weight">Criar conta</a>
+    <div class="w-100 text-center mb-2">
+      <a routerLink="/registrar" class="text-decoration-none orange-text-color primary-text-weight">Criar
+        conta</a>
+    </div>
+
     }
     @else {
-      <button type="submit" class="btn w-100 mb-3 primary-button" (click)="onEntrarClick()"
+    <button type="submit" class="btn w-100 mb-3 primary-button" (click)="onEntrarClick()"
       [disabled]="loginForm.get('password')?.invalid">
       Entrar
     </button>
 
 
-    <!-- Link para Criar conta -->
-    <a href="#" class="text-decoration-none d-block text-center mb-3 orange-text-color primary-text-weight" >Esqueceu a senha?</a>
-    }
-    
 
-    <!-- Separador -->
+    <div class="w-100 text-center mb-2">
+      <a href="#" class="text-decoration-none orange-text-color primary-text-weight">Esqueceu a senha??</a>
+    </div>
+    }
+
+
+
     <div class="d-flex align-items-center mb-3">
       <hr class="flex-grow-1">
       <span class="mx-2">ou</span>
       <hr class="flex-grow-1">
     </div>
 
-    <!-- Botões de Login Social -->
     <button type="button" class="btn btn-outline-secondary w-100 mb-2 primary-text-weight primary-text-color rounded-4">
       <img src="https://img.icons8.com/color/24/000000/google-logo.png" class="me-2" alt="Google Icon"> Continuar com o
       Google
     </button>
-    <button type="button" class="btn w-100 primary-text-weight rounded-4" style="background-color: #1877F2; color: white;">
+    <button type="button" class="btn w-100 primary-text-weight rounded-4"
+      style="background-color: #1877F2; color: white;">
       <img src="https://img.icons8.com/color/24/000000/facebook-new.png" class="me-2" alt="Facebook Icon"> Continuar com
       o Facebook
     </button>
