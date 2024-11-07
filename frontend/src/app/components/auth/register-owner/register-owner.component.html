@@ -25,49 +25,76 @@
             <form [formGroup]="ownerForm">
 
                 <div class="mb-3">
-                    <label for="email" class="form-label primary-text-color">E-mail</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="josedasilva@gmail.com"
+                    <label for="username" class="form-label primary-text-color">Nome Completo</label>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="João Da Silva"
+                        [ngClass]="{'is-invalid': ownerForm.controls['username'].touched && ownerForm.controls['username'].invalid && ownerForm.controls['username'].dirty}"
+                        formControlName="username">
+                        @if(username?.invalid && username?.touched){
+                            <p class="text-danger">O nome precisa ser preenchido!</p>
+                        }
+                </div>
+
+                <div class="mb-3">
+                    <label for="identifier" class="form-label primary-text-color">E-mail</label>
+                    <input type="email" class="form-control" id="identifier" name="identifier"
+                        placeholder="josedasilva@gmail.com"
+                        [ngClass]="{'is-invalid': ownerForm.controls['identifier'].touched && ownerForm.controls['identifier'].invalid && ownerForm.controls['identifier'].dirty}"
                         formControlName="identifier">
+                        @if(identifier?.invalid && identifier?.touched){
+                            @if(identifier?.errors?.['required']){
+                                <p class="text-danger">O email precisa ser preenchido!</p> 
+                            }
+                            @if(identifier?.errors?.['email']){
+                                <p class="text-danger">O email precisa ser válido!</p> 
+                            }
+                         
+                        }
                 </div>
 
 
                 <div class="mb-3">
                     <label for="senha" class="form-label primary-text-color">Senha</label>
                     <input type="password" class="form-control" id="senha" name="senha" placeholder="Sua senha"
-                        formControlName="password">
+                        [ngClass]="{'is-invalid': ownerForm.controls['password'].touched && ownerForm.controls['password'].invalid && ownerForm.controls['password'].dirty}"
+                        formControlName="password" >
                 </div>
 
                 <div class="mb-3">
                     <label for="confirmPassword" class="form-label primary-text-color">Confirmar Senha</label>
-                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirme sua senha"
-                        formControlName="identifier">
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
+                        placeholder="Confirme sua senha"
+                        [ngClass]="{'is-invalid': ownerForm.controls['confirmPassword'].touched && ownerForm.controls['confirmPassword'].invalid && ownerForm.controls['confirmPassword'].dirty}"
+                        formControlName="confirmPassword">
+                </div>
+
+                <div class="mb-3">
+                    <label for="gender" class="form-label primary-text-color">Gender</label>
+                    <select id="gender" name="gender" class="form-control" formControlName="gender">
+                        <option value="" disabled selected>Selecione seu gênero biológico</option>
+                        <option value="M">Masculino</option>
+                        <option value="F">Feminino</option>
+                    </select>
                 </div>
 
                 <div class="mb-3">
                     <label for="birthDate" class="form-label primary-text-color">Data Nascimento</label>
-                    <input type="date" class="form-control" id="birthDate" name="birthDate"
-                        formControlName="identifier"  [attr.max]="maxDate">
+                    <input type="date" class="form-control" id="birthDate" name="birthDate" formControlName="birthDate"
+                        [attr.max]="maxDate"
+                        [ngClass]="{'is-invalid': ownerForm.controls['birthDate'].touched && ownerForm.controls['birthDate'].invalid && ownerForm.controls['birthDate'].dirty}">
                 </div>
 
                 <div class="mb-3">
-                    <label for="phone" class="form-label primary-text-color">Telefone</label>
-                    <input 
-                        type="tel" 
-                        class="form-control" 
-                        id="phone" 
-                        name="phone" 
-                        placeholder="(00) 00000-0000"
-                        pattern="\(\d{2}\) \d{5}-\d{4}" 
-                        maxlength="15"
-                        appPhoneMask
-                        formControlName="identifier"
-                        required>
+                    <label for="phoneNumber" class="form-label primary-text-color">Telefone</label>
+                    <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber"
+                        placeholder="(00) 00000-0000" pattern="\(\d{2}\) \d{5}-\d{4}" maxlength="15" appPhoneMask
+                        formControlName="phoneNumber" required [ngClass]="{'is-invalid': ownerForm.controls['phoneNumber'].touched && ownerForm.controls['phoneNumber'].invalid && ownerForm.controls['phoneNumber'].dirty}">
                     <div class="form-text">Formato: (XX) XXXXX-XXXX</div>
                 </div>
                 <div class="d-flex justify-content-center mt-4">
-                    <button class="btn primary-button" style="width: 174px; height: 44px;">Registrar</button>
+                    <button class="btn primary-button" style="width: 174px; height: 44px;"
+                        (click)="onRegistrarClick()">Registrar</button>
                 </div>
-              
+
             </form>
 
         </div>
