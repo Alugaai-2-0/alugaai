@@ -18,6 +18,8 @@ import { ButtonMapComponent } from './shared/button-map/button-map.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { RegisterChoiceComponent } from './components/auth/register-choice/register-choice.component';
+import { BackgroundComponent } from './shared/background/background.component';
 
 
 
@@ -35,6 +37,8 @@ import { RouterModule } from '@angular/router';
     NotAuthorizedComponent,
     ButtonMapComponent,
     LoginComponent,
+    RegisterChoiceComponent,
+    BackgroundComponent,
   ],
   imports: [
     BrowserModule,

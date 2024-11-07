@@ -1,0 +1,28 @@
+
+@import '../../../../assets/styles/variables.scss';
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  .card-header {
+    background-color: transparent;
+    text-align: center;
+    font-size: 2rem;
+    color: $primary-color;
+  }
+  .btn-outline-secondary {
+    width: 70%;
+    margin: 10px 0;
+    border-radius: 10px;
+  }
+
+
+  .btn-outline-secondary:hover{
+    background-color: $primary-color;
+  }
+
+  .orange-background{
+    height: 45vh;
+    background-color:#FFEAD5;
+  }

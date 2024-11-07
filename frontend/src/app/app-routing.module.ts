@@ -6,6 +6,7 @@ import { NotFoundComponent } from './shared/not-found/not-found.component';
 import { NotAuthorizedComponent } from './shared/not-authorized/not-authorized.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { loggedGuard } from './guards/logged.guard';
+import { RegisterChoiceComponent } from './components/auth/register-choice/register-choice.component';
 
 
 
@@ -25,6 +26,10 @@ export const routes: Routes = [
   { 
     path: 'not-found',
      component: NotFoundComponent
+  },
+  { 
+    path: 'registrar',
+     component: RegisterChoiceComponent
   },
   { 
     path: 'not-authorized',
