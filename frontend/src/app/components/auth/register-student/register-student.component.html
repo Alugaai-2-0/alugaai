@@ -1,1 +1,103 @@
-<p>register-student works!</p>
+<app-background></app-background>
+<div class="d-flex justify-content-center flex-column">
+    <div class="card p-4 mt-5" style="max-width: 450px;">
+
+        <div class="text-center">
+            <h4 class="card-title mb-3 primary-text-weight primary-text-color">Cadastro para estudante</h4>
+            <div class="card-header d-flex justify-content-center align-items-center">
+               
+                <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="4" y="4" width="48" height="48" rx="24" fill="#FFEAD5" />
+                    <rect x="4" y="4" width="48" height="48" rx="24" stroke="#FFF6ED" stroke-width="8" />
+                    <path
+                        d="M23 27V23C23 21.6739 23.5268 20.4021 24.4645 19.4645C25.4021 18.5268 26.6739 18 28 18C29.3261 18 30.5979 18.5268 31.5355 19.4645C32.4732 20.4021 33 21.6739 33 23V27M21 27H35C36.1046 27 37 27.8954 37 29V36C37 37.1046 36.1046 38 35 38H21C19.8954 38 19 37.1046 19 36V29C19 27.8954 19.8954 27 21 27Z"
+                        stroke="#FD853A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title mb-3 primary-text-weight primary-text-color">Registre-se para se conectar!
+                </h5>
+                <p class="card-text mb-4 primary-text-color">Faça parte da nossa comunidade e conecte-se com seu novo colega de aluguel.</p>
+            </div>
+        </div>
+        <div style="max-width: 450px;">
+            <form [formGroup]="studentForm">
+
+                <div class="mb-3">
+                    <label for="username" class="form-label primary-text-color">Nome Completo</label>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="João Da Silva"
+                        [ngClass]="{'is-invalid': studentForm.controls['username'].touched && studentForm.controls['username'].invalid && studentForm.controls['username'].dirty}"
+                        formControlName="username">
+                        @if(username?.invalid && username?.touched){
+                            <p class="text-danger">O nome precisa ser preenchido!</p>
+                        }
+                </div>
+
+                <div class="mb-3">
+                    <label for="identifier" class="form-label primary-text-color">E-mail</label>
+                    <input type="email" class="form-control" id="identifier" name="identifier"
+                        placeholder="josedasilva@gmail.com"
+                        [ngClass]="{'is-invalid': studentForm.controls['identifier'].touched && studentForm.controls['identifier'].invalid && studentForm.controls['identifier'].dirty}"
+                        formControlName="identifier">
+                        @if(identifier?.invalid && identifier?.touched){
+                            @if(identifier?.errors?.['required']){
+                                <p class="text-danger">O email precisa ser preenchido!</p> 
+                            }
+                            @if(identifier?.errors?.['email']){
+                                <p class="text-danger">O email precisa ser válido!</p> 
+                            }
+                         
+                        }
+                </div>
+
+
+                <div class="mb-3">
+                    <label for="senha" class="form-label primary-text-color">Senha</label>
+                    <input type="password" class="form-control" id="senha" name="senha" placeholder="Sua senha"
+                        [ngClass]="{'is-invalid': studentForm.controls['password'].touched && studentForm.controls['password'].invalid && studentForm.controls['password'].dirty}"
+                        formControlName="password" >
+                </div>
+
+                <div class="mb-3">
+                    <label for="confirmPassword" class="form-label primary-text-color">Confirmar Senha</label>
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
+                        placeholder="Confirme sua senha"
+                        [ngClass]="{'is-invalid': studentForm.controls['confirmPassword'].touched && studentForm.controls['confirmPassword'].invalid && studentForm.controls['confirmPassword'].dirty}"
+                        formControlName="confirmPassword">
+                </div>
+
+                <div class="mb-3">
+                    <label for="gender" class="form-label primary-text-color">Gender</label>
+                    <select id="gender" name="gender" class="form-control" formControlName="gender">
+                        <option value="" disabled selected>Selecione seu gênero biológico</option>
+                        <option value="M">Masculino</option>
+                        <option value="F">Feminino</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="birthDate" class="form-label primary-text-color">Data Nascimento</label>
+                    <input type="date" class="form-control" id="birthDate" name="birthDate" formControlName="birthDate"
+                        [attr.max]="maxDate"
+                        [ngClass]="{'is-invalid': studentForm.controls['birthDate'].touched && studentForm.controls['birthDate'].invalid && studentForm.controls['birthDate'].dirty}">
+                </div>
+
+                <div class="mb-3">
+                    <label for="phoneNumber" class="form-label primary-text-color">Telefone</label>
+                    <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber"
+                        placeholder="(00) 00000-0000" pattern="\(\d{2}\) \d{5}-\d{4}" maxlength="15" appPhoneMask
+                        formControlName="phoneNumber" required [ngClass]="{'is-invalid': studentForm.controls['phoneNumber'].touched && studentForm.controls['phoneNumber'].invalid && studentForm.controls['phoneNumber'].dirty}">
+                    <div class="form-text">Formato: (XX) XXXXX-XXXX</div>
+                </div>
+                <div class="d-flex justify-content-center mt-4">
+                    <button class="btn primary-button" style="width: 174px; height: 44px;"
+                        (click)="onRegistrarClick()">Registrar</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+
+</div>
