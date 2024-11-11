@@ -18,13 +18,13 @@ public class CollegeController {
 
     private final CollegeService collegeService;
 
-  //  @PostMapping()
-   // public ResponseEntity<CollegeResponseDTO> post(@RequestBody CollegeRequestDTO request) {
-   //     try {
-     //       return ResponseEntity.ok(collegeService.post(request));
-       // } catch (Exception e) {
-         //   throw new CustomException(e.getMessage(), 400, null);
-       // }
-    //};
+    @PostMapping()
+    public ResponseEntity<CollegeResponseDTO> post(@RequestBody CollegeRequestDTO request) {
+        try {
+            return ResponseEntity.ok(collegeService.post(request));
+        } catch (Exception e) {
+            throw new CustomException(e.getMessage(), 400, null);
+        }
+    };
 
 }
