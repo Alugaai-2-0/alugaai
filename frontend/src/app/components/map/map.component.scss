@@ -1,0 +1,92 @@
+.body {
+    display: flex;
+  }
+  
+  #map {
+    height: 100vh;
+    width: 100%;
+  }
+  .esquerda{
+    min-width: 665px;
+    width: fit-content;
+  }
+  
+  .search-container {
+    display: flex;
+    width: 100%;
+    min-width: 100%;
+  }
+  
+  app-auto-complete {
+    width: 100%;
+  
+  }
+  
+  ::ng-deep .active > .page-link, .page-link.active {
+    z-index: 3;
+    color: white;
+    background-color: var(--primary-orange-color);
+    border-color: var(--primary-orange-color);
+  }
+  
+  
+  ::ng-deep .page-link {
+  
+    color: var(--nav-text-color);
+    text-decoration: none;
+    
+  }
+  
+  
+  .filter-holder{
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    gap: 20px;
+  }
+  
+  .autocomplete-place{
+    width: fit-content;
+    height: 56px
+  }
+  .rangeSlider-Autocomplete-row{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .search-button{
+    background-color: var(--primary-orange-color);
+    color: white;
+    font-size: 20px;
+    padding: 20px;
+    border: solid 1px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: fit-content;
+  }
+  
+  .button-wrapper{
+    display: flex;
+    justify-content: end;
+  }
+  
+  .test{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+  }
+  .map-filter-wrapper{
+    position: relative;
+    width: fit-content;
+    width: 100%;
+  }
+  
+  ::ng-deep .mat-mdc-dialog-surface, .mdc-dialog__surface{
+    width: fit-content !important;
+    min-width: fit-content !important;
+    overflow: hidden !important;
+    z-index: 999;
+  }

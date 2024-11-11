@@ -23,6 +23,8 @@ import { BackgroundComponent } from './shared/background/background.component';
 import { RegisterStudentComponent } from './components/auth/register-student/register-student.component';
 import { RegisterOwnerComponent } from './components/auth/register-owner/register-owner.component';
 import { PhoneMaskDirective } from './directives/phone-mask.directive';
+import { MapComponent } from './components/map/map.component';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 
 
@@ -45,6 +47,7 @@ import { PhoneMaskDirective } from './directives/phone-mask.directive';
     RegisterStudentComponent,
     RegisterOwnerComponent,
     PhoneMaskDirective,
+    MapComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,6 +56,7 @@ import { PhoneMaskDirective } from './directives/phone-mask.directive';
     ToastrModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
+    GoogleMapsModule,
   ],
   providers: [
     provideClientHydration(),

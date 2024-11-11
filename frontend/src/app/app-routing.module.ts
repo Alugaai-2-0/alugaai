@@ -9,6 +9,7 @@ import { loggedGuard } from './guards/logged.guard';
 import { RegisterChoiceComponent } from './components/auth/register-choice/register-choice.component';
 import { RegisterStudentComponent } from './components/auth/register-student/register-student.component';
 import { RegisterOwnerComponent } from './components/auth/register-owner/register-owner.component';
+import { MapComponent } from './components/map/map.component';
 
 
 
@@ -40,6 +41,10 @@ export const routes: Routes = [
   { 
     path: 'registrar/proprietario',
      component: RegisterOwnerComponent
+  },
+  { 
+    path: 'map',
+     component: MapComponent
   },
   { 
     path: 'not-authorized',
