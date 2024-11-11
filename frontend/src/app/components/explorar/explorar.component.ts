@@ -6,5 +6,11 @@ import { Component } from '@angular/core';
   styleUrl: './explorar.component.scss'
 })
 export class ExplorarComponent {
+
+  showMap = false;
+
+  toggleMap(): void {
+    this.showMap = !this.showMap;
+  }
   
 }

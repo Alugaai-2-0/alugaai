@@ -6,6 +6,7 @@ import {
   ElementRef,
   OnDestroy,
   OnInit,
+  output,
   ViewChild,
 } from '@angular/core';
 
@@ -18,6 +19,8 @@ import { GoogleMapsLoaderService } from '../../services/google-maps-loader.servi
   styleUrl: './map.component.scss'
 })
 export class MapComponent {
+
+  returnButtonOutput = output();
 
   lat = -23.4709;
   lng = -47.4851;
@@ -242,6 +245,10 @@ export class MapComponent {
     if (this.mapContainer) {
       this.map = new google.maps.Map(this.mapContainer.nativeElement, mapOptions);
     }
+  }
+
+  onReturnButtonClick(){
+    this.returnButtonOutput.emit();
   }
 
 
