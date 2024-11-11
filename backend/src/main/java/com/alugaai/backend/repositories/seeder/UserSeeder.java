@@ -104,7 +104,6 @@ public class UserSeeder extends BaseSeeder {
             user.setGender(gender);
             user.setCreatedDate(LocalDateTime.now());
 
-            // Campos booleanos e lista vazia para idsPersonsIConnect
             user.setEmailConfirmed(true);
             user.setPhoneNumberConfirmed(true);
             user.setTwoFactorEnabled(false);
@@ -120,14 +119,6 @@ public class UserSeeder extends BaseSeeder {
             }
             user.getRoles().add(role);
 
-            // Create and save image
-            Image image = new Image();
-            image.setImageData64("base64_encoded_default_image_data");
-            image.setInsertedOn(LocalDateTime.now());
-            image.setUser(user);
-            user.setImage(image);
-
-            // Configuração específica para Student com College obrigatório
             if (user instanceof Student student) {
                 if (!(building instanceof College)) {
                     throw new CustomException(
@@ -152,13 +143,6 @@ public class UserSeeder extends BaseSeeder {
         college.setLatitude("0");
         college.setLongitude("0");
         college.setCollegeName("College name");
-
-        // Create and set image for college
-        Image collegeImage = new Image();
-        collegeImage.setImageData64("base64_encoded_default_image_data");
-        collegeImage.setInsertedOn(LocalDateTime.now());
-        college.setImages(new ArrayList<>(List.of(collegeImage)));
-        collegeImage.setBuilding(college);
 
         return buildingRepository.save(college);
     }

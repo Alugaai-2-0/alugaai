@@ -1,15 +1,17 @@
 package com.alugaai.backend.services;
 
-import com.alugaai.backend.dtos.image.ImageRequestDTO;
 import com.alugaai.backend.dtos.image.ImageResponseDTO;
 import com.alugaai.backend.dtos.mappers.ImageMapper;
 import com.alugaai.backend.models.Image;
 import com.alugaai.backend.repositories.ImageRepository;
 import com.alugaai.backend.services.errors.CustomException;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 @Service
@@ -18,18 +20,29 @@ public class ImageService {
 
     private final ImageRepository imageRepository;
 
-    public ImageResponseDTO post(ImageRequestDTO request) {
+    public ImageResponseDTO post(MultipartFile file) {
         try {
             var image = new Image();
-            image.setImageData64(request.imageData64());
+
+            byte[] imageData = file.getBytes();
+            image.setImageData(imageData);
             image.setInsertedOn(LocalDateTime.now());
+
             imageRepository.save(image);
+
             if (image.getId() != null) {
                 return ImageMapper.toImageResponseDTO(image);
             }
-        } catch (Exception e) {
-            throw  new CustomException(e.getMessage(), HttpStatus.BAD_REQUEST.value(), request);
+        } catch (IOException e) {
+            throw new CustomException("Error reading file", HttpStatus.BAD_REQUEST.value(), null);
         }
         return null;
     }
+
+    public ImageResponseDTO getById(@NotNull Integer id) {
+        var image = imageRepository.findById(id).orElseThrow( () -> new CustomException("Image not found",
+                HttpStatus.NOT_FOUND.value(), null));
+        return ImageMapper.toImageResponseDTO(image);
+    }
+
 }

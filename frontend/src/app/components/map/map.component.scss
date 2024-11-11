@@ -1,0 +1,17 @@
+#map {
+    height: 100vh;
+    width: 100%;
+}
+
+.button-map-wrapper {
+    position: relative;
+    width: fit-content;
+    width: 100%;
+}
+
+.return-button {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    z-index: 2;
+}

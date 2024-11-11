@@ -2,25 +2,12 @@ package com.alugaai.backend.dtos.mappers;
 
 import com.alugaai.backend.dtos.image.ImageRequestDTO;
 import com.alugaai.backend.dtos.user.UserRegisterRequestDTO;
-import com.alugaai.backend.models.Image;
 import com.alugaai.backend.models.Owner;
 import com.alugaai.backend.models.Student;
 import com.alugaai.backend.models.User;
+import java.util.HashSet;
 
 public class UserMapper {
-
-    public static UserRegisterRequestDTO toDTO(User user) {
-        return new UserRegisterRequestDTO(
-                user.getBirthDate(),
-                user.getGender(),
-                user.getUsername(),
-                user.getEmail(),
-                user.getPassword(),
-                user.getCpf(),
-                user.getPhoneNumber(),
-                new ImageRequestDTO(user.getImage() != null ? user.getImage().getImageData64() : null)
-        );
-    }
 
     private static <T extends User> T mapCommonFields(UserRegisterRequestDTO dto, T user) {
         user.setBirthDate(dto.birthDate());
@@ -30,17 +17,31 @@ public class UserMapper {
         user.setPasswordHash(dto.password());
         user.setCpf(dto.cpf());
         user.setPhoneNumber(dto.phoneNumber());
-        if (dto.imageDTO() != null) {
-            user.setImage(new Image(dto.imageDTO().imageData64()));
-        }
+
+        user.setRoles(new HashSet<>());
+
         return user;
     }
 
     public static Owner toOwnerEntity(UserRegisterRequestDTO dto) {
-        return mapCommonFields(dto, new Owner());
+        Owner owner = new Owner();
+        return mapCommonFields(dto, owner);
     }
 
     public static Student toStudentEntity(UserRegisterRequestDTO dto) {
-        return mapCommonFields(dto, new Student());
+        Student student = new Student();
+        return mapCommonFields(dto, student);
+    }
+
+    public static UserRegisterRequestDTO toDTO(User user) {
+        return new UserRegisterRequestDTO(
+                user.getBirthDate(),
+                user.getGender(),
+                user.getUsername(),
+                user.getEmail(),
+                user.getPassword(),
+                user.getCpf(),
+                user.getPhoneNumber()
+        );
     }
 }

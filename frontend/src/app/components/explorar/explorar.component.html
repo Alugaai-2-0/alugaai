@@ -1,5 +1,5 @@
 <!-- Main container for the Explorar component -->
-<div id="page-top" class="main-explorer-wrapper d-flex flex-column">
+<div id="page-top" class="main-explorer-wrapper d-flex flex-column mt-3">
   <!-- Navigation bar -->
   <div class="container-fluid my-auto">
     <div class="row justify-content-center align-items-center">
@@ -12,8 +12,22 @@
   <section class="container-fluid">
     <div class="row justify-content-center">
       <div class="col-12 col-md-6 col-lg-4 text-center">
-        <app-button-map></app-button-map>
+        <!-- Button to toggle map -->
+        <app-button-map (click)="toggleMap()"></app-button-map>
       </div>
+    </div>
+  </section>
+
+  <!-- Conditionally render map component 
+    
+    -->
+
+  <section
+    *ngIf="showMap"
+    class="map-section container-fluid mt-3 position-absolute"
+  >
+    <div class="row justify-content-center">
+      <app-map *ngIf="showMap" (returnButtonOutput)="toggleMap()"></app-map>
     </div>
   </section>
 </div>

@@ -1,4 +1,4 @@
-<div class="card-stack d-flex align-items-center justify-content-center min-vh-75">
+<div class="card-stack d-flex align-items-center min-vh-75">
   <div *ngFor="let user of visibleUsers; let i = index" class="card-wrapper" [style.zIndex]="visibleUsers.length - i"
     [style.transform]="getCardTransform(i)">
     <div class="card shadow w-auto mx-auto" [style.borderColor]="'#e4e7ec'" [@cardAnimator]="animationStates[i]"
