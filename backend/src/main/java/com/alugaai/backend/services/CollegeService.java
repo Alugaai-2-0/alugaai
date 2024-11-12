@@ -9,19 +9,21 @@ import com.alugaai.backend.dtos.mappers.CollegeMapper;
 import com.alugaai.backend.models.College;
 import com.alugaai.backend.models.Image;
 import com.alugaai.backend.repositories.BuildingRepository;
+import com.alugaai.backend.repositories.CollegeRepository;
 import com.alugaai.backend.repositories.ImageRepository;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class CollegeService {
 
+    private final CollegeRepository collegeRepository;
     private final BuildingRepository buildingRepository;
     private final ImageRepository imageRepository;
     private final GeocoderService geocoderService;
@@ -30,6 +32,35 @@ public class CollegeService {
     public CollegeResponseDTO post(CollegeRequestDTO request) {
         ViaCepResponseDTO result = geocoderService.getLatLongFromAddress(request.address());
 
+        College college = createCollege(request, result);
+        college = buildingRepository.save(college);
+
+        List<Image> images = processImages(request.collegesImages(), college);
+        college.setImages(images);
+
+        college = buildingRepository.save(college);
+
+        return CollegeMapper.toCollegeResponseDTO(
+                college,
+                college.getImages().stream()
+                        .map(Image::getId)
+                        .collect(Collectors.toList())
+        );
+    }
+
+    @Transactional(readOnly = true)
+    public List<CollegeResponseDTO> listAll() {
+        return collegeRepository.findAll().stream()
+                .map(college -> CollegeMapper.toCollegeResponseDTO(
+                        college,
+                        college.getImages().stream()
+                                .map(Image::getId)
+                                .collect(Collectors.toList())
+                ))
+                .collect(Collectors.toList());
+    }
+
+    private College createCollege(CollegeRequestDTO request, ViaCepResponseDTO result) {
         College college = new College();
         college.setCollegeName(request.collegeName());
         college.setAddress(result.logradouro());
@@ -39,27 +70,18 @@ public class CollegeService {
         college.setDistrict(result.localidade());
         college.setLatitude(result.latLong().getLatitude());
         college.setLongitude(result.latLong().getLongitude());
-
         college.setImages(new ArrayList<>());
-
-        college = buildingRepository.save(college);
-
-        var images = new ArrayList<Image>();
-        for (ImageRequestDTO imageRequest : request.collegesImages()) {
-            var newImage = new Image();
-            newImage.setImageData(imageRequest.toByteArray());
-            newImage.setBuilding(college);
-            newImage = imageRepository.save(newImage);
-            images.add(newImage);
-        }
-
-        college.setImages(images);
-        college = buildingRepository.save(college);
-
-        return CollegeMapper.toCollegeResponseDTO(
-                college,
-                college.getImages().stream().map(Image::getId).toList()
-        );
+        return college;
     }
 
+    private List<Image> processImages(List<ImageRequestDTO> imageRequests, College college) {
+        return imageRequests.stream()
+                .map(imageRequest -> {
+                    Image newImage = new Image();
+                    newImage.setImageData(imageRequest.toByteArray());
+                    newImage.setBuilding(college);
+                    return imageRepository.save(newImage);
+                })
+                .collect(Collectors.toList());
+    }
 }

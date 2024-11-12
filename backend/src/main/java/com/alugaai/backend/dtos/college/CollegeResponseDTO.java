@@ -1,7 +1,5 @@
 package com.alugaai.backend.dtos.college;
 
-import com.alugaai.backend.dtos.image.ImageResponseDTO;
-
 import java.util.List;
 
 public record CollegeResponseDTO(
