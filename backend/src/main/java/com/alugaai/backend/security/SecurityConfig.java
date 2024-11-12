@@ -33,10 +33,10 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/auth/register/**", "/auth/login/**").permitAll()
-                        .requestMatchers("/admin/**", "/college/**").hasRole("ADMIN")
-                        .requestMatchers("/owner/**", "/cep/**").hasRole("OWNER")
-                        .requestMatchers("/student/**").hasRole("STUDENT")
+                        .requestMatchers("/auth/register/**", "/auth/login/**", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/admin/**", "/college/**").hasAnyRole("ADMIN")
+                        .requestMatchers("/owner/**", "/cep/**").hasAnyRole("OWNER", "ADMIN")
+                        .requestMatchers("/student/**").hasAnyRole("STUDENT", "ADMIN")
                         .requestMatchers("/college/**", "/image/**").hasAnyRole("ADMIN", "OWNER", "STUDENT")
                         .anyRequest().authenticated()
                 )
@@ -45,6 +45,7 @@ public class SecurityConfig {
 
         return http.build();
     }
+
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter(

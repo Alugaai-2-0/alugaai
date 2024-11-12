@@ -29,3 +29,6 @@ Caso haja alteração em alguma entidade, é necessário criar a migration e del
    ```sh
    \dt
     ```
+  
+# Docker url
+* http://localhost:8080/swagger-ui/index.html
