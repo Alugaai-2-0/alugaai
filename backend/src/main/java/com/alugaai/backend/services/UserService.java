@@ -7,6 +7,10 @@ import com.alugaai.backend.repositories.UserRepository;
 import com.alugaai.backend.services.errors.CustomException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +26,19 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
     private final ImageRepository imageRepository;
+
+    public User getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            User userDetails = (User) authentication.getPrincipal();
+            return userRepository.findByEmailOrCpfOrPhoneNumber(userDetails.getEmail(), userDetails.getEmail(),
+                            userDetails.getEmail())
+                    .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
+        }
+
+        throw new SecurityException("Usuário não autenticado");
+    }
 
     public User registerNewStudent(Student student) throws CustomException {
         return registerUser(student, Role.RoleName.ROLE_STUDENT);
