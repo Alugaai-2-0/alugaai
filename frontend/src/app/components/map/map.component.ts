@@ -12,6 +12,7 @@ import {
 
 import { Subscription, map } from 'rxjs';
 import { GoogleMapsLoaderService } from '../../services/google-maps-loader.service';
+import { CollegeService } from '../../services/college.service';
 
 @Component({
   selector: 'app-map',
@@ -26,7 +27,9 @@ export class MapComponent {
   lng = -47.4851;
   markersCollege: any[] = []; 
 
-  constructor(private googleMapsLoader: GoogleMapsLoaderService) {}
+  constructor(private googleMapsLoader: GoogleMapsLoaderService, private collegeService: CollegeService) {}
+
+  
 
   title = 'angular-gmap';
   @ViewChild('gmapContainer', { static: false }) mapContainer?: ElementRef;
@@ -283,7 +286,42 @@ export class MapComponent {
         label: mockCollege.options.label,
       });
 
-      console.log(newMarker);
+      
+   
+      // Add a click listener to open the modal
+      //newMarker.addListener('click', () => {
+       // this.markerClickHandler(college);
+      //});
+  }
+
+  getProperties() {
+    // Mock marker data
+    const mockProperty = {
+      text: 'Facens',
+      position: { lat: -23.470619, lng: -47.429145 },
+      options: {
+        label: {
+          text: 'Centro Universitário Facens',
+          color: '#FFFFFF',
+          fontFamily: 'Inter',
+          fontWeight: 'bold',
+        },
+        icon: 'assets/common/img/iconCollege.svg'
+      } as google.maps.MarkerOptions
+    };
+  
+      // Create a new marker
+      const newMarker = new google.maps.Marker({
+        position: {
+          lat: mockProperty.position.lat,
+          lng: mockProperty.position.lng,
+        },
+        map: this.map,
+        icon: mockProperty.options.icon,
+        label: mockProperty.options.label,
+      });
+
+  
       
    
       // Add a click listener to open the modal

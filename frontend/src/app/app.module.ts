@@ -57,12 +57,12 @@ import { GoogleMapsModule } from '@angular/google-maps';
     FormsModule,
     ReactiveFormsModule,
     GoogleMapsModule,
+    HttpClientModule
   ],
   providers: [
     provideClientHydration(),
     provideToastr(),
     provideAnimations(),
-    provideHttpClient(withInterceptorsFromDi(), withFetch()),
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
