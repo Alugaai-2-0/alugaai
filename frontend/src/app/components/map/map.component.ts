@@ -12,6 +12,7 @@ import {
 
 import { Subscription, map } from 'rxjs';
 import { GoogleMapsLoaderService } from '../../services/google-maps-loader.service';
+import { CollegeService } from '../../services/college.service';
 
 @Component({
   selector: 'app-map',
@@ -24,8 +25,11 @@ export class MapComponent {
 
   lat = -23.4709;
   lng = -47.4851;
+  markersCollege: any[] = []; 
 
-  constructor(private googleMapsLoader: GoogleMapsLoaderService) {}
+  constructor(private googleMapsLoader: GoogleMapsLoaderService, private collegeService: CollegeService) {}
+
+  
 
   title = 'angular-gmap';
   @ViewChild('gmapContainer', { static: false }) mapContainer?: ElementRef;
@@ -38,6 +42,7 @@ export class MapComponent {
     }).catch(error => {
       console.error('Google Maps failed to load:', error);
     });
+    
   }
 
   mapInitializer() {
@@ -245,11 +250,86 @@ export class MapComponent {
     if (this.mapContainer) {
       this.map = new google.maps.Map(this.mapContainer.nativeElement, mapOptions);
     }
+    this.getColleges();
   }
 
   onReturnButtonClick(){
     this.returnButtonOutput.emit();
   }
+
+  //Plot
+
+  getColleges() {
+    // Mock marker data
+    const mockCollege = {
+      text: 'Facens',
+      position: { lat: -23.470619, lng: -47.429145 },
+      options: {
+        label: {
+          text: 'FACENS',
+          color: '#FFFFFF',
+          fontFamily: 'Inter',
+          fontWeight: 'bold',
+        },
+        icon: 'assets/common/img/iconCollege.svg'
+      } as google.maps.MarkerOptions
+    };
+  
+      // Create a new marker
+      const newMarker = new google.maps.Marker({
+        position: {
+          lat: mockCollege.position.lat,
+          lng: mockCollege.position.lng,
+        },
+        map: this.map,
+        icon: mockCollege.options.icon,
+        label: mockCollege.options.label,
+      });
+
+      
+   
+      // Add a click listener to open the modal
+      //newMarker.addListener('click', () => {
+       // this.markerClickHandler(college);
+      //});
+  }
+
+  getProperties() {
+    // Mock marker data
+    const mockProperty = {
+      text: 'Facens',
+      position: { lat: -23.470619, lng: -47.429145 },
+      options: {
+        label: {
+          text: 'Centro Universitário Facens',
+          color: '#FFFFFF',
+          fontFamily: 'Inter',
+          fontWeight: 'bold',
+        },
+        icon: 'assets/common/img/iconCollege.svg'
+      } as google.maps.MarkerOptions
+    };
+  
+      // Create a new marker
+      const newMarker = new google.maps.Marker({
+        position: {
+          lat: mockProperty.position.lat,
+          lng: mockProperty.position.lng,
+        },
+        map: this.map,
+        icon: mockProperty.options.icon,
+        label: mockProperty.options.label,
+      });
+
+  
+      
+   
+      // Add a click listener to open the modal
+      //newMarker.addListener('click', () => {
+       // this.markerClickHandler(college);
+      //});
+  }
+  
 
 
 }

@@ -8,8 +8,11 @@ import com.alugaai.backend.services.ViaCepService;
 import com.alugaai.backend.services.errors.CustomException;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/college")
@@ -23,8 +26,17 @@ public class CollegeController {
         try {
             return ResponseEntity.ok(collegeService.post(request));
         } catch (Exception e) {
-            throw new CustomException(e.getMessage(), 400, null);
+            throw new CustomException(e.getMessage(), HttpStatus.BAD_REQUEST.value(), null);
         }
     };
+
+    @GetMapping()
+    public ResponseEntity<List<CollegeResponseDTO>> getAll() {
+        try {
+            return ResponseEntity.ok(collegeService.listAll());
+        } catch (Exception e) {
+            throw new CustomException(e.getMessage(), HttpStatus.BAD_REQUEST.value(), null);
+        }
+    }
 
 }
