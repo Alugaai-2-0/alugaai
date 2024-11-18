@@ -63,7 +63,8 @@ import { GoogleMapsModule } from '@angular/google-maps';
     provideClientHydration(),
     provideToastr(),
     provideAnimations(),
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    provideHttpClient(withFetch()),
+   
   ],
   bootstrap: [AppComponent]
 })

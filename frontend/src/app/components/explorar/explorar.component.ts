@@ -13,7 +13,6 @@ export class ExplorarComponent {
   collegeService = inject(CollegeService);
 
   ngOnInit(): void {
-    this.getColleges();
     
   }
 
@@ -25,8 +24,15 @@ export class ExplorarComponent {
     this.collegeService.getColleges().subscribe({
       next: (response) => {
         console.log(response);
+      },
+      error: (error) =>{
+        console.log("error:", error);
       }
     })
+  }
+
+  onButtonClick(){
+    this.getColleges();
   }
   
 }
