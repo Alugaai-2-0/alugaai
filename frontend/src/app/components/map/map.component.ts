@@ -261,19 +261,19 @@ export class MapComponent {
   //Plot
 
   getColleges() {
-    // Fetch colleges from the service
+    
     this.collegeService.getColleges().subscribe({
       next: (response) => {
         if (response) {
           this.markersCollege = response;
   
-          // Iterate through the response to create markers
+          
           this.markersCollege.forEach((college) => {
-            // Convert latitude and longitude to numbers
-            const lat = parseFloat(college.latitude); // Assuming `lat` is a string
-            const lng = parseFloat(college.longitude); // Assuming `lng` is a string
+           
+            const lat = parseFloat(college.latitude); 
+            const lng = parseFloat(college.longitude); 
   
-            // Ensure valid numbers
+          
             if (isNaN(lat) || isNaN(lng)) {
               console.warn('Invalid latitude or longitude for college:', college);
               return;
@@ -285,9 +285,9 @@ export class MapComponent {
                 lng: lng,
               },
               map: this.map,
-              icon: 'assets/common/img/iconCollege.svg', // Use your desired icon
+              icon: 'assets/common/img/iconCollege.svg', 
               label: {
-                text: college.collegeName || 'Unknown College', // Assuming `name` is a property of the college object
+                text: college.collegeName || 'Unknown College', 
                 color: '#FFFFFF',
                 fontFamily: 'Inter',
                 fontWeight: 'bold',

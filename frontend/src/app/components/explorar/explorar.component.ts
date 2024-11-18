@@ -20,19 +20,6 @@ export class ExplorarComponent {
     this.showMap = !this.showMap;
   }
 
-  getColleges(){
-    this.collegeService.getColleges().subscribe({
-      next: (response) => {
-        console.log(response);
-      },
-      error: (error) =>{
-        console.log("error:", error);
-      }
-    })
-  }
 
-  onButtonClick(){
-    this.getColleges();
-  }
   
 }
