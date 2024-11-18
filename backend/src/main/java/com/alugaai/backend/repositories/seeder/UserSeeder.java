@@ -140,9 +140,9 @@ public class UserSeeder extends BaseSeeder {
         college.setHomeNumber("120");
         college.setNeighborhood("Brooklyn");
         college.setDistrict("NY");
-        college.setLatitude("0");
-        college.setLongitude("0");
-        college.setCollegeName("College name");
+        college.setLatitude("-23.470619");
+        college.setLongitude("-47.429145");
+        college.setCollegeName("Facens");
 
         return buildingRepository.save(college);
     }
