@@ -2,6 +2,7 @@ package com.alugaai.backend.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -32,15 +33,16 @@ public class SecurityConfig {
     ) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/auth/register/**", "/auth/login/**", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                        .requestMatchers("/admin/**", "/college/**").hasAnyRole("ADMIN")
-                        .requestMatchers("/owner/**", "/cep/**", "/property/**").hasAnyRole("OWNER", "ADMIN")
+                        .requestMatchers("/admin/**", "/college/**", "/property/**").permitAll() //added permit all
+                        .requestMatchers("/owner/**", "/cep/**").hasAnyRole("OWNER", "ADMIN")
                         .requestMatchers("/student/**").hasAnyRole("STUDENT", "ADMIN")
-                        .requestMatchers("/college/**", "/image/**").hasAnyRole("ADMIN", "OWNER", "STUDENT")
+                        .requestMatchers("/college/**", "/image/**").permitAll() //added permit all
                         .anyRequest().authenticated()
                 )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

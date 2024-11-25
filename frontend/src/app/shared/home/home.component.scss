@@ -1,0 +1,35 @@
+.avatar-group {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+  }
+  
+  .avatar {
+    position: relative;
+    margin-left: -10px;
+    transition: transform 0.3s ease;
+  }
+  
+  .avatar:first-child {
+    margin-left: 0;
+  }
+  
+  .avatar img {
+    width: 40px;
+    height: 40px;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .avatar:hover {
+    transform: translateY(-5px);
+    z-index: 10;
+  }
+  
+  .plus-circle {
+    width: 40px;
+    height: 40px;
+    background: #fff;
+    color: #fd853a;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }

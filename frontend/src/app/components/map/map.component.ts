@@ -12,6 +12,8 @@ import {
 
 import { Subscription, map } from 'rxjs';
 import { GoogleMapsLoaderService } from '../../services/google-maps-loader.service';
+import { CollegeService } from '../../services/college.service';
+import { ICollegeResponse } from '../../interfaces/ICollegeResponse';
 
 @Component({
   selector: 'app-map',
@@ -24,9 +26,11 @@ export class MapComponent {
 
   lat = -23.4709;
   lng = -47.4851;
-  markersCollege: any[] = []; 
+  markersCollege!: ICollegeResponse[]; 
 
-  constructor(private googleMapsLoader: GoogleMapsLoaderService) {}
+  constructor(private googleMapsLoader: GoogleMapsLoaderService, private collegeService: CollegeService) {}
+
+  
 
   title = 'angular-gmap';
   @ViewChild('gmapContainer', { static: false }) mapContainer?: ElementRef;
@@ -257,13 +261,65 @@ export class MapComponent {
   //Plot
 
   getColleges() {
+    
+    this.collegeService.getColleges().subscribe({
+      next: (response) => {
+        if (response) {
+          this.markersCollege = response;
+  
+          
+          this.markersCollege.forEach((college) => {
+           
+            const lat = parseFloat(college.latitude); 
+            const lng = parseFloat(college.longitude); 
+  
+          
+            if (isNaN(lat) || isNaN(lng)) {
+              console.warn('Invalid latitude or longitude for college:', college);
+              return;
+            }
+  
+            const markerOptions: google.maps.MarkerOptions = {
+              position: {
+                lat: lat,
+                lng: lng,
+              },
+              map: this.map,
+              icon: 'assets/common/img/iconCollege.svg', 
+              label: {
+                text: college.collegeName || 'Unknown College', 
+                color: '#FFFFFF',
+                fontFamily: 'Inter',
+                fontWeight: 'bold',
+              },
+            };
+  
+            // Create and add the marker
+            const newMarker = new google.maps.Marker(markerOptions);
+  
+            // Optional: Add a click listener for modal handling
+            //newMarker.addListener('click', () => {
+            //  this.markerClickHandler(college);
+          //  });
+          });
+        }
+      },
+      error: (error) => {
+        console.error('Error fetching colleges:', error);
+      },
+    });
+  }
+  
+  
+
+  getProperties() {
     // Mock marker data
-    const mockCollege = {
+    const mockProperty = {
       text: 'Facens',
       position: { lat: -23.470619, lng: -47.429145 },
       options: {
         label: {
-          text: 'FACENS',
+          text: 'Centro Universitário Facens',
           color: '#FFFFFF',
           fontFamily: 'Inter',
           fontWeight: 'bold',
@@ -275,15 +331,15 @@ export class MapComponent {
       // Create a new marker
       const newMarker = new google.maps.Marker({
         position: {
-          lat: mockCollege.position.lat,
-          lng: mockCollege.position.lng,
+          lat: mockProperty.position.lat,
+          lng: mockProperty.position.lng,
         },
         map: this.map,
-        icon: mockCollege.options.icon,
-        label: mockCollege.options.label,
+        icon: mockProperty.options.icon,
+        label: mockProperty.options.label,
       });
 
-      console.log(newMarker);
+  
       
    
       // Add a click listener to open the modal

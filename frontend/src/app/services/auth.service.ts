@@ -12,6 +12,7 @@ import { ILoginResponse } from '../interfaces/ILoginResponse';
 export class AuthService {
   private userLogged = new BehaviorSubject<ILoginResponse | null>(null);
   baseUrl: string = environment.apiUrl;
+  userLoggedToken$ = this.userLogged.asObservable();
 
 
   constructor(private http: HttpClient) { 
@@ -55,6 +56,11 @@ export class AuthService {
     }
     return false;
    
+  }
+
+  getToken(): string | null {
+    const user = this.userLogged.value || JSON.parse(localStorage.getItem('user') || 'null');
+    return user ? user.token : null;
   }
 
 }
