@@ -35,7 +35,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/auth/register/**", "/auth/login/**", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/admin/**", "/college/**").hasAnyRole("ADMIN")
-                        .requestMatchers("/owner/**", "/cep/**").hasAnyRole("OWNER", "ADMIN")
+                        .requestMatchers("/owner/**", "/cep/**", "/property/**").hasAnyRole("OWNER", "ADMIN")
                         .requestMatchers("/student/**").hasAnyRole("STUDENT", "ADMIN")
                         .requestMatchers("/college/**", "/image/**").hasAnyRole("ADMIN", "OWNER", "STUDENT")
                         .anyRequest().authenticated()

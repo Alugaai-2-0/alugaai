@@ -6,6 +6,7 @@ import com.alugaai.backend.dtos.college.CollegeRequestDTO;
 import com.alugaai.backend.dtos.college.CollegeResponseDTO;
 import com.alugaai.backend.dtos.image.ImageRequestDTO;
 import com.alugaai.backend.dtos.mappers.CollegeMapper;
+import com.alugaai.backend.models.Building;
 import com.alugaai.backend.models.College;
 import com.alugaai.backend.models.Image;
 import com.alugaai.backend.repositories.BuildingRepository;
@@ -27,6 +28,7 @@ public class CollegeService {
     private final BuildingRepository buildingRepository;
     private final ImageRepository imageRepository;
     private final GeocoderService geocoderService;
+    private final ImageService imageService;
 
     @Transactional
     public CollegeResponseDTO post(CollegeRequestDTO request) {
@@ -35,7 +37,7 @@ public class CollegeService {
         College college = createCollege(request, result);
         college = buildingRepository.save(college);
 
-        List<Image> images = processImages(request.collegesImages(), college);
+        List<Image> images = imageService.processImages(request.collegesImages(), college);
         college.setImages(images);
 
         college = buildingRepository.save(college);
@@ -74,14 +76,4 @@ public class CollegeService {
         return college;
     }
 
-    private List<Image> processImages(List<ImageRequestDTO> imageRequests, College college) {
-        return imageRequests.stream()
-                .map(imageRequest -> {
-                    Image newImage = new Image();
-                    newImage.setImageData(imageRequest.toByteArray());
-                    newImage.setBuilding(college);
-                    return imageRepository.save(newImage);
-                })
-                .collect(Collectors.toList());
-    }
 }

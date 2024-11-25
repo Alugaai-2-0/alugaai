@@ -1,7 +1,9 @@
 package com.alugaai.backend.services;
 
+import com.alugaai.backend.dtos.image.ImageRequestDTO;
 import com.alugaai.backend.dtos.image.ImageResponseDTO;
 import com.alugaai.backend.dtos.mappers.ImageMapper;
+import com.alugaai.backend.models.Building;
 import com.alugaai.backend.models.Image;
 import com.alugaai.backend.repositories.ImageRepository;
 import com.alugaai.backend.services.errors.CustomException;
@@ -13,6 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -43,6 +47,17 @@ public class ImageService {
         var image = imageRepository.findById(id).orElseThrow( () -> new CustomException("Image not found",
                 HttpStatus.NOT_FOUND.value(), null));
         return ImageMapper.toImageResponseDTO(image);
+    }
+
+    public List<Image> processImages(List<ImageRequestDTO> imageRequests, Building building) {
+        return imageRequests.stream()
+                .map(imageRequest -> {
+                    Image newImage = new Image();
+                    newImage.setImageData(imageRequest.toByteArray());
+                    newImage.setBuilding(building);
+                    return imageRepository.save(newImage);
+                })
+                .collect(Collectors.toList());
     }
 
 }
