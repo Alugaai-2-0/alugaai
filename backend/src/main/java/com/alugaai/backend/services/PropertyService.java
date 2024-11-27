@@ -27,7 +27,7 @@ public class PropertyService {
 
 
     @Transactional
-    public PropertyResponseDTO post(PropertyRequestDTO request, Owner owner) {
+    public void post(PropertyRequestDTO request, Owner owner) {
         ViaCepResponseDTO result = geocoderService.getLatLongFromAddress(request.address());
 
         Property property = createProperty(request, result, owner);
@@ -37,13 +37,6 @@ public class PropertyService {
         property.setImages(images);
 
         property = propertyRepository.save(property);
-
-        return PropertyMapper.topropertyResponseDTO(
-                property,
-                property.getImages().stream()
-                        .map(Image::getId)
-                        .collect(Collectors.toList())
-        );
     }
 
     @Transactional(readOnly = true)
