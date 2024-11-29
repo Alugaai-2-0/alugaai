@@ -50,14 +50,18 @@ public class ImageService {
     }
 
     public List<Image> processImages(List<ImageRequestDTO> imageRequests, Building building) {
-        return imageRequests.stream()
-                .map(imageRequest -> {
-                    Image newImage = new Image();
-                    newImage.setImageData(imageRequest.toByteArray());
-                    newImage.setBuilding(building);
-                    return imageRepository.save(newImage);
-                })
-                .collect(Collectors.toList());
+       try {
+           return imageRequests.stream()
+                   .map(imageRequest -> {
+                       Image newImage = new Image();
+                       newImage.setImageData(imageRequest.toByteArray());
+                       newImage.setBuilding(building);
+                       return imageRepository.save(newImage);
+                   })
+                   .collect(Collectors.toList());
+       } catch (Exception e) {
+           throw new CustomException(e.getMessage(), null, HttpStatus.BAD_REQUEST.value());
+       }
     }
 
 }

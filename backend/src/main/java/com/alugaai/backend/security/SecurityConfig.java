@@ -37,8 +37,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/auth/register/**", "/auth/login/**", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/admin/**", "/college/**", "/property/**").permitAll() //added permit all
-                        .requestMatchers("/owner/**", "/cep/**").hasAnyRole("OWNER", "ADMIN")
-                        .requestMatchers("/student/**").hasAnyRole("STUDENT", "ADMIN")
+                        .requestMatchers("/owner/**", "/cep/**").permitAll() //.hasAnyRole("OWNER", "ADMIN")
+                        .requestMatchers("/student/**").permitAll() //.hasAnyRole("STUDENT", "ADMIN")
                         .requestMatchers("/college/**", "/image/**").permitAll() //added permit all
                         .anyRequest().authenticated()
                 )

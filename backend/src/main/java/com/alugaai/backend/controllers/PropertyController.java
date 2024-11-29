@@ -1,11 +1,13 @@
 package com.alugaai.backend.controllers;
 
+import com.alugaai.backend.dtos.property.PropertyDetailedResponseDTO;
 import com.alugaai.backend.dtos.property.PropertyRequestDTO;
 import com.alugaai.backend.dtos.property.PropertyResponseDTO;
 import com.alugaai.backend.models.Owner;
 import com.alugaai.backend.services.PropertyService;
 import com.alugaai.backend.services.UserService;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +31,11 @@ public class PropertyController {
     @GetMapping()
     public ResponseEntity<List<PropertyResponseDTO>> findAll() {
         return ResponseEntity.ok(propertyService.listAll());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PropertyDetailedResponseDTO> findById(@PathVariable Integer id) {
+        return ResponseEntity.ok(propertyService.findById(id));
     }
 
 }

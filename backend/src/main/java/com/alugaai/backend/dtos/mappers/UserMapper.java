@@ -1,6 +1,6 @@
 package com.alugaai.backend.dtos.mappers;
 
-import com.alugaai.backend.dtos.image.ImageRequestDTO;
+import com.alugaai.backend.dtos.user.OwnerForPropertyResponseDTO;
 import com.alugaai.backend.dtos.user.UserRegisterRequestDTO;
 import com.alugaai.backend.models.Owner;
 import com.alugaai.backend.models.Student;
@@ -42,6 +42,16 @@ public class UserMapper {
                 user.getPassword(),
                 user.getCpf(),
                 user.getPhoneNumber()
+        );
+    }
+
+    public static OwnerForPropertyResponseDTO ownerForPropertyResponseDTO(Owner owner) {
+        return new OwnerForPropertyResponseDTO(
+                owner.getId(),
+                owner.getUsername(),
+                owner.getGender(),
+                owner.getPhoneNumber(),
+                owner.getImage() != null ? ImageMapper.toImageResponseDTO(owner.getImage()) : null
         );
     }
 }

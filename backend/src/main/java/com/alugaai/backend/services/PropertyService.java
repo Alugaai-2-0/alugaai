@@ -5,11 +5,15 @@ import com.alugaai.backend.dtos.college.CollegeRequestDTO;
 import com.alugaai.backend.dtos.college.CollegeResponseDTO;
 import com.alugaai.backend.dtos.mappers.CollegeMapper;
 import com.alugaai.backend.dtos.mappers.PropertyMapper;
+import com.alugaai.backend.dtos.property.PropertyDetailedResponseDTO;
 import com.alugaai.backend.dtos.property.PropertyRequestDTO;
 import com.alugaai.backend.dtos.property.PropertyResponseDTO;
 import com.alugaai.backend.models.*;
 import com.alugaai.backend.repositories.PropertyRepository;
+import com.alugaai.backend.services.errors.CustomException;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,6 +53,15 @@ public class PropertyService {
                                 .collect(Collectors.toList())
                 ))
                 .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public PropertyDetailedResponseDTO findById(@NotNull Integer id) {
+        var property = propertyRepository.findById(id).orElseThrow(() -> new CustomException("Property with this id " +
+                "not " +
+                "found",
+         null, HttpStatus.NOT_FOUND.value()));
+        return PropertyMapper.propertyDetailedResponseDTO(property);
     }
 
     private Property createProperty(PropertyRequestDTO request, ViaCepResponseDTO result, Owner owner) {
