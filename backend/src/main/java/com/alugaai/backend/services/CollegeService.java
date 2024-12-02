@@ -37,9 +37,6 @@ public class CollegeService {
         College college = createCollege(request, result);
         college = buildingRepository.save(college);
 
-        List<Image> images = imageService.processImages(request.collegesImages(), college);
-        college.setImages(images);
-
         college = buildingRepository.save(college);
 
         return CollegeMapper.toCollegeResponseDTO(

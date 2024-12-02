@@ -37,9 +37,6 @@ public class PropertyService {
         Property property = createProperty(request, result, owner);
         property = propertyRepository.save(property);
 
-        List<Image> images = imageService.processImages(request.propertyImages(), property);
-        property.setImages(images);
-
         property = propertyRepository.save(property);
     }
 

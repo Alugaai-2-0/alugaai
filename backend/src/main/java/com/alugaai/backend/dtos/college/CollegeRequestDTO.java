@@ -7,7 +7,6 @@ import java.util.List;
 
 public record CollegeRequestDTO(
         AddressRequestDTO address,
-        String collegeName,
-        List<ImageRequestDTO> collegesImages
+        String collegeName
 ) {
 }

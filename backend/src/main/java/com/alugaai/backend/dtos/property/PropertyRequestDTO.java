@@ -6,7 +6,5 @@ import com.alugaai.backend.dtos.image.ImageRequestDTO;
 import java.util.List;
 
 public record PropertyRequestDTO(
-        AddressRequestDTO address,
-        List<ImageRequestDTO> propertyImages
-) {
+        AddressRequestDTO address) {
 }
