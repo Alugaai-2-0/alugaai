@@ -20,6 +20,9 @@ export class ExplorarComponent {
     this.showMap = !this.showMap;
   }
 
-
+  formatLabel(value: number): string {
+   
+    return `${value}`;
+  }
   
 }
