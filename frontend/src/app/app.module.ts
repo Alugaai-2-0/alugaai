@@ -25,6 +25,8 @@ import { RegisterOwnerComponent } from './components/auth/register-owner/registe
 import { PhoneMaskDirective } from './directives/phone-mask.directive';
 import { MapComponent } from './components/map/map.component';
 import { GoogleMapsModule } from '@angular/google-maps';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import {MatSliderModule} from '@angular/material/slider';
 
 
 
@@ -48,6 +50,7 @@ import { GoogleMapsModule } from '@angular/google-maps';
     RegisterOwnerComponent,
     PhoneMaskDirective,
     MapComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -57,13 +60,15 @@ import { GoogleMapsModule } from '@angular/google-maps';
     FormsModule,
     ReactiveFormsModule,
     GoogleMapsModule,
-    HttpClientModule
+    HttpClientModule,
+    MatSliderModule
   ],
   providers: [
     provideClientHydration(),
     provideToastr(),
     provideAnimations(),
     provideHttpClient(withFetch()),
+    provideAnimationsAsync(),
    
   ],
   bootstrap: [AppComponent]

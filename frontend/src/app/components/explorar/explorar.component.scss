@@ -3,9 +3,22 @@
 }
 
 .map-section {
+  margin: none;
     position: absolute;
     width: 100%;
-    height: 300px; /* Default height for mobile */
+    height: 90%; /* Default height for mobile */
     z-index: 100;
+  }
+
+  .filterbtn{
+    text-align: left;
+    width: 298px;
+  }
+  .filterbtn :hover{
+    color: #dd7432 !important;
+  }
+
+  mat-slider{
+    width: 90%;
   }
   

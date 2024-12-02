@@ -1,7 +1,8 @@
-<div class="card-stack d-flex align-items-center min-vh-75">
-  <div *ngFor="let user of visibleUsers; let i = index" class="card-wrapper" [style.zIndex]="visibleUsers.length - i"
+<div class="card-stack mx-auto">
+  <div class="card-stack-container position-relative">
+    <div *ngFor="let user of visibleUsers; let i = index" class="card-wrapper" [style.zIndex]="visibleUsers.length - i"
     [style.transform]="getCardTransform(i)">
-    <div class="card shadow w-auto mx-auto" [style.borderColor]="'#e4e7ec'" [@cardAnimator]="animationStates[i]"
+    <div class="card shadow" [style.borderColor]="'#e4e7ec'" [@cardAnimator]="animationStates[i]"
       (@cardAnimator.done)="resetAnimationState($event, i)" (swipeLeft)="startAnimation('swipeleft', i)"
       (swipeRight)="startAnimation('swiperight', i)">
       <div class="card-header py-3" [style.background]="'#fcfcfc'" [style.borderBottom]="'none'">
@@ -60,4 +61,6 @@
       </button>
     </div>
   </div>
+  </div>
+  
 </div>
