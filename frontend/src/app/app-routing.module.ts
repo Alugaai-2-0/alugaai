@@ -10,6 +10,7 @@ import { RegisterChoiceComponent } from './components/auth/register-choice/regis
 import { RegisterStudentComponent } from './components/auth/register-student/register-student.component';
 import { RegisterOwnerComponent } from './components/auth/register-owner/register-owner.component';
 import { MapComponent } from './components/map/map.component';
+import { UserCardComponent } from './shared/user-card/user-card.component';
 
 
 
@@ -45,6 +46,10 @@ export const routes: Routes = [
   { 
     path: 'map',
      component: MapComponent
+  },
+  { 
+    path: 'card',
+     component: UserCardComponent
   },
   { 
     path: 'not-authorized',
