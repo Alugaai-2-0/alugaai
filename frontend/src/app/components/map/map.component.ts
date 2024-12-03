@@ -14,6 +14,8 @@ import { Subscription, map } from 'rxjs';
 import { GoogleMapsLoaderService } from '../../services/google-maps-loader.service';
 import { CollegeService } from '../../services/college.service';
 import { ICollegeResponse } from '../../interfaces/ICollegeResponse';
+import { PropertyService } from '../../services/property.service';
+import { IPropertyResponse } from '../../interfaces/IPropertyResponse';
 
 @Component({
   selector: 'app-map',
@@ -27,8 +29,9 @@ export class MapComponent {
   lat = -23.4709;
   lng = -47.4851;
   markersCollege!: ICollegeResponse[]; 
+  markersProperties!: IPropertyResponse[];
 
-  constructor(private googleMapsLoader: GoogleMapsLoaderService, private collegeService: CollegeService) {}
+  constructor(private googleMapsLoader: GoogleMapsLoaderService, private collegeService: CollegeService, private propertyService: PropertyService) {}
 
   
 
@@ -252,6 +255,7 @@ export class MapComponent {
       this.map = new google.maps.Map(this.mapContainer.nativeElement, mapOptions);
     }
     this.getColleges();
+    this.getProperties();
   }
 
   onReturnButtonClick(){
@@ -313,39 +317,52 @@ export class MapComponent {
   
 
   getProperties() {
-    // Mock marker data
-    const mockProperty = {
-      text: 'Facens',
-      position: { lat: -23.470619, lng: -47.429145 },
-      options: {
-        label: {
-          text: 'Centro Universitário Facens',
-          color: '#FFFFFF',
-          fontFamily: 'Inter',
-          fontWeight: 'bold',
-        },
-        icon: 'assets/common/img/iconCollege.svg'
-      } as google.maps.MarkerOptions
-    };
+    this.propertyService.getProperties().subscribe({
+      next: (response) => {
+        if (response) {
+          this.markersProperties = response;
   
-      // Create a new marker
-      const newMarker = new google.maps.Marker({
-        position: {
-          lat: mockProperty.position.lat,
-          lng: mockProperty.position.lng,
-        },
-        map: this.map,
-        icon: mockProperty.options.icon,
-        label: mockProperty.options.label,
-      });
-
+          
+          this.markersProperties.forEach((propertie) => {
+           
+            const lat = parseFloat(propertie.latitude); 
+            const lng = parseFloat(propertie.longitude); 
   
-      
-   
-      // Add a click listener to open the modal
-      //newMarker.addListener('click', () => {
-       // this.markerClickHandler(college);
-      //});
+          
+            if (isNaN(lat) || isNaN(lng)) {
+              console.warn('Invalid latitude or longitude for college:', propertie);
+              return;
+            }
+  
+            const markerOptions: google.maps.MarkerOptions = {
+              position: {
+                lat: lat,
+                lng: lng,
+              },
+              map: this.map,
+              icon: 'assets/common/img/iconProperty.svg', 
+              label: {
+                text: 'Propriedade', 
+                color: '#FFFFFF',
+                fontFamily: 'Inter',
+                fontWeight: 'bold',
+              },
+            };
+  
+            // Create and add the marker
+            const newMarker = new google.maps.Marker(markerOptions);
+  
+            // Optional: Add a click listener for modal handling
+            //newMarker.addListener('click', () => {
+            //  this.markerClickHandler(college);
+          //  });
+          });
+        }
+      },
+      error: (error) => {
+        console.error('Error fetching colleges:', error);
+      },
+    });
   }
   
 

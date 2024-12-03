@@ -27,6 +27,13 @@ import { MapComponent } from './components/map/map.component';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import {MatSliderModule} from '@angular/material/slider';
+import {MatIconModule} from '@angular/material/icon';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatChipsModule} from '@angular/material/chips';
+import { AutocompleteComponent } from './components/material/autocomplete/autocomplete.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+
+
 
 
 
@@ -50,6 +57,7 @@ import {MatSliderModule} from '@angular/material/slider';
     RegisterOwnerComponent,
     PhoneMaskDirective,
     MapComponent,
+    AutocompleteComponent,
     
   ],
   imports: [
@@ -61,7 +69,12 @@ import {MatSliderModule} from '@angular/material/slider';
     ReactiveFormsModule,
     GoogleMapsModule,
     HttpClientModule,
-    MatSliderModule
+    MatSliderModule,
+    MatIconModule,
+    MatAutocompleteModule,
+    MatChipsModule,
+    MatFormFieldModule,
+    
   ],
   providers: [
     provideClientHydration(),
