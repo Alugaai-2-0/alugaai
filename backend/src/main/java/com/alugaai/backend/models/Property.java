@@ -20,4 +20,6 @@ public class Property extends Building {
     @ManyToMany(mappedBy = "propertiesLikes")
     private Set<Student> studentsLikes;
 
+    private Double price;
+
 }

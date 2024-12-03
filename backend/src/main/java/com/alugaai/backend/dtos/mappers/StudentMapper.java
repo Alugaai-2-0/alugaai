@@ -16,6 +16,8 @@ public class StudentMapper {
                 entity.getId(),
                 entity.getUsername(),
                 entity.getBirthDate(),
+                entity.getDescription(),
+                entity.getImage() != null ? ImageMapper.toImageResponseDTO(entity.getImage()) : null,
                 entity.getPersonalities()
         );
     }

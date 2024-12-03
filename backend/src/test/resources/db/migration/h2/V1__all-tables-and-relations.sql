@@ -2,6 +2,7 @@ CREATE TABLE IF NOT EXISTS users
 (
     id INT AUTO_INCREMENT PRIMARY KEY,
     refresh_token VARCHAR(255),
+    description VARCHAR(255),
     refresh_token_expiry_time TIMESTAMP NULL,
     birth_date TIMESTAMP NOT NULL,
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

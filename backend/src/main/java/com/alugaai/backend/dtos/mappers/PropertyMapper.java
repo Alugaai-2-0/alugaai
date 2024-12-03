@@ -1,9 +1,7 @@
 package com.alugaai.backend.dtos.mappers;
 
-import com.alugaai.backend.dtos.college.CollegeResponseDTO;
 import com.alugaai.backend.dtos.property.PropertyDetailedResponseDTO;
 import com.alugaai.backend.dtos.property.PropertyResponseDTO;
-import com.alugaai.backend.models.College;
 import com.alugaai.backend.models.Property;
 
 import java.util.List;
@@ -21,6 +19,7 @@ public class PropertyMapper {
                 property.getLatitude(),
                 property.getLongitude(),
                 property.getOwner().getId(),
+                property.getPrice(),
                 propertyImagesIds
         );
     }

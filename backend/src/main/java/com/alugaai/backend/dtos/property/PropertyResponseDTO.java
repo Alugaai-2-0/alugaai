@@ -12,6 +12,7 @@ public record PropertyResponseDTO(
         String latitude,
         String longitude,
         Integer ownerId,
+        Double price,
         List<Integer> propertyImagesIds
 
 ) {

@@ -44,6 +44,11 @@ public class UserSeeder extends BaseSeeder {
 
     @Override
     protected void seed() {
+        // Verifica se já existem dados essenciais no banco
+        if (existsAnyData()) {
+            return;
+        }
+
         // Create the three colleges
         College uniso = createCollege(
                 "Rodovia Raposo Tavares, KM 92.5",
@@ -86,6 +91,7 @@ public class UserSeeder extends BaseSeeder {
                 'M',
                 Role.RoleName.ROLE_ADMIN,
                 null,
+                null,
                 null
         );
 
@@ -101,6 +107,7 @@ public class UserSeeder extends BaseSeeder {
                 'M',
                 Role.RoleName.ROLE_OWNER,
                 null,
+                null,
                 null
         );
 
@@ -111,7 +118,8 @@ public class UserSeeder extends BaseSeeder {
                 "Jardim Iguatemi",
                 "Sorocaba",
                 "-23.4805",
-                "-47.4280"
+                "-47.4280",
+                1250.00
         );
 
         createProperty(
@@ -121,7 +129,8 @@ public class UserSeeder extends BaseSeeder {
                 "Jardim Iguatemi",
                 "Sorocaba",
                 "-23.4810",
-                "-47.4285"
+                "-47.4285",
+                1470.00
         );
 
         // Owner 2 - Próximo à UNIP
@@ -135,6 +144,7 @@ public class UserSeeder extends BaseSeeder {
                 'F',
                 Role.RoleName.ROLE_OWNER,
                 null,
+                null,
                 null
         );
 
@@ -145,7 +155,8 @@ public class UserSeeder extends BaseSeeder {
                 "Éden",
                 "Sorocaba",
                 "-23.4995",
-                "-47.4390"
+                "-47.4390",
+                2200.00
         );
 
         // Owner 3 - Próximo à FACENS
@@ -159,6 +170,7 @@ public class UserSeeder extends BaseSeeder {
                 'M',
                 Role.RoleName.ROLE_OWNER,
                 null,
+                null,
                 null
         );
 
@@ -169,7 +181,8 @@ public class UserSeeder extends BaseSeeder {
                 "Jardim Constantino Matucci",
                 "Sorocaba",
                 "-23.4710",
-                "-47.4295"
+                "-47.4295",
+                760.00
         );
 
         createProperty(
@@ -179,7 +192,8 @@ public class UserSeeder extends BaseSeeder {
                 "Jardim Constantino Matucci",
                 "Sorocaba",
                 "-23.4715",
-                "-47.4298"
+                "-47.4298",
+                1780.00
         );
 
         // UNISO Students
@@ -213,7 +227,8 @@ public class UserSeeder extends BaseSeeder {
                 'M',
                 Role.RoleName.ROLE_STUDENT,
                 uniso,
-                joaoPersonalities
+                joaoPersonalities,
+                "Estudante de Educação Física, muito dedicado aos estudos e esportes. Procuro um ambiente tranquilo para morar, onde possa estudar e manter minha rotina de treinos."
         );
 
         createUserIfNotExists(
@@ -226,7 +241,8 @@ public class UserSeeder extends BaseSeeder {
                 'F',
                 Role.RoleName.ROLE_STUDENT,
                 uniso,
-                mariaPersonalities
+                mariaPersonalities,
+                "Cursando Psicologia, busco um ambiente calmo para estudar e praticar violão. Vegetariana e adepta de um estilo de vida saudável."
         );
 
         // UNIP Students
@@ -260,7 +276,8 @@ public class UserSeeder extends BaseSeeder {
                 'F',
                 Role.RoleName.ROLE_STUDENT,
                 unip,
-                florentinaPersonalities
+                florentinaPersonalities,
+                "Estudante de Gastronomia, apaixonada por culinária vegana e cultivo de plantas. Procuro um espaço onde possa cozinhar e manter meu pequeno jardim."
         );
 
         createUserIfNotExists(
@@ -273,7 +290,8 @@ public class UserSeeder extends BaseSeeder {
                 'M',
                 Role.RoleName.ROLE_STUDENT,
                 unip,
-                gustavoPersonalities
+                gustavoPersonalities,
+                "Estudante de Ciência da Computação, entusiasta de tecnologia e e-sports. Busco um lugar com boa conexão de internet onde possa estudar e jogar."
         );
 
         // FACENS Students
@@ -317,7 +335,8 @@ public class UserSeeder extends BaseSeeder {
                 'M',
                 Role.RoleName.ROLE_STUDENT,
                 facens,
-                carlosPersonalities
+                carlosPersonalities,
+                "Estudante de Engenharia Civil, atleta dedicado e madrugador. Procuro moradia próxima à faculdade onde possa manter minha rotina de treinos."
         );
 
         createUserIfNotExists(
@@ -330,7 +349,8 @@ public class UserSeeder extends BaseSeeder {
                 'M',
                 Role.RoleName.ROLE_STUDENT,
                 facens,
-                humbertoPersonalities
+                humbertoPersonalities,
+                "Estudante de Engenharia de Produção, músico nas horas vagas. Busco um ambiente tranquilo onde possa estudar e praticar música sem incomodar."
         );
 
         createUserIfNotExists(
@@ -343,8 +363,15 @@ public class UserSeeder extends BaseSeeder {
                 'F',
                 Role.RoleName.ROLE_STUDENT,
                 facens,
-                anaPersonalities
+                anaPersonalities,
+                "Estudante de Engenharia Mecânica, apaixonada por dança e viagens. Procuro um lugar acolhedor onde possa estudar e receber amigos ocasionalmente."
         );
+    }
+
+    private boolean existsAnyData() {
+        // Verifica se existe algum dado em qualquer uma das entidades principais
+        return userRepository.count() > 0 || buildingRepository.count() > 0;
+
     }
 
     private void createProperty(
@@ -354,7 +381,8 @@ public class UserSeeder extends BaseSeeder {
             String neighborhood,
             String district,
             String latitude,
-            String longitude
+            String longitude,
+            Double price
     ) {
         Property property = new Property();
         property.setAddress(address);
@@ -364,6 +392,7 @@ public class UserSeeder extends BaseSeeder {
         property.setLatitude(latitude);
         property.setLongitude(longitude);
         property.setOwner(owner);
+        property.setPrice(price);
 
         buildingRepository.save(property);
     }
@@ -399,7 +428,8 @@ public class UserSeeder extends BaseSeeder {
             Character gender,
             Role.RoleName roleName,
             @Nullable Building building,
-            @Nullable Set<String> personalities
+            @Nullable Set<String> personalities,
+            @Nullable String description
     ) {
         if (!userRepository.existsByEmail(email)) {
             User user = createUserInstance(roleName);
@@ -437,6 +467,7 @@ public class UserSeeder extends BaseSeeder {
                 }
                 student.setPrincipalCollege((College) building);
                 student.getPersonalities().addAll(personalities);
+                student.setDescription(description);
             }
 
             return userRepository.save(user);

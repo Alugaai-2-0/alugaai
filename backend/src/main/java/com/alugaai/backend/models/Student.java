@@ -19,6 +19,8 @@ import java.util.Set;
 @DiscriminatorValue("STUDENT")
 public class Student extends User {
 
+    private String description;
+
     @ElementCollection
     @CollectionTable(
             name = "user_personalities",
