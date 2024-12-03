@@ -14,11 +14,11 @@
           <div class="row g-0">
             <div class="col">
               <div class="tags-container">
-                <!--  <ng-container *ngFor="let tag of user.tags">
-                  <span class="tag-label" [style.color]="tag.color || 'inherit'" [attr.aria-label]="'Tag: ' + tag.name">
-                    {{ tag.name }}
+                <ng-container *ngFor="let personality of user.personalities">
+                  <span class="tag-label" [style.color]="'inherit'" [attr.aria-label]="'Tag: ' + personality">
+                    {{ personality }}
                   </span>
-                </ng-container> -->
+                </ng-container>
               
               </div>
             </div>

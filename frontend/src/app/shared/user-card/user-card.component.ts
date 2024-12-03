@@ -34,9 +34,10 @@ export class UserCardComponent implements OnInit, OnDestroy {
     this.studentService.getStudents().subscribe({
       next: (response) => {
         this.allUsers = response;
+        console.log(response)
       } 
     })
-    
+
     this.loadInitialCards();
     this.parentSubject.subscribe((event) => {
       this.startAnimation(event);
