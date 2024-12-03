@@ -19,6 +19,12 @@ CREATE TABLE IF NOT EXISTS users
     college_principal_id INT
 );
 
+CREATE TABLE IF NOT EXISTS user_personalities (
+    user_id INTEGER NOT NULL,
+    personality VARCHAR(255),
+    CONSTRAINT fk_user_personalities FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
 -- Criação da tabela 'images'
 CREATE TABLE IF NOT EXISTS images
 (

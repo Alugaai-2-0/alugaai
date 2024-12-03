@@ -19,6 +19,14 @@ import java.util.Set;
 @DiscriminatorValue("STUDENT")
 public class Student extends User {
 
+    @ElementCollection
+    @CollectionTable(
+            name = "user_personalities",
+            joinColumns = @JoinColumn(name = "user_id")
+    )
+    @Column(name = "personality")
+    private Set<String> personalities = new HashSet<>();
+
     @ManyToMany
     @JoinTable(
             name = "students_connections",
