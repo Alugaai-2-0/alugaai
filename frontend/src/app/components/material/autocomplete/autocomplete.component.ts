@@ -128,6 +128,7 @@ export class AutocompleteComponent {
   
       // Emit the change event
       this.interessesChange.emit(this.interesses);
+      console.log("Event emitido: ", this.interesses)
     }
   
     // Clear the input value

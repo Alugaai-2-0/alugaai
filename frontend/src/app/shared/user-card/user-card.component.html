@@ -6,19 +6,20 @@
       (@cardAnimator.done)="resetAnimationState($event, i)" (swipeLeft)="startAnimation('swipeleft', i)"
       (swipeRight)="startAnimation('swiperight', i)">
       <div class="card-header py-3" [style.background]="'#fcfcfc'" [style.borderBottom]="'none'">
-        <img [alt]="'Profile picture of ' + user.name" class="d-block mx-auto circle-img" width="135" height="135"
-          [src]="user.profileImage" [style.marginTop]="'-86px'" />
+        <img [alt]="'Profile picture of ' + user.userName" class="d-block mx-auto circle-img" width="135" height="135">
+          <!-- [src]="user.profileImage" [style.marginTop]="'-86px'" /> -->
       </div>
       <ul class="list-group list-group-flush">
         <li class="list-group-item" [style.background]="'#fcfcfc'">
           <div class="row g-0">
             <div class="col">
               <div class="tags-container">
-                <ng-container *ngFor="let tag of user.tags">
+                <!--  <ng-container *ngFor="let tag of user.tags">
                   <span class="tag-label" [style.color]="tag.color || 'inherit'" [attr.aria-label]="'Tag: ' + tag.name">
                     {{ tag.name }}
                   </span>
-                </ng-container>
+                </ng-container> -->
+              
               </div>
             </div>
           </div>
@@ -29,8 +30,8 @@
             <div class="col-10 me-2">
               <h6 class="mb-0">
                 <strong class="user-name">
-                  {{ formatName(user.name) }}, {{ user.age }} -
-                  <span class="school-name">{{ user.school }}</span>
+                  {{ formatName(user.userName) }}, {{ user.birthDate }} -
+               <!-- <span class="school-name">{{ user.school }}</span>-->  
                 </strong>
                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 20 20" fill="none"
                   class="verified-icon" aria-hidden="true">
@@ -40,7 +41,7 @@
                 </svg>
               </h6>
               <p class="user-description text-sm mt-1 mb-1">
-                {{ truncate(user.description, 65, true) }}
+            <!--  {{ truncate(user.description, 65, true) }} -->  Descrição da pessoa vai aqui! 
               </p>
             </div>
             <div class="col col-1 d-flex align-items-center justify-content-center">

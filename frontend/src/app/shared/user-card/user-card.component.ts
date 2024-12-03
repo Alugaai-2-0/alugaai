@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import * as kf from './keyframes';
 import { StudentService } from '../../services/student.service';
 import { IUser } from '../../interfaces/IUser';
+import { IStudentFeedResponse } from '../../interfaces/IStudentFeedResponse';
 
 
 
@@ -21,19 +22,27 @@ import { IUser } from '../../interfaces/IUser';
 })
 export class UserCardComponent implements OnInit, OnDestroy {
   constructor(private studentService: StudentService) {}
-  private allUsers: IUser[] = this.studentService.getStudents();
+  private allUsers!: IStudentFeedResponse[]
 
-  visibleUsers: IUser[] = [];
+  visibleUsers: IStudentFeedResponse[] = [];
   animationStates: string[] = [];
   parentSubject: Subject<string> = new Subject();
   readonly MAX_VISIBLE_CARDS = 3;
   currentIndex = 0;
 
   ngOnInit() {
+    this.studentService.getStudents().subscribe({
+      next: (response) => {
+        this.allUsers = response;
+      } 
+    })
+    
     this.loadInitialCards();
     this.parentSubject.subscribe((event) => {
       this.startAnimation(event);
     });
+
+    
   }
 
   formatName(name: string): string {
