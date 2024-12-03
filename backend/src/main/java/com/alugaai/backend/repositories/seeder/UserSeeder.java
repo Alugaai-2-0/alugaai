@@ -85,6 +85,7 @@ public class UserSeeder extends BaseSeeder {
                 LocalDateTime.of(1990, 1, 1, 0, 0),
                 'M',
                 Role.RoleName.ROLE_ADMIN,
+                null,
                 null
         );
 
@@ -99,6 +100,7 @@ public class UserSeeder extends BaseSeeder {
                 LocalDateTime.of(1975, 6, 15, 0, 0),
                 'M',
                 Role.RoleName.ROLE_OWNER,
+                null,
                 null
         );
 
@@ -132,6 +134,7 @@ public class UserSeeder extends BaseSeeder {
                 LocalDateTime.of(1980, 3, 20, 0, 0),
                 'F',
                 Role.RoleName.ROLE_OWNER,
+                null,
                 null
         );
 
@@ -155,6 +158,7 @@ public class UserSeeder extends BaseSeeder {
                 LocalDateTime.of(1968, 12, 10, 0, 0),
                 'M',
                 Role.RoleName.ROLE_OWNER,
+                null,
                 null
         );
 
@@ -179,6 +183,26 @@ public class UserSeeder extends BaseSeeder {
         );
 
         // UNISO Students
+        Set<String> joaoPersonalities = new HashSet<>(List.of(
+                "gosta de academia",
+                "pratica futebol",
+                "organizado",
+                "estuda à noite",
+                "gosta de música",
+                "fã de rock",
+                "não fuma"
+        ));
+
+        Set<String> mariaPersonalities = new HashSet<>(List.of(
+                "vegetariana",
+                "pratica yoga",
+                "gosta de ler",
+                "estudiosa",
+                "toca violão",
+                "prefere ambiente calmo",
+                "não bebe"
+        ));
+
         createUserIfNotExists(
                 "João Antonio",
                 "joaoantonio@gmail.com",
@@ -188,7 +212,8 @@ public class UserSeeder extends BaseSeeder {
                 LocalDateTime.of(1999, 3, 21, 0, 0),
                 'M',
                 Role.RoleName.ROLE_STUDENT,
-                uniso
+                uniso,
+                joaoPersonalities
         );
 
         createUserIfNotExists(
@@ -200,10 +225,31 @@ public class UserSeeder extends BaseSeeder {
                 LocalDateTime.of(1996, 3, 21, 0, 0),
                 'F',
                 Role.RoleName.ROLE_STUDENT,
-                uniso
+                uniso,
+                mariaPersonalities
         );
 
         // UNIP Students
+        Set<String> florentinaPersonalities = new HashSet<>(List.of(
+                "ama cozinhar",
+                "gosta de plantas",
+                "organizada",
+                "gosta de séries",
+                "prefere estudar em casa",
+                "toca piano",
+                "vegana"
+        ));
+
+        Set<String> gustavoPersonalities = new HashSet<>(List.of(
+                "gamer",
+                "programador",
+                "noturno",
+                "toca guitarra",
+                "gosta de animes",
+                "pratica e-sports",
+                "fã de tecnologia"
+        ));
+
         createUserIfNotExists(
                 "Florentina Souza",
                 "florentinasouza@gmail.com",
@@ -213,7 +259,8 @@ public class UserSeeder extends BaseSeeder {
                 LocalDateTime.of(1992, 3, 21, 0, 0),
                 'F',
                 Role.RoleName.ROLE_STUDENT,
-                unip
+                unip,
+                florentinaPersonalities
         );
 
         createUserIfNotExists(
@@ -225,10 +272,41 @@ public class UserSeeder extends BaseSeeder {
                 LocalDateTime.of(2003, 3, 21, 0, 0),
                 'M',
                 Role.RoleName.ROLE_STUDENT,
-                unip
+                unip,
+                gustavoPersonalities
         );
 
         // FACENS Students
+        Set<String> carlosPersonalities = new HashSet<>(List.of(
+                "atleta",
+                "madrugador",
+                "gosta de esportes",
+                "pratica natação",
+                "organizado",
+                "fã de podcasts",
+                "gosta de documentários"
+        ));
+
+        Set<String> humbertoPersonalities = new HashSet<>(List.of(
+                "músico",
+                "artista",
+                "criativo",
+                "gosta de fotografia",
+                "fã de jazz",
+                "pratica meditação",
+                "vegetariano"
+        ));
+
+        Set<String> anaPersonalities = new HashSet<>(List.of(
+                "dançarina",
+                "gosta de viajar",
+                "extrovertida",
+                "pratica volleyball",
+                "ama pets",
+                "gosta de cozinhar",
+                "fã de música pop"
+        ));
+
         createUserIfNotExists(
                 "Carlos Vieira",
                 "carlosvieira@gmail.com",
@@ -238,7 +316,8 @@ public class UserSeeder extends BaseSeeder {
                 LocalDateTime.of(2002, 3, 21, 0, 0),
                 'M',
                 Role.RoleName.ROLE_STUDENT,
-                facens
+                facens,
+                carlosPersonalities
         );
 
         createUserIfNotExists(
@@ -250,7 +329,8 @@ public class UserSeeder extends BaseSeeder {
                 LocalDateTime.of(1988, 3, 21, 0, 0),
                 'M',
                 Role.RoleName.ROLE_STUDENT,
-                facens
+                facens,
+                humbertoPersonalities
         );
 
         createUserIfNotExists(
@@ -262,7 +342,8 @@ public class UserSeeder extends BaseSeeder {
                 LocalDateTime.of(2000, 3, 21, 0, 0),
                 'F',
                 Role.RoleName.ROLE_STUDENT,
-                facens
+                facens,
+                anaPersonalities
         );
     }
 
@@ -317,7 +398,8 @@ public class UserSeeder extends BaseSeeder {
             LocalDateTime birthDate,
             Character gender,
             Role.RoleName roleName,
-            @Nullable Building building
+            @Nullable Building building,
+            @Nullable Set<String> personalities
     ) {
         if (!userRepository.existsByEmail(email)) {
             User user = createUserInstance(roleName);
@@ -354,6 +436,7 @@ public class UserSeeder extends BaseSeeder {
                             null);
                 }
                 student.setPrincipalCollege((College) building);
+                student.getPersonalities().addAll(personalities);
             }
 
             return userRepository.save(user);

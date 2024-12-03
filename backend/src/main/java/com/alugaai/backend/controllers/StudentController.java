@@ -1,13 +1,16 @@
 package com.alugaai.backend.controllers;
 
 
+import com.alugaai.backend.dtos.student.StudentFeedResponseDTO;
 import com.alugaai.backend.services.StudentService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -22,6 +25,13 @@ public class StudentController {
         studentService.addPersonalities(personalities, id);
     }
 
-
+    @GetMapping("/get-all")
+    public ResponseEntity<List<StudentFeedResponseDTO>> getAllStudents(
+            @RequestParam(required = false) Integer minAge,
+            @RequestParam(required = false) Integer maxAge,
+            @RequestParam(required = false) Set<String> personalities
+    ) {
+        return ResponseEntity.ok(studentService.getAllStudents(minAge, maxAge, personalities));
+    }
 
 }
