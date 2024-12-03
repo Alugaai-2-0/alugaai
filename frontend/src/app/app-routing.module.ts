@@ -11,6 +11,7 @@ import { RegisterStudentComponent } from './components/auth/register-student/reg
 import { RegisterOwnerComponent } from './components/auth/register-owner/register-owner.component';
 import { MapComponent } from './components/map/map.component';
 import { UserCardComponent } from './shared/user-card/user-card.component';
+import { AutocompleteComponent } from './components/material/autocomplete/autocomplete.component';
 
 
 
@@ -47,13 +48,14 @@ export const routes: Routes = [
     path: 'map',
      component: MapComponent
   },
-  { 
-    path: 'card',
-     component: UserCardComponent
-  },
+ 
   { 
     path: 'not-authorized',
      component: NotAuthorizedComponent
+  },
+  { 
+    path: 'autocomplete',
+     component: AutocompleteComponent
   },
   { 
     path: 'login',

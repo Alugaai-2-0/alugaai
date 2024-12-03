@@ -9,7 +9,7 @@ export class StudentService {
 
   constructor(private http: HttpClient) { }
 
-  getStudents(){
+  getStudents() {
     const mockUsers = [
       {
         description: 'Sou Alina Dias, estudante tranquila, nas horas vagas gosto de ler e estudar.',
@@ -28,7 +28,7 @@ export class StudentService {
           { name: 'Voluntariado' },
           { name: 'Arte' },
           { name: 'Cachorro' },
-  
+
         ]
       },
       {
@@ -45,9 +45,10 @@ export class StudentService {
           { name: 'Arte' },
           { name: 'Livros' },
           { name: 'Estudos' },
-          { name: 'Cinema' }, 
-          { name: 'Ler' },   
-    ]},
+          { name: 'Cinema' },
+          { name: 'Ler' },
+        ]
+      },
       {
         description: 'Sou Maria Oliveira, adoro esportes e vida saudável.',
         name: 'Maria',
@@ -59,9 +60,125 @@ export class StudentService {
           { name: 'Nutrição' },
           { name: 'Estudos' },
           { name: 'Música' },
-          { name: 'Organização'}
+          { name: 'Organização' }
         ]
-      }
+      },
+      {
+        description: 'Sou João Silva, apaixonado por tecnologia e inovação.',
+        name: 'João',
+        age: 28,
+        school: 'FACENS',
+        profileImage: 'assets/common/img/Profile-picture2.jpg',
+        tags: [
+          { name: 'Tecnologia' },
+          { name: 'Música' },
+          { name: 'Viagens' },
+          { name: 'Esportes' },
+          { name: 'Arte' },
+          { name: 'Livros' },
+          { name: 'Tecnologia' },
+        { name: 'Música' },
+        { name: 'Viagens' },
+          { name: 'Estudos' },
+          { name: 'Cinema' },
+          { name: 'Ler' },
+        ]
+      },
+      {
+        description: 'Sou João Silva, apaixonado por tecnologia e inovação.',
+        name: 'João',
+        age: 28,
+        school: 'FACENS',
+        profileImage: 'assets/common/img/Profile-picture2.jpg',
+        tags: [
+          { name: 'Tecnologia' },
+          { name: 'Música' },
+          { name: 'Livros' },
+          { name: 'Estudos' },
+          { name: 'Cinema' },
+          { name: 'Ler' },
+        ]
+      },
+      {
+        description: 'Sou Alina Dias, estudante tranquila, nas horas vagas gosto de ler e estudar.',
+        name: 'Alina',
+        age: 22,
+        school: 'FACENS',
+        profileImage: 'assets/common/img/Profile-picture.jpg',
+        tags: [
+          { name: 'Estudos' },
+          { name: 'Tecnologia' },
+          { name: 'Esportes' },
+          { name: 'Voluntariado' },
+          { name: 'Arte' },
+          { name: 'Cachorro' },
+  
+        ]
+      },
+      {
+        description: 'Sou João Silva, apaixonado por tecnologia e inovação.',
+        name: 'João',
+        age: 28,
+        school: 'FACENS',
+        profileImage: 'assets/common/img/Profile-picture2.jpg',
+        tags: [
+          { name: 'Tecnologia' },
+          { name: 'Tecnologia' },
+        { name: 'Música' },
+        { name: 'Viagens' },
+          { name: 'Música' },
+          { name: 'Viagens' },
+          { name: 'Esportes' },
+          { name: 'Arte' },
+          { name: 'Livros' },
+          { name: 'Estudos' },
+          { name: 'Cinema' }, 
+          { name: 'Ler' },   
+    ]},
+    {
+      description: 'Sou Alina Dias, estudante tranquila, nas horas vagas gosto de ler e estudar.',
+      name: 'Alina',
+      age: 22,
+      school: 'FACENS',
+      profileImage: 'assets/common/img/Profile-picture.jpg',
+      tags: [
+        { name: 'Estudos' },
+        { name: 'Tecnologia' },
+        { name: 'Esportes' },
+        { name: 'Tecnologia' },
+        { name: 'Música' },
+        { name: 'Viagens' },
+        { name: 'Música' },
+        { name: 'Literatura' },
+        { name: 'Gatos' },
+        { name: 'Idiomas' },
+        { name: 'Voluntariado' },
+        { name: 'Arte' },
+        { name: 'Cachorro' },
+
+      ]
+    },
+    {
+      description: 'Sou João Silva, apaixonado por tecnologia e inovação.',
+      name: 'João',
+      age: 28,
+      school: 'FACENS',
+      profileImage: 'assets/common/img/Profile-picture2.jpg',
+      tags: [
+        { name: 'Tecnologia' },
+        { name: 'Música' },
+        { name: 'Viagens' },
+        { name: 'Tecnologia' },
+        { name: 'Música' },
+        { name: 'Viagens' },
+        { name: 'Esportes' },
+        { name: 'Arte' },
+        { name: 'Livros' },
+        { name: 'Estudos' },
+        { name: 'Cinema' }, 
+        { name: 'Ler' },   
+  ]},
+
       // Add more users here as needed
     ];
 

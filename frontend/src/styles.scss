@@ -42,6 +42,9 @@ $frontend-theme: mat.define-light-theme((
 
 //Other styles
 
+//This is so the dropdown from autocomplete can work
+
+.cdk-overlay-container, .cdk-overlay-pane { z-index: 9999 !important; }
 
 //global styles
 .orange-text-color{
@@ -51,6 +54,9 @@ $frontend-theme: mat.define-light-theme((
     color: $primary-text-color;
    
 }
+
+
+
 .primary-text-weight{
     font-weight: $font-weight-bold;
 }
@@ -79,3 +85,7 @@ $frontend-theme: mat.define-light-theme((
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+//Custom theme for angular material
+
+

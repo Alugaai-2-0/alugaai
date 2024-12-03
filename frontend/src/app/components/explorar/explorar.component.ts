@@ -24,5 +24,7 @@ export class ExplorarComponent {
    
     return `${value}`;
   }
+
+  
   
 }
