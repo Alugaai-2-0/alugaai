@@ -23,6 +23,11 @@ export class AutocompleteComponent {
   filteredInteresses: Observable<string[]>;
   interesses: string[] = [];
   allInteresses: string[] = [
+    'Extrovertida',
+    'Músico',
+    'Madrugador',
+    'Noturno',
+    'Toca Piano',
     'Vegetariana',
     'Filmes', 
     'Séries', 

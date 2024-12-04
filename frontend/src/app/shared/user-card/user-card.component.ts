@@ -58,7 +58,6 @@ export class UserCardComponent implements OnInit, OnDestroy {
     // Initial fetch when the component is loaded
    
     this.filterService.getCombinedFilters$().subscribe(([ageRange, interests]) => {
-      console.log('Filters updated:', ageRange, interests);
       this.loadFilteredStudents();
     });
 
