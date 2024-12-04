@@ -37,14 +37,13 @@
   <div class="offcanvas-body">
     <br>
     <p class="mb-0 primary-text-color">Filtrar por idade máximas:</p>
-    <mat-slider min="18" max="100" step="1" showTickMarks discrete [displayWith]="formatLabel">
-      <input matSliderThumb>
-    </mat-slider>
+    <app-age-range></app-age-range>
+   
     <!-- Filtrar por interesse-->
     <p class="mb-0 primary-text-color">Filtrar interesses:</p>
 
       <app-autocomplete></app-autocomplete>
-      <button class="btn primary-button mx-auto w-100">Ativar Filtros</button>
+      <button class="btn primary-button mx-auto w-100" (click)="onButtonClick()">Ativar Filtros</button>
     
   </div>
 </div>
