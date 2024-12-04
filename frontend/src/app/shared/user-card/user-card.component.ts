@@ -29,6 +29,9 @@ export class UserCardComponent implements OnInit, OnDestroy {
   parentSubject: Subject<string> = new Subject();
   readonly MAX_VISIBLE_CARDS = 3;
   currentIndex = 0;
+  interesses!: string[]
+  minAge = 18;
+  maxAge!: number;
 
   ngOnInit() {
     this.studentService.getStudents().subscribe({

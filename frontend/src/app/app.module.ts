@@ -32,6 +32,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatChipsModule} from '@angular/material/chips';
 import { AutocompleteComponent } from './components/material/autocomplete/autocomplete.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { AgeRangeComponent } from './components/material/age-range/age-range.component';
 
 
 
@@ -58,6 +59,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     PhoneMaskDirective,
     MapComponent,
     AutocompleteComponent,
+    AgeRangeComponent,
     
   ],
   imports: [

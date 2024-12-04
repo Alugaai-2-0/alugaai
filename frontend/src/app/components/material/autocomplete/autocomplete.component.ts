@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { AsyncPipe } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { StudentService } from '../../../services/student.service';
 @Component({
   selector: 'app-autocomplete',
   templateUrl: './autocomplete.component.html',
@@ -113,40 +114,32 @@ export class AutocompleteComponent {
 
   announcer = inject(LiveAnnouncer);
 
-  constructor() {
+  constructor(private studentService: StudentService) {
     this.filteredInteresses = this.interesseCtrl.valueChanges.pipe(
       startWith(null),
       map((interesse: string | null) => (interesse ? this._filter(interesse) : this.allInteresses.slice())),
     );
   }
+
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
   
-    // Add our interesse if it's valid and not already added
     if (value && this.allInteresses.includes(value) && !this.interesses.includes(value)) {
       this.interesses.push(value);
-  
-      // Emit the change event
-      this.interessesChange.emit(this.interesses);
-      console.log("Event emitido: ", this.interesses)
+      this.studentService.updateFilters(this.interesses); // Update filters in the service
     }
   
-    // Clear the input value
     event.chipInput!.clear();
     this.interesseCtrl.setValue(null);
   }
 
 
   remove(interesse: string): void {
-    const index = this.interesses!.indexOf(interesse);
-
+    const index = this.interesses.indexOf(interesse);
+  
     if (index >= 0) {
-      this.interesses!.splice(index, 1);
-
-      this.announcer.announce(`Removed ${interesse}`);
-
-      // emitindo evento
-      this.interessesChange.emit(this.interesses);
+      this.interesses.splice(index, 1);
+      this.studentService.updateFilters(this.interesses); // Update filters in the service
     }
   }
 
