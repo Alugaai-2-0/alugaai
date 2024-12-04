@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CollegeService } from '../../services/college.service';
+import { FilterService } from '../../services/filter.service';
 
 @Component({
   selector: 'app-explorar',
@@ -11,6 +12,7 @@ export class ExplorarComponent {
   showMap = false;
 
   collegeService = inject(CollegeService);
+  filterService = inject(FilterService);
 
   ngOnInit(): void {
     
@@ -20,6 +22,9 @@ export class ExplorarComponent {
     this.showMap = !this.showMap;
   }
 
+  onButtonClick(){
+    this.filterService.triggerButtonClick(); 
+  }
 
 
  

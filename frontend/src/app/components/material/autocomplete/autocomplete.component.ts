@@ -3,13 +3,14 @@ import { Component, DoCheck, ElementRef, EventEmitter, Output, ViewChild, inject
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteSelectedEvent, MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { MatIconModule } from '@angular/material/icon';
 import { AsyncPipe } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { StudentService } from '../../../services/student.service';
+import { FilterService } from '../../../services/filter.service';
 @Component({
   selector: 'app-autocomplete',
   templateUrl: './autocomplete.component.html',
@@ -22,6 +23,7 @@ export class AutocompleteComponent {
   filteredInteresses: Observable<string[]>;
   interesses: string[] = [];
   allInteresses: string[] = [
+    'Vegetariana',
     'Filmes', 
     'Séries', 
     'Animes', 
@@ -107,12 +109,14 @@ export class AutocompleteComponent {
     'Jiu-Jitsu', 
     'Karatê'
   ];
+  private buttonClickSubscription!: Subscription;
   
 
   @Output() interessesChange = new EventEmitter<string[]>();
   @ViewChild('interesseInput') interesseInput!: ElementRef<HTMLInputElement>;
 
   announcer = inject(LiveAnnouncer);
+  filterService = inject(FilterService)
 
   constructor(private studentService: StudentService) {
     this.filteredInteresses = this.interesseCtrl.valueChanges.pipe(
@@ -121,12 +125,23 @@ export class AutocompleteComponent {
     );
   }
 
+  ngOnInit() {
+    // Subscribe to the button click event
+    this.buttonClickSubscription = this.filterService.buttonClick$.subscribe(() => {
+      this.onButtonClick();  // Call the method when the button click event occurs
+    });
+  }
+
+  onButtonClick() {
+    this.filterService.updateInterests(this.interesses);
+  }
+
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
   
     if (value && this.allInteresses.includes(value) && !this.interesses.includes(value)) {
       this.interesses.push(value);
-      this.studentService.updateFilters(this.interesses); // Update filters in the service
+      // Update filters in the service
     }
   
     event.chipInput!.clear();
@@ -139,7 +154,7 @@ export class AutocompleteComponent {
   
     if (index >= 0) {
       this.interesses.splice(index, 1);
-      this.studentService.updateFilters(this.interesses); // Update filters in the service
+   // Update filters in the service
     }
   }
 
@@ -150,8 +165,8 @@ export class AutocompleteComponent {
     if (!this.interesses.includes(value)) {
       this.interesses.push(value);
   
-      // Emit the change event
-      this.interessesChange.emit(this.interesses);
+     
+    
     }
   
     // Clear the input
