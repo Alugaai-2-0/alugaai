@@ -35,13 +35,14 @@ export class UserCardComponent implements OnInit, OnDestroy {
       next: (response) => {
         this.allUsers = response;
         console.log(response)
-      } 
-    })
-
-    this.loadInitialCards();
+        this.loadInitialCards();
     this.parentSubject.subscribe((event) => {
       this.startAnimation(event);
     });
+      } 
+    })
+
+    
 
     
   }
