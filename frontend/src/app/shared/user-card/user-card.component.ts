@@ -21,9 +21,9 @@ import { IStudentFeedResponse } from '../../interfaces/IStudentFeedResponse';
   ]
 })
 export class UserCardComponent implements OnInit, OnDestroy {
+
   constructor(private studentService: StudentService) {}
   private allUsers!: IStudentFeedResponse[]
-
   visibleUsers: IStudentFeedResponse[] = [];
   animationStates: string[] = [];
   parentSubject: Subject<string> = new Subject();
@@ -34,15 +34,12 @@ export class UserCardComponent implements OnInit, OnDestroy {
     this.studentService.getStudents().subscribe({
       next: (response) => {
         this.allUsers = response;
-        console.log(response)
         this.loadInitialCards();
     this.parentSubject.subscribe((event) => {
       this.startAnimation(event);
     });
       } 
     })
-
-    
 
     
   }
@@ -55,6 +52,20 @@ export class UserCardComponent implements OnInit, OnDestroy {
     const lastName = nameParts[nameParts.length - 1];
     
     return `${firstName} ${lastName.charAt(0)}.`;
+  }
+
+  getAge(birthdate: string | Date): number {
+    const today = new Date();
+    const birthDate = new Date(birthdate);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    
+    // Adjust age if the birthday hasn't occurred yet this year
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+  
+    return age;
   }
 
   loadInitialCards() {
