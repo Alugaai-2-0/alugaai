@@ -7,6 +7,7 @@ import { StudentService } from '../../services/student.service';
 import { IUser } from '../../interfaces/IUser';
 import { IStudentFeedResponse } from '../../interfaces/IStudentFeedResponse';
 import { FilterService } from '../../services/filter.service';
+import { ToastrService } from 'ngx-toastr';
 
 
 
@@ -23,7 +24,8 @@ import { FilterService } from '../../services/filter.service';
 })
 export class UserCardComponent implements OnInit, OnDestroy {
 
-  constructor(private studentService: StudentService, private filterService: FilterService) {}
+  constructor(private studentService: StudentService, private filterService: FilterService, private toastrService: ToastrService) {}
+
   private allUsers!: IStudentFeedResponse[]
   visibleUsers: IStudentFeedResponse[] = [];
   animationStates: string[] = [];
@@ -70,7 +72,7 @@ export class UserCardComponent implements OnInit, OnDestroy {
 
   handleButtonClick() {
     // This method will be triggered whenever the button click occurs
-    console.log('Button clicked! Triggered via FilterService');
+    
 
     // You can add your logic here, for example:
     this.loadFilteredStudents();  // Re-fetch the users or trigger an animation
@@ -86,7 +88,6 @@ export class UserCardComponent implements OnInit, OnDestroy {
   }
 
   loadFilteredStudents() {
-    console.log("on filtered students: ", this.minAge, this.maxAge, this.interesses)
     // Call the studentService with updated filter values
     this.studentService.getStudents(this.minAge, this.maxAge, this.interesses).subscribe({
       next: (response) => {
@@ -95,8 +96,8 @@ export class UserCardComponent implements OnInit, OnDestroy {
         
         this.loadInitialCards(); // Assuming this method handles setting the initial visible cards
       },
-      error: (err) => {
-        console.error('Error loading students', err);
+      error: (error) => {
+        this.toastrService.error("Falha ao carregar os cards", error.error);;
       }
     });
   }

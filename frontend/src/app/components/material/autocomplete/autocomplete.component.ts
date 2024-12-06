@@ -1,13 +1,11 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component, DoCheck, ElementRef, EventEmitter, Output, ViewChild, inject } from '@angular/core';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatAutocompleteSelectedEvent, MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Output, ViewChild, inject } from '@angular/core';
+import { FormControl} from '@angular/forms';
+import { MatAutocompleteSelectedEvent,  } from '@angular/material/autocomplete';
+import { MatChipInputEvent} from '@angular/material/chips';
 import { Observable, Subscription } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { MatIconModule } from '@angular/material/icon';
-import { AsyncPipe } from '@angular/common';
-import { MatFormFieldModule } from '@angular/material/form-field';
+
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { StudentService } from '../../../services/student.service';
 import { FilterService } from '../../../services/filter.service';
@@ -15,6 +13,7 @@ import { FilterService } from '../../../services/filter.service';
   selector: 'app-autocomplete',
   templateUrl: './autocomplete.component.html',
   styleUrl: './autocomplete.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AutocompleteComponent {
 

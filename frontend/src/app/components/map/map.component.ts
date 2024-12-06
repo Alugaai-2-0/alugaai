@@ -16,6 +16,7 @@ import { CollegeService } from '../../services/college.service';
 import { ICollegeResponse } from '../../interfaces/ICollegeResponse';
 import { PropertyService } from '../../services/property.service';
 import { IPropertyResponse } from '../../interfaces/IPropertyResponse';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-map',
@@ -31,7 +32,7 @@ export class MapComponent {
   markersCollege!: ICollegeResponse[]; 
   markersProperties!: IPropertyResponse[];
 
-  constructor(private googleMapsLoader: GoogleMapsLoaderService, private collegeService: CollegeService, private propertyService: PropertyService) {}
+  constructor(private googleMapsLoader: GoogleMapsLoaderService, private collegeService: CollegeService, private propertyService: PropertyService, private toastrService: ToastrService) {}
 
   
 
@@ -309,7 +310,7 @@ export class MapComponent {
         }
       },
       error: (error) => {
-        console.error('Error fetching colleges:', error);
+        this.toastrService.error("Falha ao carregar as Faculdades", error.error);
       },
     });
   }
@@ -360,7 +361,7 @@ export class MapComponent {
         }
       },
       error: (error) => {
-        console.error('Error fetching colleges:', error);
+        this.toastrService.error("Falha ao carregar as Propriedades", error.error);;
       },
     });
   }
