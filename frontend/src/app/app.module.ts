@@ -36,6 +36,9 @@ import { AgeRangeComponent } from './components/material/age-range/age-range.com
 import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
 import { PriceFilterComponent } from './components/material/price-filter/price-filter.component';
 import {MatMenuModule} from '@angular/material/menu';
+import { CollegeBadgeComponent } from './components/college-badge/college-badge.component';
+import { PropertyBadgeComponent } from './components/property-badge/property-badge.component';
+import { BadgeClickedComponent } from './components/badge-clicked/badge-clicked.component';
 
 
 
@@ -65,6 +68,9 @@ import {MatMenuModule} from '@angular/material/menu';
     AgeRangeComponent,
     LoadingSpinnerComponent,
     PriceFilterComponent,
+    CollegeBadgeComponent,
+    PropertyBadgeComponent,
+    BadgeClickedComponent,
     
   ],
   imports: [

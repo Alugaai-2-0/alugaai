@@ -17,7 +17,8 @@ import { ICollegeResponse } from '../../interfaces/ICollegeResponse';
 import { PropertyService } from '../../services/property.service';
 import { IPropertyResponse } from '../../interfaces/IPropertyResponse';
 import { ToastrService } from 'ngx-toastr';
-import { SlicePipe } from '@angular/common';
+import { BadgeClickedComponent } from '../badge-clicked/badge-clicked.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-map',
@@ -33,7 +34,11 @@ export class MapComponent {
   markersCollege!: ICollegeResponse[]; 
   markersProperties!: IPropertyResponse[];
 
-  constructor(private googleMapsLoader: GoogleMapsLoaderService, private collegeService: CollegeService, private propertyService: PropertyService, private toastrService: ToastrService) {}
+  constructor(private googleMapsLoader: GoogleMapsLoaderService, 
+    private collegeService: CollegeService, 
+    private propertyService: PropertyService, 
+    private toastrService: ToastrService,
+    private dialog: MatDialog,) {}
 
   
 
@@ -324,7 +329,9 @@ export class MapComponent {
   }
 
   markerClickHandler() {
-    console.log("Is was clicked")
+    this.dialog.open(BadgeClickedComponent, {
+      width: '500px',
+    });
   }
   
   
