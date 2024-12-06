@@ -17,6 +17,7 @@ import { ICollegeResponse } from '../../interfaces/ICollegeResponse';
 import { PropertyService } from '../../services/property.service';
 import { IPropertyResponse } from '../../interfaces/IPropertyResponse';
 import { ToastrService } from 'ngx-toastr';
+import { SlicePipe } from '@angular/common';
 
 @Component({
   selector: 'app-map',
@@ -265,6 +266,11 @@ export class MapComponent {
 
   //Plot
 
+  truncateText(text: string, maxLength: number): string {
+    if (!text) return '';
+    return text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
+  }
+
   getColleges() {
     
     this.collegeService.getColleges().subscribe({
@@ -283,6 +289,8 @@ export class MapComponent {
               console.warn('Invalid latitude or longitude for college:', college);
               return;
             }
+
+            const truncatedName = this.truncateText(college.collegeName || 'Unknown College', 7); // Limit to 15 characters
   
             const markerOptions: google.maps.MarkerOptions = {
               position: {
@@ -292,7 +300,7 @@ export class MapComponent {
               map: this.map,
               icon: 'assets/common/img/iconCollege.svg', 
               label: {
-                text: college.collegeName || 'Unknown College', 
+                text: truncatedName || 'Unknown College', 
                 color: '#FFFFFF',
                 fontFamily: 'Inter',
                 fontWeight: 'bold',
@@ -302,10 +310,10 @@ export class MapComponent {
             // Create and add the marker
             const newMarker = new google.maps.Marker(markerOptions);
   
-            // Optional: Add a click listener for modal handling
-            //newMarker.addListener('click', () => {
-            //  this.markerClickHandler(college);
-          //  });
+         
+            newMarker.addListener('click', () => {
+              this.markerClickHandler();
+           });
           });
         }
       },
@@ -313,6 +321,10 @@ export class MapComponent {
         this.toastrService.error("Falha ao carregar as Faculdades", error.error);
       },
     });
+  }
+
+  markerClickHandler() {
+    console.log("Is was clicked")
   }
   
   
