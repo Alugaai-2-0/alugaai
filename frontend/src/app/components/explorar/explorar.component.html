@@ -21,9 +21,6 @@
   <p class="mx-auto">Cards failed to load</p>
   }
 
-
-  
-
   <section *ngIf="showMap" class="map-section mt-3 position-absolute">
     <div class="row justify-content-center">
       <app-map *ngIf="showMap" (returnButtonOutput)="toggleMap()"></app-map>
