@@ -36,6 +36,6 @@ export class PriceFilterComponent {
 
   formatLabel(value: number): string {
     this.currentValue = value;
-    return `${value}`;
+    return "R$" + `${value}`;
   }
 }
