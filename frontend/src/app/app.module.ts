@@ -33,6 +33,7 @@ import {MatChipsModule} from '@angular/material/chips';
 import { AutocompleteComponent } from './components/material/autocomplete/autocomplete.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AgeRangeComponent } from './components/material/age-range/age-range.component';
+import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
 
 
 
@@ -60,6 +61,7 @@ import { AgeRangeComponent } from './components/material/age-range/age-range.com
     MapComponent,
     AutocompleteComponent,
     AgeRangeComponent,
+    LoadingSpinnerComponent,
     
   ],
   imports: [
