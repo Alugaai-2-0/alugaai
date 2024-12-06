@@ -4,7 +4,6 @@
 }
 
 
-
 .button-map-wrapper {
     position: relative;
     width: fit-content;
@@ -16,7 +15,7 @@
     position: absolute;
     z-index: 2;
     display: flex;
-    gap: 2em;
+    gap: 1em;
 }
 
 ::ng-deep.mat-menu-panel {

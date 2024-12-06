@@ -324,14 +324,14 @@ export class MapComponent {
           this.markersProperties = response;
   
           
-          this.markersProperties.forEach((propertie) => {
+          this.markersProperties.forEach((property) => {
            
-            const lat = parseFloat(propertie.latitude); 
-            const lng = parseFloat(propertie.longitude); 
+            const lat = parseFloat(property.latitude); 
+            const lng = parseFloat(property.longitude); 
   
           
             if (isNaN(lat) || isNaN(lng)) {
-              console.warn('Invalid latitude or longitude for college:', propertie);
+              console.warn('Invalid latitude or longitude for college:', property);
               return;
             }
   
@@ -343,7 +343,7 @@ export class MapComponent {
               map: this.map,
               icon: 'assets/common/img/iconProperty.svg', 
               label: {
-                text: 'Propriedade', 
+                text: "R$ " + String(property.price), 
                 color: '#FFFFFF',
                 fontFamily: 'Inter',
                 fontWeight: 'bold',

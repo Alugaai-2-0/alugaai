@@ -8,5 +8,6 @@ export interface IPropertyResponse {
     latitude: string;
     longitude: string;
     ownerId: number;
+    price: number;
     propertyImagesIds: number[];
 }
