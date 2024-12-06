@@ -10,6 +10,7 @@ import { FilterService } from '../../services/filter.service';
 export class ExplorarComponent {
 
   showMap = false;
+  cardsFailedToLoad: Boolean = false;
 
   collegeService = inject(CollegeService);
   filterService = inject(FilterService);
@@ -24,6 +25,10 @@ export class ExplorarComponent {
 
   onButtonClick(){
     this.filterService.triggerButtonClick(); 
+  }
+
+  onFailedToLoad(){
+    this.cardsFailedToLoad = true;
   }
 
 

@@ -1,24 +1,28 @@
 <!-- Main container for the Explorar component -->
- 
-<div id="page-top" class="main-explorer-wrapper d-flex flex-column justify-content-center align-content-center gap-3"
-  >
 
-  <button class="filterbtn btn align-self-center shadow primary-text-color" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+<div id="page-top" class="main-explorer-wrapper d-flex flex-column justify-content-center align-content-center gap-3">
+
+  
+
+  @if(!cardsFailedToLoad){
+    <button class="filterbtn btn align-self-center shadow primary-text-color" data-bs-toggle="offcanvas"
+    href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#FD853A" class="bi bi-filter"
       viewBox="0 0 16 16">
       <path
         d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5" />
-    </svg>
-
-    Filtrar por</button>
-
-  <app-user-card></app-user-card>
-    <br>
-    <br>
-    <br>
+    </svg>Filtrar por</button>
+  <app-user-card class="mb-5" (failedToLoad)="onFailedToLoad()"></app-user-card>
   <button class="btn rounded-pill my-4 primary-button align-self-center" (click)="toggleMap()">
     <i class="fas fa-map-marker-alt me-2"></i>Ver mapa
   </button>
+  }
+  @else {
+  <p class="mx-auto">Cards failed to load</p>
+  }
+
+
+  
 
   <section *ngIf="showMap" class="map-section mt-3 position-absolute">
     <div class="row justify-content-center">
@@ -26,27 +30,27 @@
     </div>
   </section>
 
- <!--Offcanvas-->
+  <!--Offcanvas-->
 
 
-<div class="offcanvas offcanvas-start"  id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title primary-text-color" id="offcanvasExampleLabel"><b>Filtros</b></h5>
-    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div class="offcanvas-body">
-    <br>
-    <p class="mb-0 primary-text-color">Filtrar por idade máximas:</p>
-    <app-age-range></app-age-range>
-   
-    <!-- Filtrar por interesse-->
-    <p class="mb-0 primary-text-color">Filtrar interesses:</p>
+  <div class="offcanvas offcanvas-start" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title primary-text-color" id="offcanvasExampleLabel"><b>Filtros</b></h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <br>
+      <p class="mb-0 primary-text-color">Filtrar por idade máximas:</p>
+      <app-age-range></app-age-range>
+
+      <!-- Filtrar por interesse-->
+      <p class="mb-0 primary-text-color">Filtrar interesses:</p>
 
       <app-autocomplete></app-autocomplete>
       <button class="btn primary-button mx-auto w-100" (click)="onButtonClick()">Ativar Filtros</button>
-    
+
+    </div>
   </div>
-</div>
 
 
 </div>

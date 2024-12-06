@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, output } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { keyframes } from '@angular/animations';
 import { Subject, Subscription } from 'rxjs';
@@ -32,6 +32,8 @@ export class UserCardComponent implements OnInit, OnDestroy {
   parentSubject: Subject<string> = new Subject();
   readonly MAX_VISIBLE_CARDS = 3;
   currentIndex = 0;
+  failedToLoad = output();
+  
 
   //filter variables
   //I have to make another function so
@@ -48,13 +50,11 @@ export class UserCardComponent implements OnInit, OnDestroy {
       this.minAge = ageRange.min;
       this.maxAge = ageRange.max;
        // Fetch students with updated filters
-       
     });
 
     this.filterService.interesses$.subscribe((interests: string[]) => {
       this.interesses = interests;
        // Fetch students with updated filters
-      
     });
 
     // Initial fetch when the component is loaded
@@ -63,7 +63,6 @@ export class UserCardComponent implements OnInit, OnDestroy {
       this.loadFilteredStudents();
     });
 
-      this.loadFilteredStudents();
      
     this.parentSubject.subscribe((event) => {
       this.startAnimation(event);
@@ -88,6 +87,7 @@ export class UserCardComponent implements OnInit, OnDestroy {
   }
 
   loadFilteredStudents() {
+    
     // Call the studentService with updated filter values
     this.studentService.getStudents(this.minAge, this.maxAge, this.interesses).subscribe({
       next: (response) => {
@@ -97,7 +97,8 @@ export class UserCardComponent implements OnInit, OnDestroy {
         this.loadInitialCards(); // Assuming this method handles setting the initial visible cards
       },
       error: (error) => {
-        this.toastrService.error("Falha ao carregar os cards", error.error);;
+        this.toastrService.error("Falha ao carregar os cards", error.error);
+        this.failedToLoad.emit();
       }
     });
   }
