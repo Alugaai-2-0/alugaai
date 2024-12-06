@@ -11,6 +11,7 @@ public record StudentFeedResponseDTO(
         LocalDateTime birthDate,
         String description,
         ImageResponseDTO image,
+        String collegeName,
         Set<String> personalities
 ) {
 }
