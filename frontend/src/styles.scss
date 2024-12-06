@@ -48,6 +48,11 @@ $frontend-theme: mat.define-light-theme((color: (primary: $frontend-primary,
     z-index: 9999 !important;
 }
 
+::ng-deep.mat-menu-panel {
+    max-width: 200px !important;
+  }
+
+  
 //global styles
 .orange-text-color {
     color: $primary-color;

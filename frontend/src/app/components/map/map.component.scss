@@ -3,18 +3,24 @@
     width: 100%;
 }
 
+
+
 .button-map-wrapper {
     position: relative;
     width: fit-content;
     width: 100%;
+  
 }
 
-.return-button {
+.button-row{
     position: absolute;
-    top: 10px;
-    left: 20px;
     z-index: 2;
+    display: flex;
+    gap: 2em;
 }
+
+::ng-deep.mat-menu-panel {
+    max-width: 200px !important;
+  }
 
 //Button
-

@@ -54,6 +54,10 @@ export const routes: Routes = [
      component: NotAuthorizedComponent
   },
   { 
+    path: '**',
+     component: NotFoundComponent
+  },
+  { 
     path: 'autocomplete',
      component: AutocompleteComponent
   },

@@ -34,6 +34,8 @@ import { AutocompleteComponent } from './components/material/autocomplete/autoco
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AgeRangeComponent } from './components/material/age-range/age-range.component';
 import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
+import { PriceFilterComponent } from './components/material/price-filter/price-filter.component';
+import {MatMenuModule} from '@angular/material/menu';
 
 
 
@@ -62,6 +64,7 @@ import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinne
     AutocompleteComponent,
     AgeRangeComponent,
     LoadingSpinnerComponent,
+    PriceFilterComponent,
     
   ],
   imports: [
@@ -78,6 +81,7 @@ import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinne
     MatAutocompleteModule,
     MatChipsModule,
     MatFormFieldModule,
+    MatMenuModule
     
   ],
   providers: [
