@@ -37,6 +37,13 @@ $frontend-theme: mat.define-light-theme((color: (primary: $frontend-primary,
 @import 'ngx-toastr/toastr';
 @import 'assets/styles/variables.scss';
 
+//Mattooltips
+
+::ng-deep .mat-tooltip {
+    /* your own custom styles here */ 
+    /* e.g. */
+    color: yellow;
+}
 
 
 //Other styles
@@ -61,7 +68,6 @@ $frontend-theme: mat.define-light-theme((color: (primary: $frontend-primary,
     color: $primary-text-color;
 
 }
-
 
 
 .primary-text-weight {

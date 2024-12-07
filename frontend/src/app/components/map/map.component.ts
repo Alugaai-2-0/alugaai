@@ -277,25 +277,21 @@ export class MapComponent {
   }
 
   getColleges() {
-    
     this.collegeService.getColleges().subscribe({
       next: (response) => {
         if (response) {
           this.markersCollege = response;
   
-          
           this.markersCollege.forEach((college) => {
-           
-            const lat = parseFloat(college.latitude); 
-            const lng = parseFloat(college.longitude); 
+            const lat = parseFloat(college.latitude);
+            const lng = parseFloat(college.longitude);
   
-          
             if (isNaN(lat) || isNaN(lng)) {
               console.warn('Invalid latitude or longitude for college:', college);
               return;
             }
-
-            const truncatedName = this.truncateText(college.collegeName || 'Unknown College', 7); // Limit to 15 characters
+  
+            const truncatedName = this.truncateText(college.collegeName || 'Unknown College', 15);
   
             const markerOptions: google.maps.MarkerOptions = {
               position: {
@@ -303,22 +299,23 @@ export class MapComponent {
                 lng: lng,
               },
               map: this.map,
-              icon: 'assets/common/img/iconCollege.svg', 
+              icon: 'assets/common/img/iconCollege.svg',
               label: {
-                text: truncatedName || 'Unknown College', 
+                text: truncatedName,
                 color: '#FFFFFF',
                 fontFamily: 'Inter',
                 fontWeight: 'bold',
               },
+              title: college.collegeName || 'Unknown College', // Tooltip text on hover
             };
   
             // Create and add the marker
             const newMarker = new google.maps.Marker(markerOptions);
   
-         
+            // Optional: Add a click listener for modal handling
             newMarker.addListener('click', () => {
               this.markerClickHandler(college);
-           });
+            });
           });
         }
       },
@@ -327,6 +324,7 @@ export class MapComponent {
       },
     });
   }
+  
 
   markerClickHandler(property: IPropertyResponse | ICollegeResponse) {
     this.dialog.open(BadgeClickedComponent, {
