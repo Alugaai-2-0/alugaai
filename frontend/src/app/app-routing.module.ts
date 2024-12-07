@@ -54,10 +54,6 @@ export const routes: Routes = [
      component: NotAuthorizedComponent
   },
   { 
-    path: '**',
-     component: NotFoundComponent
-  },
-  { 
     path: 'autocomplete',
      component: AutocompleteComponent
   },
@@ -67,6 +63,11 @@ export const routes: Routes = [
     canActivate: [loggedGuard]
     
   },
+  { 
+    path: '**',
+     component: NotFoundComponent
+  },
+ 
 
 
 ];

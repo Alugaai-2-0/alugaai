@@ -317,7 +317,7 @@ export class MapComponent {
   
          
             newMarker.addListener('click', () => {
-              this.markerClickHandler();
+              this.markerClickHandler(college);
            });
           });
         }
@@ -328,10 +328,12 @@ export class MapComponent {
     });
   }
 
-  markerClickHandler() {
+  markerClickHandler(property: IPropertyResponse | ICollegeResponse) {
     this.dialog.open(BadgeClickedComponent, {
+      data: property,
       width: '500px',
     });
+    console.log("Property: ", property)
   }
   
   

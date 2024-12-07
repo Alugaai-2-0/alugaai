@@ -39,6 +39,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import { CollegeBadgeComponent } from './components/college-badge/college-badge.component';
 import { PropertyBadgeComponent } from './components/property-badge/property-badge.component';
 import { BadgeClickedComponent } from './components/badge-clicked/badge-clicked.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 
 
@@ -87,7 +88,8 @@ import { BadgeClickedComponent } from './components/badge-clicked/badge-clicked.
     MatAutocompleteModule,
     MatChipsModule,
     MatFormFieldModule,
-    MatMenuModule
+    MatMenuModule,
+    MatTooltipModule
     
   ],
   providers: [

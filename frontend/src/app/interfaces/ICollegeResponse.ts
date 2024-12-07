@@ -9,5 +9,4 @@ export interface ICollegeResponse {
     latitude: string;
     longitude: string;
     collegeImagesIds: number[];
-
 }
