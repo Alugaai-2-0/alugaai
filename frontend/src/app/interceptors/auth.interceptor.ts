@@ -13,7 +13,6 @@ export class AuthInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    // Pass the request through without any modifications
     return next.handle(req);
   }
 }

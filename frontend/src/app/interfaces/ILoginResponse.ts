@@ -5,7 +5,7 @@ export interface ILoginResponse{
     userName: string;
     phoneNumber: string;
     birthDate: Date;
-    gender: string; // or 'M' | 'F' if it's a male/female character
+    gender: string; 
     cpf: string;
     phoneNumberConfirmed: boolean;
     twoFactorEnabled: boolean;

@@ -10,7 +10,7 @@ export class PhoneMaskDirective {
   @HostListener('input', ['$event'])
   onInputChange(event: Event): void {
     const input = this.el.nativeElement as HTMLInputElement;
-    let value = input.value.replace(/\D/g, ''); // Remove all non-digit characters
+    let value = input.value.replace(/\D/g, ''); []
 
     if (value.length > 10) {
       value = value.replace(/^(\d{2})(\d{5})(\d{4}).*/, '($1) $2-$3');

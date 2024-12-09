@@ -18,12 +18,12 @@ export class AgeRangeComponent {
   ngOnInit() {
     // Subscribe to the button click event
     this.buttonClickSubscription = this.filterService.buttonClick$.subscribe(() => {
-      this.onButtonClick();  // Call the method when the button click event occurs
+      this.onButtonClick();  
     });
   }
 
   ngOnDestroy() {
-    // Clean up the subscription to prevent memory leaks
+   
     if (this.buttonClickSubscription) {
       this.buttonClickSubscription.unsubscribe();
     }
