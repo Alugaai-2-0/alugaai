@@ -71,6 +71,7 @@ public class PropertyService {
         property.setDistrict(result.localidade());
         property.setLatitude(result.latLong().getLatitude());
         property.setLongitude(result.latLong().getLongitude());
+        property.setPrice(request.address().price());
         property.setImages(new ArrayList<>());
         return property;
     }
