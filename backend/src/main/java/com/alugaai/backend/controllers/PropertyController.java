@@ -29,13 +29,17 @@ public class PropertyController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<PropertyResponseDTO>> findAll() {
-        return ResponseEntity.ok(propertyService.listAll());
+    public ResponseEntity<List<PropertyResponseDTO>> findAll(
+            @RequestParam(required = false) Double price
+            ) {
+        return ResponseEntity.ok(propertyService.listAll(price));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<PropertyDetailedResponseDTO> findById(@PathVariable Integer id) {
         return ResponseEntity.ok(propertyService.findById(id));
     }
+
+
 
 }

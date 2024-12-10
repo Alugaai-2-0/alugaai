@@ -10,9 +10,11 @@ import com.alugaai.backend.dtos.property.PropertyRequestDTO;
 import com.alugaai.backend.dtos.property.PropertyResponseDTO;
 import com.alugaai.backend.models.*;
 import com.alugaai.backend.repositories.PropertyRepository;
+import com.alugaai.backend.repositories.specification.PropertySpecifications;
 import com.alugaai.backend.services.errors.CustomException;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.alugaai.backend.repositories.specification.StudentSpecifications.hasRole;
 
 @Service
 @RequiredArgsConstructor
@@ -41,8 +45,11 @@ public class PropertyService {
     }
 
     @Transactional(readOnly = true)
-    public List<PropertyResponseDTO> listAll() {
-        return propertyRepository.findAll().stream()
+    public List<PropertyResponseDTO> listAll(Double maxPrice) {
+
+        Specification<Property> spec = Specification.where(PropertySpecifications.maxPrice(maxPrice));
+
+        return propertyRepository.findAll(spec).stream()
                 .map(property -> PropertyMapper.topropertyResponseDTO(
                         property,
                         property.getImages().stream()
