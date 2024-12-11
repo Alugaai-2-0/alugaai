@@ -23,7 +23,6 @@ export class PriceFilterComponent {
   }
 
   onMouseUp() {
-    console.log(this.currentValue);
     this.filterService.updatePriceRange(this.currentValue);
   }
 

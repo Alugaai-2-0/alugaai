@@ -25,7 +25,7 @@ import { FilterService } from '../../services/filter.service';
   templateUrl: './map.component.html',
   styleUrl: './map.component.scss',
 })
-export class MapComponent {
+export class MapComponent implements OnInit {
   returnButtonOutput = output();
 
   lat = -23.4709;
@@ -43,6 +43,7 @@ export class MapComponent {
     private dialog: MatDialog,
     private filterService: FilterService
   ) {}
+  
 
   private priceUpdateSubscription!: Subscription;
 
@@ -51,29 +52,30 @@ export class MapComponent {
 
   map?: google.maps.Map;
 
+  ngOnInit(): void {
+    
+  }
+
   ngAfterViewInit(): void {
+    this.priceUpdateSubscription = this.filterService.price$.subscribe(
+      (price: number) => {
+        this.price = price;
+        this.mapInitializer();
+       
+      }
+    );
     this.googleMapsLoader
       .load()
       .then(() => {
         this.mapInitializer();
 
-        this.priceUpdateSubscription = this.filterService.price$.subscribe(
-          (price: number) => {
-
-            this.price = price;
-            this.priceUpdate(price);
-            // Call the method when the button click event occurs
-          }
-        );
+       
       })
       .catch((error) => {
         console.error('Google Maps failed to load:', error);
       });
   }
 
-  priceUpdate(price: number) {
-    this.getProperties(price);
-  }
 
   mapInitializer() {
     const coordinates = new google.maps.LatLng(this.lat, this.lng);
@@ -284,7 +286,7 @@ export class MapComponent {
       );
     }
     this.getColleges();
-    this.getProperties();
+    this.getProperties(this.price);
   }
 
   onReturnButtonClick() {
@@ -365,6 +367,7 @@ export class MapComponent {
   }
 
   getProperties(price?:number) {
+    
     this.propertyService.getProperties(price).subscribe({
       next: (response) => {
         if (response) {
