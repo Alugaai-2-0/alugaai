@@ -1,4 +1,3 @@
-
 import {
   AfterViewInit,
   Component,
@@ -19,28 +18,33 @@ import { IPropertyResponse } from '../../interfaces/IPropertyResponse';
 import { ToastrService } from 'ngx-toastr';
 import { BadgeClickedComponent } from '../badge-clicked/badge-clicked.component';
 import { MatDialog } from '@angular/material/dialog';
+import { FilterService } from '../../services/filter.service';
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
-  styleUrl: './map.component.scss'
+  styleUrl: './map.component.scss',
 })
 export class MapComponent {
-
   returnButtonOutput = output();
 
   lat = -23.4709;
   lng = -47.4851;
-  markersCollege!: ICollegeResponse[]; 
+  markersCollege!: ICollegeResponse[];
   markersProperties!: IPropertyResponse[];
 
-  constructor(private googleMapsLoader: GoogleMapsLoaderService, 
-    private collegeService: CollegeService, 
-    private propertyService: PropertyService, 
-    private toastrService: ToastrService,
-    private dialog: MatDialog,) {}
+  price!: number;
 
-  
+  constructor(
+    private googleMapsLoader: GoogleMapsLoaderService,
+    private collegeService: CollegeService,
+    private propertyService: PropertyService,
+    private toastrService: ToastrService,
+    private dialog: MatDialog,
+    private filterService: FilterService
+  ) {}
+
+  private priceUpdateSubscription!: Subscription;
 
   title = 'angular-gmap';
   @ViewChild('gmapContainer', { static: false }) mapContainer?: ElementRef;
@@ -48,12 +52,27 @@ export class MapComponent {
   map?: google.maps.Map;
 
   ngAfterViewInit(): void {
-    this.googleMapsLoader.load().then(() => {
-      this.mapInitializer();
-    }).catch(error => {
-      console.error('Google Maps failed to load:', error);
-    });
-    
+    this.googleMapsLoader
+      .load()
+      .then(() => {
+        this.mapInitializer();
+
+        this.priceUpdateSubscription = this.filterService.price$.subscribe(
+          (price: number) => {
+
+            this.price = price;
+            this.priceUpdate(price);
+            // Call the method when the button click event occurs
+          }
+        );
+      })
+      .catch((error) => {
+        console.error('Google Maps failed to load:', error);
+      });
+  }
+
+  priceUpdate(price: number) {
+    this.getProperties(price);
   }
 
   mapInitializer() {
@@ -259,13 +278,16 @@ export class MapComponent {
     };
 
     if (this.mapContainer) {
-      this.map = new google.maps.Map(this.mapContainer.nativeElement, mapOptions);
+      this.map = new google.maps.Map(
+        this.mapContainer.nativeElement,
+        mapOptions
+      );
     }
     this.getColleges();
     this.getProperties();
   }
 
-  onReturnButtonClick(){
+  onReturnButtonClick() {
     this.returnButtonOutput.emit();
   }
 
@@ -281,18 +303,24 @@ export class MapComponent {
       next: (response) => {
         if (response) {
           this.markersCollege = response;
-  
+
           this.markersCollege.forEach((college) => {
             const lat = parseFloat(college.latitude);
             const lng = parseFloat(college.longitude);
-  
+
             if (isNaN(lat) || isNaN(lng)) {
-              console.warn('Invalid latitude or longitude for college:', college);
+              console.warn(
+                'Invalid latitude or longitude for college:',
+                college
+              );
               return;
             }
-  
-            const truncatedName = this.truncateText(college.collegeName || 'Unknown College', 15);
-  
+
+            const truncatedName = this.truncateText(
+              college.collegeName || 'Unknown College',
+              15
+            );
+
             const markerOptions: google.maps.MarkerOptions = {
               position: {
                 lat: lat,
@@ -308,10 +336,10 @@ export class MapComponent {
               },
               title: college.collegeName || 'Unknown College', // Tooltip text on hover
             };
-  
+
             // Create and add the marker
             const newMarker = new google.maps.Marker(markerOptions);
-  
+
             // Optional: Add a click listener for modal handling
             newMarker.addListener('click', () => {
               this.markerClickHandler(college);
@@ -320,71 +348,71 @@ export class MapComponent {
         }
       },
       error: (error) => {
-        this.toastrService.error("Falha ao carregar as Faculdades", error.error);
+        this.toastrService.error(
+          'Falha ao carregar as Faculdades',
+          error.error
+        );
       },
     });
   }
-  
 
   markerClickHandler(property: IPropertyResponse | ICollegeResponse) {
     this.dialog.open(BadgeClickedComponent, {
       data: property,
       width: '500px',
     });
-    console.log("Property: ", property)
+    console.log('Property: ', property);
   }
-  
-  
 
-  getProperties() {
-    this.propertyService.getProperties().subscribe({
+  getProperties(price?:number) {
+    this.propertyService.getProperties(price).subscribe({
       next: (response) => {
         if (response) {
           this.markersProperties = response;
-  
-          
+
           this.markersProperties.forEach((property) => {
-           
-            const lat = parseFloat(property.latitude); 
-            const lng = parseFloat(property.longitude); 
-  
-          
+            const lat = parseFloat(property.latitude);
+            const lng = parseFloat(property.longitude);
+
             if (isNaN(lat) || isNaN(lng)) {
-              console.warn('Invalid latitude or longitude for college:', property);
+              console.warn(
+                'Invalid latitude or longitude for college:',
+                property
+              );
               return;
             }
-  
+
             const markerOptions: google.maps.MarkerOptions = {
               position: {
                 lat: lat,
                 lng: lng,
               },
               map: this.map,
-              icon: 'assets/common/img/iconProperty.svg', 
+              icon: 'assets/common/img/iconProperty.svg',
               label: {
-                text: "R$ " + String(property.price), 
+                text: 'R$ ' + String(property.price),
                 color: '#FFFFFF',
                 fontFamily: 'Inter',
                 fontWeight: 'bold',
               },
             };
-  
+
             // Create and add the marker
             const newMarker = new google.maps.Marker(markerOptions);
-  
+
             // Optional: Add a click listener for modal handling
             //newMarker.addListener('click', () => {
             //  this.markerClickHandler(college);
-          //  });
+            //  });
           });
         }
       },
       error: (error) => {
-        this.toastrService.error("Falha ao carregar as Propriedades", error.error);;
+        this.toastrService.error(
+          'Falha ao carregar as Propriedades',
+          error.error
+        );
       },
     });
   }
-  
-
-
 }

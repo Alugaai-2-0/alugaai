@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../enviroment/enviroment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { IPropertyResponse } from '../interfaces/IPropertyResponse';
 import { IPropertyDetailedResponse } from '../interfaces/IPropertyDetailedResponse';
 
@@ -11,11 +11,15 @@ export class PropertyService {
 
   baseUrl: string = environment.apiUrl;
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient) {
   }
 
-  getProperties() {
-    return this.http.get<IPropertyResponse[]>(this.baseUrl + 'property');
+  getProperties(price?: number) {
+    let params = new HttpParams();
+    if(price){
+      params = params.append('price', price );
+    }
+    return this.http.get<IPropertyResponse[]>(this.baseUrl + 'property', {params});
   }
 
   findPropertyDetailsById(id: number){

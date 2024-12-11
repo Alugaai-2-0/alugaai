@@ -1,6 +1,13 @@
 <div class="filter-wrapper p-2" (click)="$event.stopPropagation()">
-    <p>Preço máximo:</p>
-    <mat-slider min="0" max="3000" step="50"  discrete [displayWith]="formatLabel">
-        <input matSliderThumb [(ngModel)]="value">
-      </mat-slider>
+  <p>Preço máximo:</p>
+  <mat-slider
+    min="0"
+    max="3000"
+    step="50"
+    discrete
+    [displayWith]="formatLabel"
+    (mouseup)="onMouseUp()"
+  >
+    <input matSliderThumb [(ngModel)]="currentValue" />
+  </mat-slider>
 </div>

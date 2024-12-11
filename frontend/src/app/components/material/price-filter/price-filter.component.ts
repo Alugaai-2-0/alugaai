@@ -5,25 +5,29 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-price-filter',
   templateUrl: './price-filter.component.html',
-  styleUrl: './price-filter.component.scss'
+  styleUrl: './price-filter.component.scss',
 })
 export class PriceFilterComponent {
   currentValue!: number;
   value = 100;
   private buttonClickSubscription!: Subscription;
-  
 
-  constructor(private filterService: FilterService){}
+  constructor(private filterService: FilterService) {}
 
   ngOnInit() {
-    
-    this.buttonClickSubscription = this.filterService.buttonClick$.subscribe(() => {
-      this.onButtonClick(); 
-    });
+    this.buttonClickSubscription = this.filterService.buttonClick$.subscribe(
+      () => {
+        this.onButtonClick();
+      }
+    );
+  }
+
+  onMouseUp() {
+    console.log(this.currentValue);
+    this.filterService.updatePriceRange(this.currentValue);
   }
 
   ngOnDestroy() {
- 
     if (this.buttonClickSubscription) {
       this.buttonClickSubscription.unsubscribe();
     }
@@ -33,9 +37,8 @@ export class PriceFilterComponent {
     this.filterService.updateAgeRange(18, this.value);
   }
 
-
   formatLabel(value: number): string {
     this.currentValue = value;
-    return "R$" + `${value}`;
+    return 'R$' + `${value}`;
   }
 }
