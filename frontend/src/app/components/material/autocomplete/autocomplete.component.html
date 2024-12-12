@@ -1,23 +1,23 @@
 <form>
-    <mat-form-field class="example-chip-list">
-      <mat-label style="font-size: 20px">Filtrar por interesses</mat-label>
-      <mat-chip-grid #chipGrid aria-label="interesse selection">
-        @for (interesse of interesses; track interesse) {
-        <mat-chip-row *ngIf="interesse && interesse.trim() != ''" class="teste" (removed)="remove(interesse)">
-          {{ interesse }}
-          <button matChipRemove [attr.aria-label]="'remove ' + interesse">
-            <mat-icon class="white">cancel</mat-icon>
-          </button>
-        </mat-chip-row>
-        }
-      </mat-chip-grid>
-      <input placeholder="Adicione os interesses que você deseja" #interesseInput [formControl]="interesseCtrl" [matChipInputFor]="chipGrid"
-        [matAutocomplete]="auto" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-        (matChipInputTokenEnd)="add($event)" />
-      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-        @for (interesse of filteredInteresses | async; track interesse) {
-        <mat-option [value]="interesse">{{ interesse }}</mat-option>
-        }
-      </mat-autocomplete>
-    </mat-form-field>
-  </form>
+  <mat-form-field class="example-chip-list">
+    <mat-label style="font-size: 20px">Filtrar por interesses</mat-label>
+    <mat-chip-grid #chipGrid aria-label="interesse selection">
+      @for (interesse of interesses; track interesse) {
+      <mat-chip-row *ngIf="interesse && interesse.trim() != ''" class="teste" (removed)="remove(interesse)">
+        {{ interesse }}
+        <button matChipRemove [attr.aria-label]="'remove ' + interesse">
+          <mat-icon class="white">cancel</mat-icon>
+        </button>
+      </mat-chip-row>
+      }
+    </mat-chip-grid>
+    <input placeholder="Adicione os interesses que você deseja" #interesseInput [formControl]="interesseCtrl"
+      [matChipInputFor]="chipGrid" [matAutocomplete]="auto" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+      (matChipInputTokenEnd)="add($event)" />
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+      @for (interesse of filteredInteresses | async; track interesse) {
+      <mat-option [value]="interesse">{{ interesse }}</mat-option>
+      }
+    </mat-autocomplete>
+  </mat-form-field>
+</form>

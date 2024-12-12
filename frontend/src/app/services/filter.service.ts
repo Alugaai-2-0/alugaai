@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, combineLatest, debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 
@@ -11,19 +11,16 @@ export class FilterService {
   private interestsSubject = new BehaviorSubject<string[]>([]);
   private buttonClickSubject = new Subject<void>();
   private filtersUpdatedSubject = new Subject<void>();
-
   private priceUpdateSubject = new Subject<number>();
 
   ageRange$ = this.ageRangeSubject.asObservable();
-
   price$ = this.priceUpdateSubject.asObservable();
   interesses$ = this.interestsSubject.asObservable();
   buttonClick$ = this.buttonClickSubject.asObservable();
-
   filtersUpdated$ = this.filtersUpdatedSubject.asObservable();
 
-  constructor() { }
 
+  constructor() { }
   updateAgeRange(min: number, max: number) {
     this.ageRangeSubject.next({ min, max });
     this.notifyFiltersUpdated();

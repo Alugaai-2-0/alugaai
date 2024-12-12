@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ICollegeResponse } from '../../interfaces/ICollegeResponse';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { SourceTextModule } from 'vm';
 
 @Component({
   selector: 'app-college-badge',
@@ -9,9 +8,7 @@ import { SourceTextModule } from 'vm';
   styleUrl: './college-badge.component.scss'
 })
 export class CollegeBadgeComponent implements OnInit {
-  constructor(private sanitizer: DomSanitizer) {}
-
- 
+  constructor(private sanitizer: DomSanitizer) { }
 
   @Input() building?: ICollegeResponse;
   buildingImages: SafeUrl[] = [];
@@ -20,16 +17,15 @@ export class CollegeBadgeComponent implements OnInit {
   ngOnInit(): void {
     console.log("Building: ", this.building)
   }
-  
 
- // startImage() {
+  // startImage() {
   //  if (this.building?.collegeImagesIds) {
-   //   let images = this.building.collegeImagesIds;
-   //   images.forEach((image) => {
-    //    this.buildingImages.push(
-    //      this.sanitizer.bypassSecurityTrustUrl(this.base64 + image.imageData64)
-    //    );
+  //   let images = this.building.collegeImagesIds;
+  //   images.forEach((image) => {
+  //    this.buildingImages.push(
+  //      this.sanitizer.bypassSecurityTrustUrl(this.base64 + image.imageData64)
+  //    );
   //    });
- //   }
- // }
+  //   }
+  // }
 }

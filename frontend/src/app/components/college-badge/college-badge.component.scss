@@ -1,20 +1,23 @@
 $grey-color: #667085;
 $base-color: #344054;
-h1{
+
+h1 {
     margin: 0;
 }
-.base-color{
+
+.base-color {
     color: $base-color;
 }
-.grey-color{
+
+.grey-color {
     color: $grey-color;
 }
 
-a{
+a {
     text-decoration: none;
 }
 
-.wrapper{
+.wrapper {
     width: 500px;
     min-height: 227px;
     height: auto;
@@ -22,7 +25,7 @@ a{
     border-radius: 4px;
 }
 
-.img-property-container{
+.img-property-container {
     display: flex;
     flex-direction: row; // Alinha as imagens horizontalmente
     overflow-x: auto; // Adiciona barra de rolagem horizontal
@@ -30,40 +33,45 @@ a{
 }
 
 .img-property {
-  height: 200px;
-  width: 200px;
+    height: 200px;
+    width: 200px;
 }
 
 
 //flex
-.top-row{
+.top-row {
     width: 100%;
     display: flex;
 }
-.inside-row-holder{
+
+.inside-row-holder {
     width: 100%;
     margin-left: 20px;
     display: flex;
     flex-direction: column;
 }
-.first-row{
+
+.first-row {
     display: flex;
     justify-content: space-between;
     border-bottom: 0.5px solid #F2F4F7;
 }
-.first-row *{
+
+.first-row * {
     margin: 0;
 
 }
 
-.user-information{
+.user-information {
     display: flex;
     gap: 5px;
 }
-.float-right{
+
+.float-right {
     float: right;
 }
-.chip-button-wrapper{
+
+.chip-button-wrapper {
     display: flex;
     flex-direction: column;
 }

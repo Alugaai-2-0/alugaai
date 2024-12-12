@@ -42,8 +42,8 @@ export class MapComponent implements OnInit {
     private toastrService: ToastrService,
     private dialog: MatDialog,
     private filterService: FilterService
-  ) {}
-  
+  ) { }
+
 
   private priceUpdateSubscription!: Subscription;
 
@@ -53,7 +53,7 @@ export class MapComponent implements OnInit {
   map?: google.maps.Map;
 
   ngOnInit(): void {
-    
+
   }
 
   ngAfterViewInit(): void {
@@ -61,7 +61,7 @@ export class MapComponent implements OnInit {
       (price: number) => {
         this.price = price;
         this.mapInitializer();
-       
+
       }
     );
     this.googleMapsLoader
@@ -69,7 +69,7 @@ export class MapComponent implements OnInit {
       .then(() => {
         this.mapInitializer();
 
-       
+
       })
       .catch((error) => {
         console.error('Google Maps failed to load:', error);
@@ -366,8 +366,8 @@ export class MapComponent implements OnInit {
     console.log('Property: ', property);
   }
 
-  getProperties(price?:number) {
-    
+  getProperties(price?: number) {
+
     this.propertyService.getProperties(price).subscribe({
       next: (response) => {
         if (response) {
