@@ -6,14 +6,17 @@ import com.alugaai.backend.services.errors.CustomException;
 import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import lombok.AllArgsConstructor;
+import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.NoSuchElementException;
 
-@RestController
+@Component
 @Path("/image")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
@@ -23,21 +26,24 @@ public class ImageResource {
     private final ImageService imageService;
 
     @POST
-    public ResponseEntity<ImageResponseDTO> post(@RequestParam("file") MultipartFile file) {
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response post(@FormDataParam("file") MultipartFile file) {
         try {
-            return ResponseEntity.ok(imageService.post(file));
+            ImageResponseDTO response = imageService.post(file);
+            return Response.ok(response).build();
         } catch (Exception e) {
-            throw new CustomException(e.getMessage(), 400, null);
+            return Response.status(400).entity(e.getMessage()).build();
         }
     }
 
     @GET
     @Path("{id}")
-    public ResponseEntity<ImageResponseDTO> getById(@PathParam("id") @NotNull Integer id) {
+    public Response getById(@PathParam("id") @NotNull Integer id) {
         try {
-            return ResponseEntity.ok(imageService.getById(id));
+            ImageResponseDTO response = imageService.getById(id);
+            return Response.ok(response).build();
         } catch (NoSuchElementException e) {
-            throw new CustomException(e.getMessage(), 400, null);
+            return Response.status(404).entity(e.getMessage()).build();
         }
     }
 

@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -19,6 +20,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity(jsr250Enabled = true)
 public class SecurityConfig {
 
     @Bean
@@ -35,15 +37,15 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authz -> authz
+                        .requestMatchers("/api/**").permitAll()
                         .requestMatchers("/auth/register/**", "/auth/login/**", "/swagger-ui.html", "/swagger-ui/**",
                                 "/v3/api-docs/**", "/student/get-all/**").permitAll()
-                        .requestMatchers("/admin/**", "/college/**", "/property/**").permitAll() //added permit all
-                        .requestMatchers("/owner/**", "/cep/**").permitAll() //.hasAnyRole("OWNER", "ADMIN")
-                        .requestMatchers("/student/**").permitAll() //.hasAnyRole("STUDENT", "ADMIN")
-                        .requestMatchers("/college/**", "/image/**").permitAll() //added permit all
+                        .requestMatchers("/admin/**", "/college/**", "/property/**").permitAll()
+                        .requestMatchers("/owner/**", "/cep/**").permitAll()
+                        .requestMatchers("/student/**").permitAll()
+                        .requestMatchers("/college/**", "/image/**").permitAll()
                         .anyRequest().authenticated()
                 )
-
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

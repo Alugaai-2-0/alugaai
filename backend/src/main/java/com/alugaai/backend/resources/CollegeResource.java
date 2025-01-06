@@ -4,16 +4,20 @@ import com.alugaai.backend.dtos.college.CollegeRequestDTO;
 import com.alugaai.backend.dtos.college.CollegeResponseDTO;
 import com.alugaai.backend.services.CollegeService;
 import com.alugaai.backend.services.errors.CustomException;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Component
 @Path("/college")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
@@ -23,20 +27,27 @@ public class CollegeResource {
     private final CollegeService collegeService;
 
     @POST
-    public ResponseEntity<CollegeResponseDTO> post(@RequestBody CollegeRequestDTO request) {
+    @RolesAllowed({"ADMIN"})
+    public Response post(CollegeRequestDTO request) {
         try {
-            return ResponseEntity.ok(collegeService.post(request));
+            CollegeResponseDTO response = collegeService.post(request);
+            return Response.ok(response).build();
         } catch (Exception e) {
-            throw new CustomException(e.getMessage(), HttpStatus.BAD_REQUEST.value(), null);
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(e.getMessage())
+                    .build();
         }
-    };
+    }
 
     @GET
-    public ResponseEntity<List<CollegeResponseDTO>> getAll() {
+    public Response getAll() {
         try {
-            return ResponseEntity.ok(collegeService.listAll());
+            List<CollegeResponseDTO> colleges = collegeService.listAll();
+            return Response.ok(colleges).build();
         } catch (Exception e) {
-            throw new CustomException(e.getMessage(), HttpStatus.BAD_REQUEST.value(), null);
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(e.getMessage())
+                    .build();
         }
     }
 
