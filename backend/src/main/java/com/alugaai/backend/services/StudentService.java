@@ -5,6 +5,7 @@ import com.alugaai.backend.dtos.student.StudentFeedResponseDTO;
 import com.alugaai.backend.models.Role;
 import com.alugaai.backend.models.Student;
 import com.alugaai.backend.repositories.UserRepository;
+import com.alugaai.backend.security.SecurityService;
 import com.alugaai.backend.services.errors.CustomException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
@@ -26,8 +27,10 @@ public class StudentService {
 
     private final UserRepository userRepository;
 
+    private final UserService userService;
+
     @Transactional
-    public void addPersonalities(Set<String> personalities, Integer id) {
+    public void addPersonalities(Set<String> personalities) {
         if (personalities == null || personalities.isEmpty()) {
             throw new CustomException(
                     "Personalities set cannot be null or empty",
@@ -36,9 +39,7 @@ public class StudentService {
             );
         }
 
-        var user = userRepository.findById(id)
-                .orElseThrow(() -> new CustomException("User not found with id: " + id,
-                        null, HttpStatus.BAD_REQUEST.value()));
+        var user = userService.getCurrentUser();
 
         if (!(user instanceof Student)) {
             throw new CustomException(
