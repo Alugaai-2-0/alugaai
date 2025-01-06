@@ -1,4 +1,4 @@
-package com.alugaai.backend.controllers;
+package com.alugaai.backend.resources;
 
 import com.alugaai.backend.dtos.auth.LoginRequestDTO;
 import com.alugaai.backend.dtos.auth.LoginResponseDTO;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 @AllArgsConstructor
-public class AuthController {
+public class AuthResource {
 
     private final UserService userService;
     private final SecurityService jwtSecurity;

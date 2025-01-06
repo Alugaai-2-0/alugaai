@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: backend
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+    enabled: true
+  datasource:
+    url: jdbc:postgresql://db:5432/alugaaidb
+    # jdbc:postgresql://localhost:5433/postgres
+    username: postgres
+    password: pedraomasculodecalcinharosa
+
+jwt:
+  secret: 8Ff93GcOBjEq6nXJ42ZY6Uz4nX7L6GyHECifWQEVdTq4UMM6lZmYMIhWDO25ocP9bO6ziWW6GE18fgV7A8PsoQ==
+  expiration: 86400000
+
+geocode:
+  api:
+    key: AIzaSyC8YnM2erJgoRgGuOpC2QQHPrexhOX09-w
+
+jpa:
+  hibernate:
+    ddl-auto: none
+  properties:
+    hibernate:
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+  jersey:
+    type: filter
+    application-path: /
+
+logging:
+  level:
+    liquibase: DEBUG
+    org.springframework: INFO

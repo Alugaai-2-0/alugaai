@@ -1,11 +1,8 @@
-package com.alugaai.backend.controllers;
+package com.alugaai.backend.resources;
 
 
 import com.alugaai.backend.dtos.student.StudentFeedResponseDTO;
 import com.alugaai.backend.services.StudentService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import jakarta.validation.constraints.Min;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import lombok.AllArgsConstructor;
@@ -20,7 +17,7 @@ import java.util.Set;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 @AllArgsConstructor
-public class StudentController {
+public class StudentResource {
 
     private final StudentService studentService;
 

@@ -1,4 +1,4 @@
-package com.alugaai.backend.controllers;
+package com.alugaai.backend.resources;
 
 import com.alugaai.backend.dtos.property.PropertyDetailedResponseDTO;
 import com.alugaai.backend.dtos.property.PropertyRequestDTO;
@@ -9,7 +9,6 @@ import com.alugaai.backend.services.UserService;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +19,7 @@ import java.util.List;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 @AllArgsConstructor
-public class PropertyController {
+public class PropertyResource {
 
     private final UserService userService;
     private final PropertyService propertyService;

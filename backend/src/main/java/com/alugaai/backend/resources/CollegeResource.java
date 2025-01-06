@@ -1,12 +1,9 @@
-package com.alugaai.backend.controllers;
+package com.alugaai.backend.resources;
 
-import com.alugaai.backend.dtos.api.ViaCepResponseDTO;
 import com.alugaai.backend.dtos.college.CollegeRequestDTO;
 import com.alugaai.backend.dtos.college.CollegeResponseDTO;
 import com.alugaai.backend.services.CollegeService;
-import com.alugaai.backend.services.ViaCepService;
 import com.alugaai.backend.services.errors.CustomException;
-import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import lombok.AllArgsConstructor;
@@ -21,7 +18,7 @@ import java.util.List;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 @AllArgsConstructor
-public class CollegeController {
+public class CollegeResource {
 
     private final CollegeService collegeService;
 
