@@ -7,6 +7,8 @@ import com.alugaai.backend.services.CollegeService;
 import com.alugaai.backend.services.ViaCepService;
 import com.alugaai.backend.services.errors.CustomException;
 import jakarta.validation.constraints.NotNull;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,13 +17,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/college")
+@Path("/college")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 @AllArgsConstructor
 public class CollegeController {
 
     private final CollegeService collegeService;
 
-    @PostMapping()
+    @POST
     public ResponseEntity<CollegeResponseDTO> post(@RequestBody CollegeRequestDTO request) {
         try {
             return ResponseEntity.ok(collegeService.post(request));
@@ -30,7 +34,7 @@ public class CollegeController {
         }
     };
 
-    @GetMapping()
+    @GET
     public ResponseEntity<List<CollegeResponseDTO>> getAll() {
         try {
             return ResponseEntity.ok(collegeService.listAll());

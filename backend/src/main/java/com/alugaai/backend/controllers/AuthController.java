@@ -12,13 +12,17 @@ import com.alugaai.backend.models.User;
 import com.alugaai.backend.security.SecurityService;
 import com.alugaai.backend.services.UserService;
 import com.alugaai.backend.services.errors.CustomException;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/auth")
+@Path("/auth")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 @AllArgsConstructor
 public class AuthController {
 
@@ -26,8 +30,9 @@ public class AuthController {
     private final SecurityService jwtSecurity;
 
     // we need to pass the role to PathVariable equals ROLE_STUDENT | ROLE_OWNER
-    @PostMapping("/register/{role}")
-    public ResponseEntity<UserRegisterRequestDTO> registerUser(@PathVariable String role, @RequestBody UserRegisterRequestDTO dto) throws CustomException {
+    @POST
+    @Path("/register/{role}")
+    public ResponseEntity<UserRegisterRequestDTO> registerUser(@PathParam("role") String role, @RequestBody UserRegisterRequestDTO dto) throws CustomException {
 
         User savedUser;
 
@@ -44,7 +49,8 @@ public class AuthController {
         return ResponseEntity.ok(UserMapper.toDTO(savedUser));
     }
 
-    @PostMapping("/login")
+    @POST
+    @Path("/login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO loginRequest) {
         try {
             User authenticatedUser = userService.authenticateUser(loginRequest.identifier(), loginRequest.password());

@@ -35,6 +35,6 @@ public class Building {
 
     private @NotNull String longitude;
 
-    @OneToMany(mappedBy = "building", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "building", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private @NotNull List<Image> images = new ArrayList<>();
 }

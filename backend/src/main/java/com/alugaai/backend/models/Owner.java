@@ -1,9 +1,6 @@
 package com.alugaai.backend.models;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @DiscriminatorValue("OWNER")
 public class Owner extends User {
-    @OneToMany(mappedBy = "owner", orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "owner", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Property> properties = new ArrayList<>();
 
     public Owner(LocalDateTime birthDate, LocalDateTime createdDate, Character gender, String userName, String email,

@@ -27,7 +27,7 @@ public class Notification {
 
     private @NotNull Boolean isRead = false;
 
-    @ManyToMany(mappedBy = "notifications")
+    @ManyToMany(mappedBy = "notifications", fetch = FetchType.LAZY)
     private @NotNull Set<User> users = new HashSet<>();
 
 }

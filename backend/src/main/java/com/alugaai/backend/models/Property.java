@@ -13,7 +13,7 @@ import java.util.Set;
 @DiscriminatorValue("PROPERTY")
 public class Property extends Building {
 
-    @ManyToOne
+    @ManyToOne(optional = true)
     @JoinColumn(name = "owner_id", nullable = false)
     private Owner owner;
 

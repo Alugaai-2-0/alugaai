@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS buildings
     latitude VARCHAR(255) NOT NULL,
     longitude VARCHAR(255) NOT NULL,
     discriminator VARCHAR(50),  -- Campo para diferenciar entre College e Property
-    owner_id INT,
+    owner_id INT NULL,
     FOREIGN KEY (owner_id) REFERENCES users(id)
 );
 

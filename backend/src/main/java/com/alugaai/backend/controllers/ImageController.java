@@ -16,7 +16,8 @@ import com.alugaai.backend.services.ImageService;
 import com.alugaai.backend.services.UserService;
 import com.alugaai.backend.services.errors.CustomException;
 import jakarta.validation.constraints.NotNull;
-import jakarta.websocket.server.PathParam;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,13 +27,15 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.NoSuchElementException;
 
 @RestController
-@RequestMapping("/image")
+@Path("/image")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 @AllArgsConstructor
 public class ImageController {
 
     private final ImageService imageService;
 
-    @PostMapping
+    @POST
     public ResponseEntity<ImageResponseDTO> post(@RequestParam("file") MultipartFile file) {
         try {
             return ResponseEntity.ok(imageService.post(file));
@@ -41,8 +44,9 @@ public class ImageController {
         }
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ImageResponseDTO> getById(@PathVariable @NotNull Integer id) {
+    @GET
+    @Path("{id}")
+    public ResponseEntity<ImageResponseDTO> getById(@PathParam("id") @NotNull Integer id) {
         try {
             return ResponseEntity.ok(imageService.getById(id));
         } catch (NoSuchElementException e) {

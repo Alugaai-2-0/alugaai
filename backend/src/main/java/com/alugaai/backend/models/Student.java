@@ -29,7 +29,7 @@ public class Student extends User {
     @Column(name = "personality")
     private Set<String> personalities = new HashSet<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "students_connections",
             joinColumns = @JoinColumn(name = "student_id"),
@@ -41,7 +41,7 @@ public class Student extends User {
     @JoinColumn(name = "college_principal_id", nullable = true)
     private College principalCollege;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinTable(
             name = "students_seconds_colleges",
             joinColumns = @JoinColumn(name = "student_id"),
@@ -49,7 +49,7 @@ public class Student extends User {
     )
     private Set<College> secondsColleges;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinTable(
             name = "students_properties_likes",
             joinColumns = @JoinColumn(name = "student_id"),

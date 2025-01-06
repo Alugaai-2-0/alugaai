@@ -18,9 +18,9 @@ public class College extends Building {
 
     private @NotNull String collegeName;
 
-    @OneToMany(mappedBy = "principalCollege", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "principalCollege", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Student> principalStudents = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "secondsColleges")
+    @ManyToMany(mappedBy = "secondsColleges", fetch = FetchType.LAZY)
     private Set<Student> secondStudents = new HashSet<>();
 }
