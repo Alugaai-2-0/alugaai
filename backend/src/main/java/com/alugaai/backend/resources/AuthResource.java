@@ -12,19 +12,13 @@ import com.alugaai.backend.models.User;
 import com.alugaai.backend.security.SecurityService;
 import com.alugaai.backend.services.UserService;
 import com.alugaai.backend.services.errors.CustomException;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
-@Component
-@Path("/auth")
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
+@RestController
+@RequestMapping(value = "/auth", consumes = "application/json", produces = "application/json")
 @AllArgsConstructor
 public class AuthResource {
 
@@ -32,11 +26,10 @@ public class AuthResource {
     private final SecurityService jwtSecurity;
 
     // we need to pass the role to PathVariable equals ROLE_STUDENT | ROLE_OWNER
-    @POST
-    @Path("/register/{role}")
-    public Response registerUser(
-            @PathParam("role") String role,
-            UserRegisterRequestDTO dto) {
+    @PostMapping("/register/{role}")
+    public ResponseEntity<?> registerUser(
+            @PathVariable("role") String role,
+            @RequestBody UserRegisterRequestDTO dto) {
         try {
             User savedUser;
             if (role.equals(Role.RoleName.ROLE_OWNER.toString())) {
@@ -46,33 +39,27 @@ public class AuthResource {
                 Student student = UserMapper.toStudentEntity(dto);
                 savedUser = userService.registerNewStudent(student);
             } else {
-                return Response.status(Response.Status.BAD_REQUEST)
-                        .entity("Invalid role: " + role)
-                        .build();
+                return ResponseEntity.badRequest()
+                        .body("Invalid role: " + role);
             }
-            return Response.ok(UserMapper.toDTO(savedUser)).build();
+            return ResponseEntity.ok(UserMapper.toDTO(savedUser));
         } catch (CustomException e) {
-            return Response.status(e.getStatusCode())
-                    .entity(e.getMessage())
-                    .build();
+            return ResponseEntity.status(e.getStatusCode())
+                    .body(e.getMessage());
         }
     }
 
-    @POST
-    @Path("/login")
-    public Response login(LoginRequestDTO loginRequest) {
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginRequestDTO loginRequest) {
         try {
             User authenticatedUser = userService.authenticateUser(
                     loginRequest.identifier(),
                     loginRequest.password()
             );
             String token = jwtSecurity.generateToken(authenticatedUser);
-            return Response.ok(LoginMapper.toDTO(authenticatedUser, token)).build();
+            return ResponseEntity.ok(LoginMapper.toDTO(authenticatedUser, token));
         } catch (CustomException e) {
-            return Response.status(Response.Status.UNAUTHORIZED).build();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
-
-
 }
-
