@@ -81,6 +81,7 @@ public class StudentService {
         userRepository.save(student);
     }
 
+    @Transactional(readOnly = true)
     public List<StudentFeedResponseDTO> getAllStudents(Integer minAge, Integer maxAge, Set<String> personalities) {
         // Validação das idades
         if (minAge != null && maxAge != null && minAge > maxAge) {

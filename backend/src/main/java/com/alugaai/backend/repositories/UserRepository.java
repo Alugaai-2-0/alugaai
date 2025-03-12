@@ -3,10 +3,12 @@ package com.alugaai.backend.repositories;
 import com.alugaai.backend.models.Student;
 import com.alugaai.backend.models.User;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -24,4 +26,8 @@ public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecifi
     boolean existsByEmail(@NotNull String email);
 
     Optional<User> findByEmailOrCpfOrPhoneNumber(@NotNull String email, @NotNull String cpf, @NotNull String phoneNumber);
+
+    @Override
+    @Query("SELECT s FROM Student s LEFT JOIN FETCH s.personalities")
+    List<Student> findAll(@Nullable Specification<Student> spec);
 }

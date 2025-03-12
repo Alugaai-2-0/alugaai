@@ -5,10 +5,10 @@ spring:
     change-log: classpath:db/changelog/db.changelog-master.yaml
     enabled: true
   datasource:
-    url: jdbc:postgresql://db:5432/alugaaidb
-    # jdbc:postgresql://localhost:5433/postgres
+    url: jdbc:postgresql://localhost:5433/postgres
+    # jdbc:postgresql://db:5432/alugaaidb
     username: postgres
-    password: pedraomasculodecalcinharosa
+    # password: pedraomasculodecalcinharosa
 
 jwt:
   secret: 8Ff93GcOBjEq6nXJ42ZY6Uz4nX7L6GyHECifWQEVdTq4UMM6lZmYMIhWDO25ocP9bO6ziWW6GE18fgV7A8PsoQ==

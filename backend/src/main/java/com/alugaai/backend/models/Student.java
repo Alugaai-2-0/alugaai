@@ -47,7 +47,7 @@ public class Student extends User {
             joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "college_id")
     )
-    private Set<College> secondsColleges;
+    private Set<College> secondsColleges = new HashSet<>();
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinTable(
@@ -55,7 +55,7 @@ public class Student extends User {
             joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "property_id")
     )
-    private Set<Property> propertiesLikes;
+    private Set<Property> propertiesLikes = new HashSet<>();
 
     public Student(LocalDateTime birthDate, LocalDateTime createdDate, Character gender, String userName, String email,
                    String passwordHash) {
