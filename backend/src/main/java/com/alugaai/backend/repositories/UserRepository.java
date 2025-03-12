@@ -26,8 +26,4 @@ public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecifi
     boolean existsByEmail(@NotNull String email);
 
     Optional<User> findByEmailOrCpfOrPhoneNumber(@NotNull String email, @NotNull String cpf, @NotNull String phoneNumber);
-
-    @Override
-    @Query("SELECT s FROM Student s LEFT JOIN FETCH s.personalities")
-    List<Student> findAll(@Nullable Specification<Student> spec);
 }
