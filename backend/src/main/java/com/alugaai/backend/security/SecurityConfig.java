@@ -40,7 +40,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/api/**").permitAll()
                         .requestMatchers("/auth/register/**", "/auth/login/**").permitAll()
-                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui/index.html").permitAll()
                         .requestMatchers("/admin/**", "/college/**").permitAll()
                         .requestMatchers("/property/**").permitAll()
                         .requestMatchers("/owner/**", "/cep/**").permitAll()

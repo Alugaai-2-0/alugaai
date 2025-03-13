@@ -30,5 +30,5 @@ Caso haja alteração em alguma entidade, é necessário criar a migration e del
    \dt
     ```
   
-# Docker url
+# Swagger url
 * http://localhost:8080/swagger-ui/index.html
