@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/screens/home_page.dart';
+import 'package:mobile/screens/profile_page.dart';
+import 'package:mobile/screens/search_page.dart';
 import 'package:mobile/utils/Colors.dart';
+import 'screens/home_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -41,9 +45,9 @@ class _MainScreenState extends State<MainScreen> {
 
   // This list holds the widgets for each tab
   final List<Widget> _pages = [
-    const Center(child: Text('Home Page')),
-    const Center(child: Text('Search Page')),
-    const Center(child: Text('Profile Page')),
+    const HomePage(),
+    const SearchPage(),
+    const ProfilePage(),
   ];
 
   @override
@@ -97,3 +101,6 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 }
+
+//HOME PAGE
+
