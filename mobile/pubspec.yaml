@@ -53,6 +53,13 @@ dev_dependencies:
 flutter:
   assets:
     - lib/assets/images/
+    - lib/assets/images/home/
+
+
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: lib/assets/fonts/Inter.ttf
 
 
   # The following line ensures that the Material Icons font is
