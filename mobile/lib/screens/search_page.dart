@@ -6,11 +6,15 @@ class SearchPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text('Seachjjjasdas'),
-        // Add your home page UI here
-      ],
+    return Center(
+      child: Column(
+        children: [
+          Text("teste"),
+          Text("teste"),
+          Text("teste")
+          // Add your home page UI here
+        ],
+      ),
     );
   }
 }
