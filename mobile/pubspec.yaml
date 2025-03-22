@@ -55,6 +55,7 @@ flutter:
   assets:
     - lib/assets/images/
     - lib/assets/images/home/
+    - lib/assets/images/search/
 
 
   fonts:
