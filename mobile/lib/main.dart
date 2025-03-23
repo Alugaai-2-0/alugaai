@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/screens/home_page.dart';
+import 'package:mobile/screens/login_page.dart';
 import 'package:mobile/screens/profile_page.dart';
 import 'package:mobile/screens/search_page.dart';
 import 'package:mobile/utils/Colors.dart';
@@ -47,7 +48,7 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> _pages = [
     const HomePage(),
     const SearchPage(),
-    const ProfilePage(),
+    const LoginPage(),
   ];
 
   @override

@@ -56,6 +56,7 @@ flutter:
     - lib/assets/images/
     - lib/assets/images/home/
     - lib/assets/images/search/
+    - lib/assets/images/login/
 
 
   fonts:
