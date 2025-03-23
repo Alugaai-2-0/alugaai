@@ -93,7 +93,7 @@ class _MainScreenState extends State<MainScreen> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            label: 'Profile',
+            label: 'Login',
           ),
         ],
         currentIndex: _selectedIndex,

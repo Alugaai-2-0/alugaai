@@ -81,7 +81,7 @@ class LoginPage extends StatelessWidget {
               ElevatedButton.icon(
                 onPressed: () {},
                 icon: Icon(Icons.g_mobiledata_sharp, color: Colors.red, size: 50),
-                label: Text('Continuar com o Google', style: TextStyle(fontSize: 16)),
+                label: Text('Continuar com o Google', style: TextStyle(fontSize: 16, color: Colors.black)),
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(double.infinity, 50),
                   backgroundColor: Colors.white,
@@ -95,7 +95,7 @@ class LoginPage extends StatelessWidget {
               ElevatedButton.icon(
                 onPressed: () {},
                 icon: Icon(Icons.facebook, color: Colors.blue, size: 30),
-                label: Text('Continuar com o Facebook', style: TextStyle(fontSize: 16)),
+                label: Text('Continuar com o Facebook', style: TextStyle(fontSize: 16, color: Colors.black)),
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(double.infinity, 50),
                   backgroundColor: Colors.white,
