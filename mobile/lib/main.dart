@@ -97,6 +97,7 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ],
         currentIndex: _selectedIndex,
+        selectedItemColor: AppColors.primaryOrangeColor,
         onTap: _onItemTapped,
       ),
     );
