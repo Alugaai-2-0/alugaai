@@ -54,7 +54,7 @@ class _SearchPageState extends State<SearchPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
-              height: 550, // Adjust height as needed
+              height: 500, // Adjust height as needed
               width: 340,  // Adjust width as needed
               child: CardSwiper(
                 controller: controller,
@@ -70,42 +70,68 @@ class _SearchPageState extends State<SearchPage> {
             ),
             const SizedBox(height: 20),
             // Swipe buttons
-            Row(
+            // Add this below the existing swipe buttons
+            Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Dislike button (X)
-                Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: Colors.orange, width: 2),
-                  ),
-                  child: IconButton(
-                    icon: const Icon(Icons.close, color: Colors.orange),
-                    onPressed: () {
-                      controller.swipe(CardSwiperDirection.left);
-                    },
-                    iconSize: 30,
-                  ),
+                // Existing swipe buttons row
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Dislike button (X)
+                    Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.orange, width: 2),
+                      ),
+                      child: IconButton(
+                        icon: const Icon(Icons.close, color: Colors.orange),
+                        onPressed: () {
+                          controller.swipe(CardSwiperDirection.left);
+                        },
+                        iconSize: 30,
+                      ),
+                    ),
+                    const SizedBox(width: 40),
+                    // Like button (check)
+                    Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.orange, width: 2),
+                      ),
+                      child: IconButton(
+                        icon: const Icon(Icons.check, color: Colors.orange),
+                        onPressed: () {
+                          controller.swipe(CardSwiperDirection.right);
+                        },
+                        iconSize: 30,
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(width: 40),
-                // Like button (check)
-                Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: Colors.orange, width: 2),
-                  ),
-                  child: IconButton(
-                    icon: const Icon(Icons.check, color: Colors.orange),
-                    onPressed: () {
-                      controller.swipe(CardSwiperDirection.right);
-                    },
-                    iconSize: 30,
+                const SizedBox(height: 20), // Add some vertical spacing
+                // Mapa button
+                ElevatedButton.icon(
+                  onPressed: () {
+                    // Add your navigation or map functionality here
+                    print('Mapa button pressed');
+                  },
+                  icon: const Icon(Icons.map, color: Colors.white),
+                  label: const Text('Mapa'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.orange,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                   ),
                 ),
               ],
             ),
           ],
         ),
+
       ),
     );
   }
@@ -142,8 +168,7 @@ class _SearchPageState extends State<SearchPage> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: Wrap(
-                spacing: 6.0,
-                runSpacing: 6.0,
+                spacing: 4.0,
                 children: _buildInterestChips(profile['interests']),
               ),
             ),
