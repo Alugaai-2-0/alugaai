@@ -8,7 +8,7 @@ import '../models/login_response.dart';
 
 class AuthService {
   // Replace with your actual API URL
-  final String baseUrl = 'https://your-api-url.com/api/';
+  final String baseUrl = 'http://localhost:8080/';
   final String userKey = 'user';
 
   // Create a stream controller to broadcast login state changes
