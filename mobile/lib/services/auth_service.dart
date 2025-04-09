@@ -47,7 +47,6 @@ class AuthService {
 
       // Update the stream with the new user
       _userLogged.value = loginResponse;
-
       return loginResponse;
     } else {
       // Parse error message if available
@@ -70,4 +69,16 @@ class AuthService {
   String? getToken() {
     return _userLogged.value?.token;
   }
+
+  // Add this to your AuthService class
+  Future<void> debugPrintStoredUser() async {
+    final prefs = await SharedPreferences.getInstance();
+    final storedUser = prefs.getString(userKey);
+    print('Stored user data: $storedUser'); // Log raw JSON
+    if (storedUser != null) {
+      final user = LoginResponse.fromJson(jsonDecode(storedUser));
+      print('Parsed user: ${user.toJson()}'); // Log parsed data
+    }
+  }
+
 }

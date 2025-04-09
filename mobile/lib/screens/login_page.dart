@@ -37,6 +37,7 @@ class _LoginPageState extends State<LoginPage> {
         );
 
         final response = await _authService.login(loginRequest);
+        await _authService.debugPrintStoredUser();
 
         // Show success message
         Fluttertoast.showToast(
