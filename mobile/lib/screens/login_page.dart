@@ -48,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
         );
 
         // Navigate to home screen
-        Navigator.pushReplacementNamed(context, '/home');
+        Navigator.pushReplacementNamed(context, '/');
       } catch (error) {
         // Show error message
         Fluttertoast.showToast(

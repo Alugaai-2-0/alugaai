@@ -23,7 +23,13 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const MainScreen(),
+      routes: {
+        '/': (context) => MainScreen(),  // Change this to MainScreen
+        '/login': (context) => LoginPage(),
+        '/search': (context) => SearchPage(),
+        '/profile': (context) => ProfilePage(),// Create a HomePage widget
+       // Create a RegisterPage widget if needed
+      },
     );
   }
 }
