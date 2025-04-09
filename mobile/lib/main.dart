@@ -4,6 +4,7 @@ import 'package:mobile/screens/login_page.dart';
 import 'package:mobile/screens/profile_page.dart';
 import 'package:mobile/screens/search_page.dart';
 import 'package:mobile/utils/Colors.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'screens/home_page.dart';
 
 void main() {
@@ -43,19 +44,48 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
+  bool _isLoggedIn = false; // Track login status
+
+  @override
+  void initState() {
+    super.initState();
+    // Check if user is logged in
+    _checkLoginStatus();
+  }
+
+  // Function to check if user is logged in
+  Future<void> _checkLoginStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    final storedUser = prefs.getString('user');
+
+    setState(() {
+      _isLoggedIn = storedUser != null;
+    });
+  }
 
   void _onItemTapped(int index) {
+    // If user clicks on profile/login tab but is not logged in, redirect to login page
+    if (index == 2 && !_isLoggedIn) {
+      Navigator.pushNamed(context, '/login').then((_) {
+        // After returning from login page, check login status again
+        _checkLoginStatus();
+      });
+      return;
+    }
+
     setState(() {
       _selectedIndex = index;
     });
   }
 
-  // This list holds the widgets for each tab
-  final List<Widget> _pages = [
-    const HomePage(),
-    const SearchPage(),
-    const LoginPage(),
-  ];
+  // Get pages based on login status
+  List<Widget> get _pages {
+    return [
+      const HomePage(),
+      const SearchPage(),
+      _isLoggedIn ? const ProfilePage() : const LoginPage(),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,11 +94,11 @@ class _MainScreenState extends State<MainScreen> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 1,
-        title:  Row(
+        title: Row(
           children: [
             Image.asset(
               'lib/assets/images/alugaai_logo.jpg',
-              height: 40, // Adjust height as needed
+              height: 40,
               fit: BoxFit.contain,
             ),
           ],
@@ -88,18 +118,37 @@ class _MainScreenState extends State<MainScreen> {
 
       // Bottom navigation bar
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
+        items: <BottomNavigationBarItem>[
+          const BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.search),
             label: 'Search',
           ),
+          // Conditionally show person icon or profile picture
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Login',
+            icon: _isLoggedIn
+                ? Container(
+              width: 26,
+              height: 26,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.grey[300],
+                border: Border.all(
+                  color: _selectedIndex == 2 ? AppColors.primaryOrangeColor : Colors.transparent,
+                  width: 2,
+                ),
+              ),
+              child: Icon(
+                Icons.person,
+                size: 18,
+                color: _selectedIndex == 2 ? AppColors.primaryOrangeColor : Colors.grey[600],
+              ),
+            )
+                : Icon(Icons.person),
+            label: _isLoggedIn ? 'Profile' : 'Login',
           ),
         ],
         currentIndex: _selectedIndex,
