@@ -125,7 +125,7 @@ class _MainScreenState extends State<MainScreen> {
           ),
           const BottomNavigationBarItem(
             icon: Icon(Icons.search),
-            label: 'Search',
+            label: 'Procurar',
           ),
           // Conditionally show person icon or profile picture
           BottomNavigationBarItem(
@@ -148,7 +148,7 @@ class _MainScreenState extends State<MainScreen> {
               ),
             )
                 : Icon(Icons.person),
-            label: _isLoggedIn ? 'Profile' : 'Login',
+            label: _isLoggedIn ? 'Perfil' : 'Login',
           ),
         ],
         currentIndex: _selectedIndex,
