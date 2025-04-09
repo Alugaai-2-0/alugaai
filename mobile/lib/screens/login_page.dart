@@ -1,8 +1,5 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart'; // Add this package for toast notifications
-import 'package:shared_preferences/shared_preferences.dart';
 import '../models/login_request.dart';
 import '../services/auth_service.dart';
 
@@ -52,11 +49,7 @@ class _LoginPageState extends State<LoginPage> {
         );
 
         // Navigate to home screen
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('user', jsonEncode(response.toJson()));
-
-// Pop back to MainScreen
-        Navigator.of(context).pop();
+        Navigator.pushReplacementNamed(context, '/');
       } catch (error) {
         // Show error message
         Fluttertoast.showToast(

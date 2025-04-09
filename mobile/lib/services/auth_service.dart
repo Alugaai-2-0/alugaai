@@ -56,7 +56,7 @@ class AuthService {
     }
   }
 
-  void logout() async {
+  Future<void> logout() async {
     _userLogged.value = null;
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(userKey);
