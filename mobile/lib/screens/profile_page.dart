@@ -176,6 +176,10 @@ class _ProfilePageState extends State<ProfilePage> {
               SizedBox(height: 24),
 
               // Menu items
+              if (_currentUser?.email == "admin@alugaai.com")
+                _buildMenuItem(Icons.admin_panel_settings, 'Admin Panel', onTap: () {
+                  // Handle admin panel navigation
+                }),
               _buildMenuItem(Icons.favorite_outline, 'Favoritos'),
               _buildMenuItem(Icons.download_outlined, 'Downloads'),
               Divider(thickness: 2, height: 20, color: AppColors.primaryTextColor),
