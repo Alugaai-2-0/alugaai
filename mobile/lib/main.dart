@@ -5,10 +5,16 @@ import 'package:mobile/screens/profile_page.dart';
 import 'package:mobile/screens/search_page.dart';
 import 'package:mobile/utils/Colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'screens/home_page.dart';
+import 'package:mobile/utils/app_bar_controller.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => AppBarController(), // Initialize controller
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -44,81 +50,76 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
-  bool _isLoggedIn = false; // Track login status
+  bool _isLoggedIn = false;
 
   @override
   void initState() {
     super.initState();
-    // Check if user is logged in
     _checkLoginStatus();
   }
 
-  // Function to check if user is logged in
   Future<void> _checkLoginStatus() async {
     final prefs = await SharedPreferences.getInstance();
     final storedUser = prefs.getString('user');
-
-    setState(() {
-      _isLoggedIn = storedUser != null;
-    });
+    setState(() => _isLoggedIn = storedUser != null);
   }
 
+  // In _MainScreenState
   void _onItemTapped(int index) {
-    // If user clicks on profile/login tab but is not logged in, redirect to login page
+    final appBarController = Provider.of<AppBarController>(context, listen: false);
+
     if (index == 2 && !_isLoggedIn) {
-      Navigator.pushNamed(context, '/login').then((_) {
-        // After returning from login page, check login status again
-        _checkLoginStatus();
-      });
+      Navigator.pushNamed(context, '/login').then((_) => _checkLoginStatus());
       return;
     }
 
-    setState(() {
-      _selectedIndex = index;
-    });
+    // Reset AppBar whenever tabs change
+    appBarController.resetToDefault();
+
+    setState(() => _selectedIndex = index);
   }
 
-  // Get pages based on login status
-  List<Widget> get _pages {
-    return [
-      const HomePage(),
-      const SearchPage(),
-      _isLoggedIn ? const ProfilePage() : const LoginPage(),
-    ];
+  List<Widget> get _pages => [
+    const HomePage(),
+    const SearchPage(),
+    _isLoggedIn ? const ProfilePage() : const LoginPage(),
+  ];
+
+  // Default AppBar for the main screen
+  PreferredSizeWidget _buildDefaultAppBar() {
+    return AppBar(
+      backgroundColor: Colors.white,
+      elevation: 1,
+      title: Row(
+        children: [
+          Image.asset(
+            'lib/assets/images/alugaai_logo.jpg',
+            height: 40,
+            fit: BoxFit.contain,
+          ),
+        ],
+      ),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.menu),
+          onPressed: () {},
+        ),
+      ],
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // Top AppBar with logo and menu
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 1,
-        title: Row(
-          children: [
-            Image.asset(
-              'lib/assets/images/alugaai_logo.jpg',
-              height: 40,
-              fit: BoxFit.contain,
-            ),
-          ],
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.menu),
-            onPressed: () {
-              // Handle menu button press
-            },
-          ),
-        ],
-      ),
+    final appBarController = Provider.of<AppBarController>(context);
 
-      // Main content area
+    return Scaffold(
+      // Dynamic AppBar - uses controller's AppBar or falls back to default
+      appBar: appBarController.currentAppBar ?? _buildDefaultAppBar(),
+
       body: _pages[_selectedIndex],
 
-      // Bottom navigation bar
       bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
+        items: [
           const BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
@@ -127,7 +128,6 @@ class _MainScreenState extends State<MainScreen> {
             icon: Icon(Icons.search),
             label: 'Search',
           ),
-          // Conditionally show person icon or profile picture
           BottomNavigationBarItem(
             icon: _isLoggedIn
                 ? Container(
@@ -137,17 +137,21 @@ class _MainScreenState extends State<MainScreen> {
                 shape: BoxShape.circle,
                 color: Colors.grey[300],
                 border: Border.all(
-                  color: _selectedIndex == 2 ? AppColors.primaryOrangeColor : Colors.transparent,
+                  color: _selectedIndex == 2
+                      ? AppColors.primaryOrangeColor
+                      : Colors.transparent,
                   width: 2,
                 ),
               ),
               child: Icon(
                 Icons.person,
                 size: 18,
-                color: _selectedIndex == 2 ? AppColors.primaryOrangeColor : Colors.grey[600],
+                color: _selectedIndex == 2
+                    ? AppColors.primaryOrangeColor
+                    : Colors.grey[600],
               ),
             )
-                : Icon(Icons.person),
+                : const Icon(Icons.person),
             label: _isLoggedIn ? 'Profile' : 'Login',
           ),
         ],

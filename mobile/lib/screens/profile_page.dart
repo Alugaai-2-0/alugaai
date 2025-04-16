@@ -1,9 +1,10 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:mobile/models/login_response.dart';
 import 'package:mobile/services/auth_service.dart';
 import 'package:mobile/utils/Colors.dart';
+import 'package:mobile/utils/app_bar_controller.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -22,68 +23,58 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     super.initState();
     _loadUserData();
+    _setCustomAppBar();
+  }
+
+  void _setCustomAppBar() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<AppBarController>(context, listen: false).setAppBar(
+        AppBar(
+          title: const Text('Meu perfil'),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.settings),
+              onPressed: () {},
+            ),
+          ],
+        ),
+      );
+    });
   }
 
   Future<void> _loadUserData() async {
     try {
-      setState(() {
-        _isLoading = true;
-      });
+      setState(() => _isLoading = true);
 
-      // First check if userLogged.value is already available
       var user = _authService.userLogged.value;
-
-      // If not, we'll manually try to load it from SharedPreferences
       if (user == null) {
-        // Call a method to explicitly load and wait for the user data
-        await _authService.debugPrintStoredUser(); // This will print debug info
-
-        // Try to access the user again after loading
+        await _authService.debugPrintStoredUser();
         user = _authService.userLogged.value;
-
-        // If still null, we need to add a method to force loading
-
       }
 
       setState(() {
         _currentUser = user;
-        print('User on setState: $user');
-        if (user != null) {
-          print('User name: ${user.userName}, Email: ${user.email}');
-        }
         _isLoading = false;
       });
     } catch (e) {
+      setState(() => _isLoading = false);
       print('Error loading user data: $e');
-      setState(() {
-        _isLoading = false;
-      });
     }
   }
 
-  // Handle logout
   Future<void> _handleLogout() async {
     try {
-      // Show loading indicator
       showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (context) => Center(child: CircularProgressIndicator()),
+        builder: (context) => const Center(child: CircularProgressIndicator()),
       );
 
-      // Call logout from auth service
       await _authService.logout();
-
-      // Close the loading dialog
       Navigator.pop(context);
-
-      // Navigate to login screen and clear navigation stack
       Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
     } catch (e) {
-      // Close the loading dialog
       Navigator.pop(context);
-
-      // Show error message
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Erro ao fazer logout: $e')),
       );
@@ -91,28 +82,36 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   @override
+  void dispose() {
+    Provider.of<AppBarController>(context, listen: false).resetToDefault();
+    super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final isCurrentPage = ModalRoute.of(context)?.isCurrent ?? false;
+    if (isCurrentPage) {
+      _setCustomAppBar();
+    } else {
+      Provider.of<AppBarController>(context, listen: false).resetToDefault();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Meu perfil'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () {},
-          ),
-        ],
-      ),
+      // REMOVED THE DUPLICATE APP BAR DECLARATION HERE
       body: _isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              // Profile header with avatar and name
+              // Profile header
               Row(
                 children: [
-                  // Placeholder circle for profile photo
                   Container(
                     width: 60,
                     height: 60,
@@ -126,15 +125,14 @@ class _ProfilePageState extends State<ProfilePage> {
                       color: Colors.grey[600],
                     ),
                   ),
-                  SizedBox(width: 16),
-                  // User info
+                  const SizedBox(width: 16),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           _currentUser?.userName ?? 'Usuário',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
@@ -146,11 +144,10 @@ class _ProfilePageState extends State<ProfilePage> {
                             color: Colors.grey[600],
                           ),
                         ),
-                        SizedBox(height: 8),
-                        // Smaller edit profile button aligned with email
+                        const SizedBox(height: 8),
                         SizedBox(
-                          width: 120, // Reduced width
-                          height: 32, // Reduced height
+                          width: 120,
+                          height: 32,
                           child: ElevatedButton(
                             onPressed: () {},
                             style: ElevatedButton.styleFrom(
@@ -159,9 +156,9 @@ class _ProfilePageState extends State<ProfilePage> {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),
                               ),
-                              padding: EdgeInsets.zero, // Remove default padding
+                              padding: EdgeInsets.zero,
                             ),
-                            child: Text(
+                            child: const Text(
                               'Editar perfil',
                               style: TextStyle(fontSize: 12),
                             ),
@@ -172,23 +169,20 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ],
               ),
+              const SizedBox(height: 24),
 
-              SizedBox(height: 24),
-
-              // Menu items
+              // Menu items - ADMIN ITEM SHOWS ONLY FOR ADMIN
               if (_currentUser?.email == "admin@alugaai.com")
-                _buildMenuItem(Icons.admin_panel_settings, 'Admin Panel', onTap: () {
-                  // Handle admin panel navigation
-                }),
-              _buildMenuItem(Icons.favorite_outline, 'Favoritós'),
+                _buildMenuItem(Icons.admin_panel_settings, 'Admin Panel', onTap: () {}),
+              _buildMenuItem(Icons.favorite_outline, 'Favoritos'),
               _buildMenuItem(Icons.download_outlined, 'Downloads'),
-              Divider(thickness: 2, height: 20, color: AppColors.primaryTextColor),
+              const Divider(thickness: 2, height: 20, color: AppColors.primaryTextColor),
 
               _buildMenuItem(Icons.language, 'Idiomas'),
               _buildMenuItem(Icons.location_on_outlined, 'Localização'),
               _buildMenuItem(Icons.card_membership_outlined, 'Plano'),
               _buildMenuItem(Icons.desktop_windows_outlined, 'Exibir'),
-              Divider(thickness: 2, height: 20, color: AppColors.primaryTextColor),
+              const Divider(thickness: 2, height: 20, color: AppColors.primaryTextColor),
 
               _buildMenuItem(Icons.delete_outline, 'Limpar Cache'),
               _buildMenuItem(Icons.history, 'Limpar Histórico'),
@@ -198,7 +192,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 isDestructive: true,
                 onTap: _handleLogout,
               ),
-              Divider(thickness: 2, height: 20, color: AppColors.primaryTextColor),
+              const Divider(thickness: 2, height: 20, color: AppColors.primaryTextColor),
             ],
           ),
         ),
@@ -217,7 +211,7 @@ class _ProfilePageState extends State<ProfilePage> {
               icon,
               color: isDestructive ? Colors.red : Colors.black,
             ),
-            SizedBox(width: 16),
+            const SizedBox(width: 16),
             Expanded(
               child: Text(
                 title,
@@ -227,7 +221,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
             ),
-            if (!isDestructive) Icon(Icons.chevron_right, color: Colors.grey),
+            if (!isDestructive) const Icon(Icons.chevron_right, color: Colors.grey),
           ],
         ),
       ),
