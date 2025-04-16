@@ -39,7 +39,9 @@ class AuthService {
     );
 
     if (response.statusCode == 200) {
-      final loginResponse = LoginResponse.fromJson(jsonDecode(response.body));
+      // Modificação importante aqui: usar response.bodyBytes com utf8.decode
+      final responseBody = utf8.decode(response.bodyBytes);
+      final loginResponse = LoginResponse.fromJson(jsonDecode(responseBody));
 
       // Store user data in shared preferences
       final prefs = await SharedPreferences.getInstance();
@@ -49,8 +51,9 @@ class AuthService {
       _userLogged.value = loginResponse;
       return loginResponse;
     } else {
-      // Parse error message if available
-      Map<String, dynamic> errorResponse = jsonDecode(response.body);
+      // Também aplicar utf8.decode para mensagens de erro
+      final errorBody = utf8.decode(response.bodyBytes);
+      Map<String, dynamic> errorResponse = jsonDecode(errorBody);
       String errorMessage = errorResponse['message'] ?? 'Failed to login';
       throw Exception(errorMessage);
     }
