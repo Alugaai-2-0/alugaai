@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/screens/adminDashboard_page.dart';
 import 'package:mobile/screens/home_page.dart';
 import 'package:mobile/screens/login_page.dart';
 import 'package:mobile/screens/profile_page.dart';
@@ -34,7 +35,9 @@ class MyApp extends StatelessWidget {
         '/': (context) => MainScreen(),  // Change this to MainScreen
         '/login': (context) => LoginPage(),
         '/search': (context) => SearchPage(),
-        '/profile': (context) => ProfilePage(),// Create a HomePage widget
+        '/profile': (context) => ProfilePage(),
+        '/admin': (context) => AdminDashboard(),
+        // Create a HomePage widget
        // Create a RegisterPage widget if needed
       },
     );

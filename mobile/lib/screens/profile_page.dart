@@ -173,7 +173,15 @@ class _ProfilePageState extends State<ProfilePage> {
 
               // Menu items - ADMIN ITEM SHOWS ONLY FOR ADMIN
               if (_currentUser?.email == "admin@alugaai.com")
-                _buildMenuItem(Icons.admin_panel_settings, 'Admin Panel', onTap: () {}),
+                _buildMenuItem(Icons.admin_panel_settings, 'Admin Panel', onTap: () {
+                  // Para fechar o drawer/menu antes de navegar (se aplicável)
+
+                  // Navegar para a tela admin
+                  Navigator.pushNamed(context, '/admin');
+
+                  // Alternativa: se quiser substituir a tela atual pela tela admin
+                  // Navigator.pushReplacementNamed(context, '/admin');
+                }),
               _buildMenuItem(Icons.favorite_outline, 'Favoritos'),
               _buildMenuItem(Icons.download_outlined, 'Downloads'),
               const Divider(thickness: 2, height: 20, color: AppColors.primaryTextColor),
