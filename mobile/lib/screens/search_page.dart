@@ -1,7 +1,9 @@
-//HOME PAGE
+// UPDATED HOME PAGE with Map Button Navigation for flutter_map
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
+// Import the MapPage
+import 'map_page.dart'; // Adjust the import path as needed for your project structure
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -45,7 +47,6 @@ class _SearchPageState extends State<SearchPage> {
         'description': 'Estudante de engenharia, amo música e passar tempo com amigos...',
         'interests': ['Música', 'Viagens', 'Cinema', 'Leitura', 'Tecnologia']
       }
-
     ];
 
     return Scaffold(
@@ -70,7 +71,6 @@ class _SearchPageState extends State<SearchPage> {
             ),
             const SizedBox(height: 20),
             // Swipe buttons
-            // Add this below the existing swipe buttons
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -110,11 +110,14 @@ class _SearchPageState extends State<SearchPage> {
                   ],
                 ),
                 const SizedBox(height: 20), // Add some vertical spacing
-                // Mapa button
+                // Mapa button - Updated with navigation to MapPage
                 ElevatedButton.icon(
                   onPressed: () {
-                    // Add your navigation or map functionality here
-                    print('Mapa button pressed');
+                    // Navigate to MapPage
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const MapPage()),
+                    );
                   },
                   icon: const Icon(Icons.map, color: Colors.white),
                   label: const Text('Mapa'),
@@ -131,19 +134,18 @@ class _SearchPageState extends State<SearchPage> {
             ),
           ],
         ),
-
       ),
     );
   }
 
   Widget _buildProfileCard(Map<String, dynamic> profile) {
+    // Same as your original implementation
     return Card(
       elevation: 4,
-
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
       ),
-      color: Colors.white, //
+      color: Colors.white,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -251,7 +253,7 @@ class _SearchPageState extends State<SearchPage> {
             color: Colors.black87, // Darker text for better contrast
           ),
         ),
-        backgroundColor: Colors.grey.withValues(alpha: 0.1), // Very light grey, almost transparent
+        backgroundColor: Colors.grey.withOpacity(0.1), // Very light grey
         side: BorderSide.none, // Remove the border
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20), // Rounder corners
