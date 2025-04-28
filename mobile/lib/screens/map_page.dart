@@ -17,7 +17,7 @@ class _MapPageState extends State<MapPage> {
   final List<Marker> markers = [];
 
   // Default center position (São Paulo, Brazil)
-  final LatLng centerPosition = LatLng(-23.5505, -46.6333);
+  final LatLng centerPosition = LatLng(-23.495434981703315, -47.45934258732815);
 
   @override
   void initState() {
@@ -34,7 +34,7 @@ class _MapPageState extends State<MapPage> {
         'id': 'facens',
         'title': 'FACENS',
         'type': 'university',
-        'position': LatLng(-23.4827, -47.4352), // Sorocaba
+        'position': LatLng(-23.4705627, -47.4294555), // Sorocaba
         'snippet': 'Faculdade de Engenharia de Sorocaba',
       },
       {
@@ -48,7 +48,7 @@ class _MapPageState extends State<MapPage> {
         'id': 'property1',
         'title': 'Apartamento Centro',
         'type': 'property',
-        'position': LatLng(-23.4705627, -47.4294555), // Near FACENS
+        'position': LatLng(-23.4827, -47.4352), // Near FACENS
         'snippet': 'RS1.200/mês - 2 quartos',
       },
       {
@@ -89,6 +89,8 @@ class _MapPageState extends State<MapPage> {
       ),
     );
   }
+
+
 
   void _showMarkerInfo(Map<String, dynamic> location) {
     showModalBottomSheet(
@@ -157,8 +159,8 @@ class _MapPageState extends State<MapPage> {
           FlutterMap(
             mapController: mapController,
             options: MapOptions(
-              center: centerPosition,
-              zoom: 12.0,
+              initialCenter: centerPosition,
+              initialZoom: 12.0,
               maxZoom: 18.0,
               minZoom: 3.0,
             ),

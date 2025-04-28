@@ -324,7 +324,9 @@ class _AdminDashboardState extends State<AdminDashboard> {
         ),
         children: [
           TileLayer(
-            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+            urlTemplate: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+            subdomains: ['a', 'b', 'c'], // Required for CartoDB
+            userAgentPackageName: 'com.example.app',
           ),
           MarkerLayer(
             markers: [
