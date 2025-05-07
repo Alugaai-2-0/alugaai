@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/college", consumes = "application/json", produces = "application/json")
+@RequestMapping(value = "/college")
 @AllArgsConstructor
 public class CollegeResource {
 

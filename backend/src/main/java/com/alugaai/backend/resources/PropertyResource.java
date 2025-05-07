@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/property", consumes = "application/json", produces = "application/json")
+@RequestMapping(value = "/property")
 @AllArgsConstructor
 public class PropertyResource {
 

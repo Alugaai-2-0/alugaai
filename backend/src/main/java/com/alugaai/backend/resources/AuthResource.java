@@ -18,7 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/auth", consumes = "application/json", produces = "application/json")
+@RequestMapping(value = "/auth")
 @AllArgsConstructor
 public class AuthResource {
 

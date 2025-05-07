@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping(value = "/student", produces = "application/json")
+@RequestMapping(value = "/student")
 @AllArgsConstructor
 public class StudentResource {
 

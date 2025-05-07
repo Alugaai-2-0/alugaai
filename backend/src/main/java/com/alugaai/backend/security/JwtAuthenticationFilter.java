@@ -43,7 +43,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
-        // Verificar se o caminho atual é público
         String path = request.getRequestURI();
         if (isPublicPath(path)) {
             filterChain.doFilter(request, response);
@@ -80,7 +79,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    // Verificar se o caminho é público
     private boolean isPublicPath(String path) {
         return PUBLIC_PATHS.stream().anyMatch(path::contains);
     }

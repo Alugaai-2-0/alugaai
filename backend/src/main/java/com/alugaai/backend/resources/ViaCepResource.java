@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/cep", produces = "application/json", consumes = "application/json")
+@RequestMapping(value = "/cep")
 @AllArgsConstructor
 public class ViaCepResource {
 

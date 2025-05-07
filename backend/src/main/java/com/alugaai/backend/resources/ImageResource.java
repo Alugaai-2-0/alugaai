@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.NoSuchElementException;
 
 @RestController
-@RequestMapping(value = "/image", produces = "application/json")
+@RequestMapping(value = "/image")
 @AllArgsConstructor
 public class ImageResource {
 
