@@ -1,7 +1,10 @@
-// MAP PAGE using flutter_map
+// MAP PAGE using flutter_map with college service integration
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:mobile/models/college_model.dart';
+import 'package:mobile/services/college_service.dart';
+
 
 class MapPage extends StatefulWidget {
   const MapPage({Key? key}) : super(key: key);
@@ -12,9 +15,17 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
   final MapController mapController = MapController();
+  final CollegeService _collegeService = CollegeService();
 
   // Collection of markers
   final List<Marker> markers = [];
+
+  // College data
+  List<College> colleges = [];
+
+  // Loading state
+  bool isLoading = false;
+  String errorMessage = '';
 
   // Default center position (São Paulo, Brazil)
   final LatLng centerPosition = LatLng(-23.495434981703315, -47.45934258732815);
@@ -22,28 +33,81 @@ class _MapPageState extends State<MapPage> {
   @override
   void initState() {
     super.initState();
-    // Add sample markers - in a real app, you'd get these from your database
-    _addSampleMarkers();
+    // Load colleges from API
+    _loadColleges();
+
+    // Add sample properties (you might want to remove this and load properties from an API too)
+    _addSampleProperties();
   }
 
-  // Corrected marker creation code
-  void _addSampleMarkers() {
-    // Sample universities and properties
-    final List<Map<String, dynamic>> locations = [
-      {
-        'id': 'facens',
-        'title': 'FACENS',
-        'type': 'university',
-        'position': LatLng(-23.4705627, -47.4294555), // Sorocaba
-        'snippet': 'Faculdade de Engenharia de Sorocaba',
-      },
-      {
-        'id': 'usp',
-        'title': 'USP',
-        'type': 'university',
-        'position': LatLng(-23.5595, -46.7247), // São Paulo
-        'snippet': 'Universidade de São Paulo',
-      },
+  // Load colleges from the API
+  Future<void> _loadColleges() async {
+    setState(() {
+      isLoading = true;
+      errorMessage = '';
+    });
+
+    try {
+      // Fetch colleges from the service
+      final fetchedColleges = await _collegeService.fetchColleges();
+
+      setState(() {
+        colleges = fetchedColleges;
+        isLoading = false;
+      });
+
+      // Add college markers to the map
+      _addCollegeMarkers();
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+        errorMessage = 'Failed to load colleges: $e';
+      });
+
+      // Show error message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(errorMessage),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  // Add college markers to the map
+  void _addCollegeMarkers() {
+    for (var college in colleges) {
+      try {
+        final LatLng position = college.getLatLng();
+
+        markers.add(
+          Marker(
+            point: position,
+            width: 40.0,
+            height: 40.0,
+            child: _buildMarkerWidget({
+              'id': college.id.toString(),
+              'title': college.collegeName,
+              'type': 'university',
+              'position': position,
+              'snippet': college.snippet,
+              'college': college, // Pass the full college object
+            }),
+          ),
+        );
+      } catch (e) {
+        print('Error adding marker for college ${college.id}: $e');
+      }
+    }
+
+    // Update the state to show the markers
+    setState(() {});
+  }
+
+  // Add sample properties
+  void _addSampleProperties() {
+    // Sample properties (in a real app, you'd get these from your database)
+    final List<Map<String, dynamic>> properties = [
       {
         'id': 'property1',
         'title': 'Apartamento Centro',
@@ -60,14 +124,14 @@ class _MapPageState extends State<MapPage> {
       },
     ];
 
-    // Create markers from the locations
-    for (var location in locations) {
+    // Create markers from the properties
+    for (var property in properties) {
       markers.add(
         Marker(
-          point: location['position'],
+          point: property['position'],
           width: 40.0,
           height: 40.0,
-          child: _buildMarkerWidget(location),
+          child: _buildMarkerWidget(property),
         ),
       );
     }
@@ -90,8 +154,6 @@ class _MapPageState extends State<MapPage> {
     );
   }
 
-
-
   void _showMarkerInfo(Map<String, dynamic> location) {
     showModalBottomSheet(
       context: context,
@@ -109,11 +171,14 @@ class _MapPageState extends State<MapPage> {
                     color: location['type'] == 'university' ? Colors.blue : Colors.orange,
                   ),
                   const SizedBox(width: 8.0),
-                  Text(
-                    location['title'],
-                    style: const TextStyle(
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
+                  Expanded(
+                    child: Text(
+                      location['title'],
+                      style: const TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ],
@@ -124,12 +189,49 @@ class _MapPageState extends State<MapPage> {
                 style: const TextStyle(fontSize: 16.0),
               ),
               const SizedBox(height: 16.0),
+              if (location['type'] == 'university')
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // Handle viewing college details
+                          Navigator.pop(context);
+                          // Navigate to college details page with the college data
+                          if (location['college'] != null) {
+                            _navigateToCollegeDetails(location['college']);
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                        ),
+                        child: const Text('Ver Detalhes', style: TextStyle(color: Colors.white)),
+                      ),
+                    ),
+                    const SizedBox(width: 8.0),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // Handle viewing nearby properties
+                          Navigator.pop(context);
+                          // You could navigate to a filtered list of properties near this college
+                          _showNearbyProperties(location['position']);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.orange,
+                        ),
+                        child: const Text('Acomodações Próximas', style: TextStyle(color: Colors.white)),
+                      ),
+                    ),
+                  ],
+                ),
               if (location['type'] == 'property')
                 ElevatedButton(
                   onPressed: () {
-                    // Here you would handle viewing property details
+                    // Handle viewing property details
                     Navigator.pop(context);
-                    // Navigator.push to property details page
+                    // Navigate to property details page
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.orange,
@@ -143,38 +245,65 @@ class _MapPageState extends State<MapPage> {
     );
   }
 
+  // Navigate to college details page (to be implemented)
+  void _navigateToCollegeDetails(College college) {
+    // Implementation for navigating to college details
+    print('Navigating to details for college: ${college.collegeName}');
+    // Navigator.push(context, MaterialPageRoute(builder: (context) => CollegeDetailPage(college: college)));
+  }
+
+  // Show nearby properties (to be implemented)
+  void _showNearbyProperties(LatLng position) {
+    // Implementation for showing nearby properties
+    print('Showing properties near: ${position.latitude}, ${position.longitude}');
+    // You could filter your property list or make an API call to get properties near this location
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.orange,
-        title: const Text('Locais Próximos', style: TextStyle(color: Colors.white)),
+        title: const Text('Universidades e Acomodações', style: TextStyle(color: Colors.white)),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.pop(context),
         ),
+        actions: [
+          // Refresh button
+          IconButton(
+            icon: const Icon(Icons.refresh, color: Colors.white),
+            onPressed: _loadColleges,
+          ),
+        ],
       ),
       body: Stack(
         children: [
-          FlutterMap(
-            mapController: mapController,
-            options: MapOptions(
-              initialCenter: centerPosition,
-              initialZoom: 12.0,
-              maxZoom: 18.0,
-              minZoom: 3.0,
-            ),
-            children: [
-              // Base map tile layer
-              TileLayer(
-                urlTemplate: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
-                subdomains: ['a', 'b', 'c'], // Required for CartoDB
-                userAgentPackageName: 'com.example.app',
+          // Show loading indicator while fetching data
+          if (isLoading)
+            const Center(
+              child: CircularProgressIndicator(),
+            )
+          else
+            FlutterMap(
+              mapController: mapController,
+              options: MapOptions(
+                initialCenter: centerPosition,
+                initialZoom: 12.0,
+                maxZoom: 18.0,
+                minZoom: 3.0,
               ),
-              // Markers layer
-              MarkerLayer(markers: markers),
-            ],
-          ),
+              children: [
+                // Base map tile layer
+                TileLayer(
+                  urlTemplate: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+                  subdomains: ['a', 'b', 'c'], // Required for CartoDB
+                  userAgentPackageName: 'com.example.app',
+                ),
+                // Markers layer
+                MarkerLayer(markers: markers),
+              ],
+            ),
           // Legend
           Positioned(
             bottom: 20,
