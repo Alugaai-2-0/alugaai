@@ -54,24 +54,5 @@ class CollegeService {
   }
 
   // Fetch colleges within a certain radius of a location
-  Future<List<College>> fetchCollegesByLocation(double latitude, double longitude, double radiusKm) async {
-    try {
-      final response = await http.get(
-        Uri.parse('$baseUrl/colleges/nearby?lat=$latitude&lng=$longitude&radius=$radiusKm'),
-        headers: {
-          'Content-Type': 'application/json',
-          // Add any authentication headers if needed
-        },
-      );
 
-      if (response.statusCode == 200) {
-        final List<dynamic> data = json.decode(response.body);
-        return data.map((json) => College.fromJson(json)).toList();
-      } else {
-        throw Exception('Failed to load nearby colleges: ${response.statusCode}');
-      }
-    } catch (e) {
-      throw Exception('Error fetching nearby colleges: $e');
-    }
-  }
 }
