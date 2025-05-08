@@ -6,13 +6,13 @@ import 'package:mobile/models/college_model.dart';
 
 class CollegeService {
   // Replace with your actual API base URL
-  final String baseUrl = 'http://10.0.2.2:8080/';
+  final String baseUrl = 'http://10.0.2.2:8080';
 
   // Fetch all colleges
   Future<List<College>> fetchColleges() async {
     try {
       final response = await http.get(
-        Uri.parse('$baseUrl/colleges'),
+        Uri.parse('$baseUrl/college'),
         headers: {
           'Content-Type': 'application/json',
           // Add any authentication headers if needed
@@ -35,7 +35,7 @@ class CollegeService {
   Future<College> fetchCollegeById(int id) async {
     try {
       final response = await http.get(
-        Uri.parse('$baseUrl/colleges/$id'),
+        Uri.parse('$baseUrl/college/$id'),
         headers: {
           'Content-Type': 'application/json',
           // Add any authentication headers if needed
