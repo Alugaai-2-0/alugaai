@@ -4,6 +4,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:mobile/models/college_model.dart';
 import 'package:mobile/models/property_model.dart';
+import 'package:mobile/screens/property_detail_page.dart';
 import 'package:mobile/services/college_service.dart';
 import 'package:mobile/services/property_service.dart';
 
@@ -251,15 +252,17 @@ class _MapPageState extends State<MapPage> {
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () {
-                          // Handle viewing nearby properties
+                          // Handle viewing property details
                           Navigator.pop(context);
-                          // Show nearby properties using the proper method
-
+                          // Navigate to property details page
+                          if (location['property'] != null) {
+                            _navigateToPropertyDetails(location['property']);
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.orange,
                         ),
-                        child: const Text('Acomodações Próximas', style: TextStyle(color: Colors.white)),
+                        child: const Text('Ver Detalhes', style: TextStyle(color: Colors.white)),
                       ),
                     ),
                   ],
@@ -295,9 +298,13 @@ class _MapPageState extends State<MapPage> {
 
   // Navigate to property details page (to be implemented)
   void _navigateToPropertyDetails(Property property) {
-    // Implementation for navigating to property details
-    print('Navigating to details for property: ${property.address}');
-    // Navigator.push(context, MaterialPageRoute(builder: (context) => PropertyDetailPage(property: property)));
+    // Navigate to property details page
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => PropertyDetailPage(property: property)
+        )
+    );
   }
 
   // Show nearby properties (to be implemented)

@@ -63,7 +63,7 @@ class _PropertyDetailPageState extends State<PropertyDetailPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.orange,
-        title: Text('Property Details', style: TextStyle(color: Colors.white)),
+        title: Text('Detalhes da propriedade', style: TextStyle(color: Colors.white)),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.pop(context),
@@ -96,7 +96,7 @@ class _PropertyDetailPageState extends State<PropertyDetailPage> {
                             return Container(
                               color: Colors.grey[300],
                               child: const Center(
-                                child: Text('Image not available'),
+                                child: Text('Nenhuma imagem disponível'),
                               ),
                             );
                           },
@@ -128,7 +128,7 @@ class _PropertyDetailPageState extends State<PropertyDetailPage> {
                 height: 250,
                 color: Colors.grey[300],
                 child: const Center(
-                  child: Text('No images available'),
+                  child: Text('Nenhuma imagem disponível'),
                 ),
               ),
 

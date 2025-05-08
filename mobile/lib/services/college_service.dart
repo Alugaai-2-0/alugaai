@@ -14,7 +14,8 @@ class CollegeService {
       final response = await http.get(
         Uri.parse('$baseUrl/college'),
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json; charset=utf-8',
+          'Accept': 'application/json; charset=utf-8',
           // Add any authentication headers if needed
           // 'Authorization': 'Bearer $token',
         },
