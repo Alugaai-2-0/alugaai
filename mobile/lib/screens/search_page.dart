@@ -287,6 +287,7 @@ class _SearchPageState extends State<SearchPage> {
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: Row(
               children: [
+                // Name and age - will take as much space as needed (won't be truncated)
                 Text(
                   '${student.userName}, $age - ',
                   style: const TextStyle(
@@ -294,12 +295,16 @@ class _SearchPageState extends State<SearchPage> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                Text(
-                  student.collegeName,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.orange,
+                // College name - will expand but can be truncated
+                Expanded(
+                  child: Text(
+                    student.collegeName,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.orange,
+                    ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
                 if (student.collegeName == 'FACENS')
