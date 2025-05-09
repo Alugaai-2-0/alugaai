@@ -20,6 +20,17 @@ class _SearchPageState extends State<SearchPage> {
   bool isLoading = true;
   String errorMessage = '';
 
+  // Filter state variables
+  double _maxAge = 30;
+  List<String> _selectedPersonalities = [];
+
+  // Mock list of available personalities for filtering
+  final List<String> _availablePersonalities = [
+    'Extrovert', 'Introvert', 'Creative', 'Analytical',
+    'Adventurous', 'Calm', 'Energetic', 'Organized',
+    'Spontaneous', 'Ambitious', 'Relaxed', 'Athletic'
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -55,16 +66,185 @@ class _SearchPageState extends State<SearchPage> {
     }
   }
 
+  void _openFilterDrawer() {
+    Scaffold.of(context).openDrawer();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: isLoading
-          ? const Center(child: CircularProgressIndicator(color: Colors.orange))
-          : errorMessage.isNotEmpty
-          ? _buildErrorView()
-          : students.isEmpty
-          ? _buildEmptyView()
-          : _buildSwipeView(),
+      drawer: _buildFilterDrawer(),
+      body: Builder(
+        builder: (context) => isLoading
+            ? const Center(child: CircularProgressIndicator(color: Colors.orange))
+            : errorMessage.isNotEmpty
+            ? _buildErrorView()
+            : students.isEmpty
+            ? _buildEmptyView()
+            : _buildSwipeView(context),
+      ),
+      // Set resizeToAvoidBottomInset to true to prevent keyboard issues
+      resizeToAvoidBottomInset: true,
+    );
+  }
+
+  Widget _buildFilterDrawer() {
+    return Drawer(
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Filters',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.orange,
+                ),
+              ),
+              const SizedBox(height: 30),
+
+              // Max Age Filter
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Max Age:',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      Text(
+                        '${_maxAge.round()} years',
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.orange,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Slider(
+                    value: _maxAge,
+                    min: 18,
+                    max: 50,
+                    divisions: 32,
+                    activeColor: Colors.orange,
+                    inactiveColor: Colors.orange.withOpacity(0.2),
+                    onChanged: (value) {
+                      setState(() {
+                        _maxAge = value;
+                      });
+                    },
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 30),
+
+              // Personalities Filter
+              const Text(
+                'Personalities:',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const SizedBox(height: 10),
+
+              // Autocomplete for personalities
+              Autocomplete<String>(
+                optionsBuilder: (TextEditingValue textEditingValue) {
+                  if (textEditingValue.text == '') {
+                    return const Iterable<String>.empty();
+                  }
+                  return _availablePersonalities.where((option) {
+                    return option.toLowerCase().contains(textEditingValue.text.toLowerCase());
+                  });
+                },
+                onSelected: (String selection) {
+                  if (!_selectedPersonalities.contains(selection)) {
+                    setState(() {
+                      _selectedPersonalities.add(selection);
+                    });
+                  }
+                },
+                fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
+                  return TextField(
+                    controller: textEditingController,
+                    focusNode: focusNode,
+                    decoration: InputDecoration(
+                      hintText: 'Search personalities',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(color: Colors.orange),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(color: Colors.orange, width: 2),
+                      ),
+                    ),
+                    onSubmitted: (String value) {
+                      onFieldSubmitted();
+                    },
+                  );
+                },
+              ),
+
+              const SizedBox(height: 10),
+
+              // Selected personalities chips
+              Wrap(
+                spacing: 8.0,
+                children: _selectedPersonalities.map((personality) {
+                  return Chip(
+                    label: Text(personality),
+                    backgroundColor: Colors.orange.withOpacity(0.1),
+                    deleteIconColor: Colors.orange,
+                    onDeleted: () {
+                      setState(() {
+                        _selectedPersonalities.remove(personality);
+                      });
+                    },
+                  );
+                }).toList(),
+              ),
+
+              const Spacer(),
+
+              // Apply button
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    // Here you would implement the actual filtering logic
+                    Navigator.pop(context);
+                    // For now, just close the drawer since we're only mocking the UI
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.orange,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 15),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  child: const Text(
+                    'Apply Filters',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -132,78 +312,21 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
-  Widget _buildSwipeView() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(
-            height: 500, // Adjust height as needed
-            width: 340,  // Adjust width as needed
-            child: CardSwiper(
-              controller: controller,
-              cardsCount: students.length,
-              cardBuilder: (context, index, percentThresholdX, percentThresholdY) {
-                return _buildProfileCard(students[index]);
-              },
-              onSwipe: (previousIndex, currentIndex, direction) {
-                print('Profile $previousIndex was swiped $direction');
-                return true;
-              },
-            ),
-          ),
-          const SizedBox(height: 20),
-          // Swipe buttons
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // Existing swipe buttons row
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // Dislike button (X)
-                  Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(color: Colors.orange, width: 2),
-                    ),
-                    child: IconButton(
-                      icon: const Icon(Icons.close, color: Colors.orange),
-                      onPressed: () {
-                        controller.swipe(CardSwiperDirection.left);
-                      },
-                      iconSize: 30,
-                    ),
-                  ),
-                  const SizedBox(width: 40),
-                  // Like button (check)
-                  Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(color: Colors.orange, width: 2),
-                    ),
-                    child: IconButton(
-                      icon: const Icon(Icons.check, color: Colors.orange),
-                      onPressed: () {
-                        controller.swipe(CardSwiperDirection.right);
-                      },
-                      iconSize: 30,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20), // Add some vertical spacing
-              // Mapa button - Updated with navigation to MapPage
-              ElevatedButton.icon(
+  Widget _buildSwipeView(BuildContext context) {
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            // Filter button at the top of cards
+            Padding(
+              padding: const EdgeInsets.only(top: 20, bottom: 10),
+              child: ElevatedButton.icon(
                 onPressed: () {
-                  // Navigate to MapPage
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const MapPage()),
-                  );
+                  Scaffold.of(context).openDrawer();
                 },
-                icon: const Icon(Icons.map, color: Colors.white),
-                label: const Text('Mapa'),
+                icon: const Icon(Icons.filter_list, color: Colors.white),
+                label: const Text('Filters'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.orange,
                   foregroundColor: Colors.white,
@@ -213,9 +336,90 @@ class _SearchPageState extends State<SearchPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                 ),
               ),
-            ],
-          ),
-        ],
+            ),
+            SizedBox(
+              height: 450, // Reduced height to match the card's fixed height
+              width: 340,
+              child: CardSwiper(
+                controller: controller,
+                cardsCount: students.length,
+                cardBuilder: (context, index, percentThresholdX, percentThresholdY) {
+                  return _buildProfileCard(students[index]);
+                },
+                onSwipe: (previousIndex, currentIndex, direction) {
+                  print('Profile $previousIndex was swiped $direction');
+                  return true;
+                },
+              ),
+            ),
+            const SizedBox(height: 20),
+            // Swipe buttons
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Existing swipe buttons row
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Dislike button (X)
+                    Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.orange, width: 2),
+                      ),
+                      child: IconButton(
+                        icon: const Icon(Icons.close, color: Colors.orange),
+                        onPressed: () {
+                          controller.swipe(CardSwiperDirection.left);
+                        },
+                        iconSize: 30,
+                      ),
+                    ),
+                    const SizedBox(width: 40),
+                    // Like button (check)
+                    Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.orange, width: 2),
+                      ),
+                      child: IconButton(
+                        icon: const Icon(Icons.check, color: Colors.orange),
+                        onPressed: () {
+                          controller.swipe(CardSwiperDirection.right);
+                        },
+                        iconSize: 30,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20), // Add some vertical spacing
+                // Mapa button - Updated with navigation to MapPage
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      // Navigate to MapPage
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const MapPage()),
+                      );
+                    },
+                    icon: const Icon(Icons.map, color: Colors.white),
+                    label: const Text('Mapa'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.orange,
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -225,14 +429,13 @@ class _SearchPageState extends State<SearchPage> {
     final int age = DateTime.now().year - student.birthDate.year;
 
     // Check if student has an image
-    String imageSource = '';
     Widget profileImage;
 
     if (student.image != null && student.image!.imageData64.isNotEmpty) {
       // Use base64 image data
       profileImage = Container(
-        height: 140,
-        width: 140,
+        height: 120, // Reduced from 140
+        width: 120, // Reduced from 140
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           image: DecorationImage(
@@ -244,8 +447,8 @@ class _SearchPageState extends State<SearchPage> {
     } else {
       // Use placeholder image
       profileImage = Container(
-        height: 140,
-        width: 140,
+        height: 120, // Reduced from 140
+        width: 120, // Reduced from 140
         decoration: const BoxDecoration(
           shape: BoxShape.circle,
           image: DecorationImage(
@@ -262,94 +465,100 @@ class _SearchPageState extends State<SearchPage> {
         borderRadius: BorderRadius.circular(15),
       ),
       color: Colors.white,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Profile Photo (Circle at the top)
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 20.0),
-              child: profileImage,
-            ),
-          ),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0),
-              child: Wrap(
-                spacing: 4.0,
-                children: _buildInterestChips(student.personalities.toList()),
+      child: Container(
+        height: 400, // Fixed height for the card
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Profile Photo (Circle at the top)
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 15.0), // Reduced from 20
+                child: profileImage,
               ),
             ),
-          ),
-          const SizedBox(height: 15),
-          // Name, age and college
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0),
-            child: Row(
-              children: [
-                // Name and age - will take as much space as needed (won't be truncated)
-                Text(
-                  '${student.userName}, $age - ',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
+            const SizedBox(height: 8), // Reduced from 15
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                child: Wrap(
+                  spacing: 4.0,
+                  runSpacing: 4.0, // Add run spacing for better wrapping
+                  alignment: WrapAlignment.center,
+                  children: _buildInterestChips(student.personalities.toList()),
                 ),
-                // College name - will expand but can be truncated
-                Expanded(
-                  child: Text(
-                    student.collegeName,
+              ),
+            ),
+            const SizedBox(height: 8), // Reduced from 15
+            // Name, age and college
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              child: Row(
+                children: [
+                  // Name and age - will take as much space as needed (won't be truncated)
+                  Text(
+                    '${student.userName}, $age - ',
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: Colors.orange,
                     ),
-                    overflow: TextOverflow.ellipsis,
                   ),
-                ),
-                if (student.collegeName == 'FACENS')
-                  const Padding(
-                    padding: EdgeInsets.only(left: 5.0),
-                    child: Icon(Icons.verified, color: Colors.orange, size: 18),
+                  // College name - will expand but can be truncated
+                  Expanded(
+                    child: Text(
+                      student.collegeName,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.orange,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 10),
-          // Description
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0),
-            child: Text(
-              student.description,
-              style: const TextStyle(fontSize: 14),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          // Ver mais button
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0),
-            child: TextButton(
-              onPressed: () {
-                // You'll implement this later as mentioned
-                print('Ver mais clicked for ${student.userName}');
-              },
-              style: TextButton.styleFrom(
-                padding: EdgeInsets.zero,
-                minimumSize: const Size(50, 30),
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                alignment: Alignment.centerLeft,
-              ),
-              child: const Text(
-                'Ver mais',
-                style: TextStyle(
-                  color: Colors.orange,
-                  fontWeight: FontWeight.bold,
-                ),
+                  if (student.collegeName == 'FACENS')
+                    const Padding(
+                      padding: EdgeInsets.only(left: 5.0),
+                      child: Icon(Icons.verified, color: Colors.orange, size: 18),
+                    ),
+                ],
               ),
             ),
-          ),
-        ],
+            const SizedBox(height: 8), // Reduced from 10
+            // Description
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              child: Text(
+                student.description,
+                style: const TextStyle(fontSize: 14),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            // Ver mais button
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              child: TextButton(
+                onPressed: () {
+                  // You'll implement this later as mentioned
+                  print('Ver mais clicked for ${student.userName}');
+                },
+                style: TextButton.styleFrom(
+                  padding: EdgeInsets.zero,
+                  minimumSize: const Size(50, 30),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  alignment: Alignment.centerLeft,
+                ),
+                child: const Text(
+                  'Ver mais',
+                  style: TextStyle(
+                    color: Colors.orange,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -369,8 +578,9 @@ class _SearchPageState extends State<SearchPage> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20), // Rounder corners
         ),
-        padding: const EdgeInsets.all(3),
-        labelPadding: const EdgeInsets.symmetric(horizontal: 3),
+        padding: const EdgeInsets.all(2), // Reduced from 3
+        labelPadding: const EdgeInsets.symmetric(horizontal: 2), // Reduced from 3
+        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap, // Make the chip more compact
       );
     }).toList();
   }
