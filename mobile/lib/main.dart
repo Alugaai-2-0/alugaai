@@ -129,7 +129,7 @@ class _MainScreenState extends State<MainScreen> {
           ),
           const BottomNavigationBarItem(
             icon: Icon(Icons.search),
-            label: 'Search',
+            label: 'Procurar',
           ),
           BottomNavigationBarItem(
             icon: _isLoggedIn
@@ -155,7 +155,7 @@ class _MainScreenState extends State<MainScreen> {
               ),
             )
                 : const Icon(Icons.person),
-            label: _isLoggedIn ? 'Profile' : 'Login',
+            label: _isLoggedIn ? 'Perfil' : 'Login',
           ),
         ],
         currentIndex: _selectedIndex,
