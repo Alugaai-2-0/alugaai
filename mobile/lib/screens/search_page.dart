@@ -24,11 +24,46 @@ class _SearchPageState extends State<SearchPage> {
   double _maxAge = 30;
   List<String> _selectedPersonalities = [];
 
+
   // Mock list of available personalities for filtering
   final List<String> _availablePersonalities = [
-    'Extrovert', 'Introvert', 'Creative', 'Analytical',
-    'Adventurous', 'Calm', 'Energetic', 'Organized',
-    'Spontaneous', 'Ambitious', 'Relaxed', 'Athletic'
+    // UNIP Students
+    'ama cozinhar',
+    'gosta de plantas',
+    'organizada',
+    'gosta de séries',
+    'prefere estudar em casa',
+    'toca piano',
+    'vegana',
+    'gamer',
+    'programador',
+    'noturno',
+    'toca guitarra',
+    'gosta de animes',
+    'pratica e-sports',
+    'fã de tecnologia',
+
+    // FACENS Students
+    'atleta',
+    'madrugador',
+    'gosta de esportes',
+    'pratica natação',
+    'organizado',
+    'fã de podcasts',
+    'gosta de documentários',
+    'músico',
+    'artista',
+    'criativo',
+    'gosta de fotografia',
+    'fã de jazz',
+    'pratica meditação',
+    'vegetariano',
+    'dançarina',
+    'gosta de viajar',
+    'extrovertida',
+    'pratica volleyball',
+    'ama pets',
+    'fã de música pop'
   ];
 
   @override
@@ -158,40 +193,76 @@ class _SearchPageState extends State<SearchPage> {
               ),
               const SizedBox(height: 10),
 
-              // Autocomplete for personalities
-              Autocomplete<String>(
-                optionsBuilder: (TextEditingValue textEditingValue) {
-                  if (textEditingValue.text == '') {
-                    return const Iterable<String>.empty();
-                  }
-                  return _availablePersonalities.where((option) {
-                    return option.toLowerCase().contains(textEditingValue.text.toLowerCase());
-                  });
-                },
-                onSelected: (String selection) {
-                  if (!_selectedPersonalities.contains(selection)) {
-                    setState(() {
-                      _selectedPersonalities.add(selection);
-                    });
-                  }
-                },
-                fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
-                  return TextField(
-                    controller: textEditingController,
-                    focusNode: focusNode,
-                    decoration: InputDecoration(
-                      hintText: 'Search personalities',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(color: Colors.orange),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(color: Colors.orange, width: 2),
-                      ),
-                    ),
-                    onSubmitted: (String value) {
-                      onFieldSubmitted();
+              // Custom Autocomplete with all options visible
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  return RawAutocomplete<String>(
+                    optionsBuilder: (TextEditingValue textEditingValue) {
+                      if (textEditingValue.text == '') {
+                        return _availablePersonalities;
+                      }
+                      return _availablePersonalities.where((option) {
+                        return option.toLowerCase().contains(textEditingValue.text.toLowerCase());
+                      });
+                    },
+                    onSelected: (String selection) {
+                      if (!_selectedPersonalities.contains(selection)) {
+                        setState(() {
+                          _selectedPersonalities.add(selection);
+
+                        });
+                      }
+                    },
+                    fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
+
+                      return TextField(
+                        controller: textEditingController,
+                        focusNode: focusNode,
+                        decoration: InputDecoration(
+                          hintText: 'Search personalities',
+                          suffixIcon: Icon(Icons.search, color: Colors.orange),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: const BorderSide(color: Colors.orange),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: const BorderSide(color: Colors.orange, width: 2),
+                          ),
+                        ),
+                        onTap: () {
+                          // Show all options when the field is tapped
+                          textEditingController.text = '';
+                          onFieldSubmitted();
+                        },
+                      );
+                    },
+                    optionsViewBuilder: (context, onSelected, options) {
+                      return Align(
+                        alignment: Alignment.topLeft,
+                        child: Material(
+                          elevation: 4.0,
+                          child: ConstrainedBox(
+                            constraints: BoxConstraints(
+                              maxHeight: 200, // Limit the height of the options list
+                              maxWidth: constraints.maxWidth, // Match the width of the text field
+                            ),
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: options.length,
+                              itemBuilder: (context, index) {
+                                final option = options.elementAt(index);
+                                return ListTile(
+                                  title: Text(option),
+                                  onTap: () {
+                                    onSelected(option);
+                                  },
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                      );
                     },
                   );
                 },
@@ -338,7 +409,7 @@ class _SearchPageState extends State<SearchPage> {
               ),
             ),
             SizedBox(
-              height: 450, // Reduced height to match the card's fixed height
+              height: 430, // Reduced height to match the card's fixed height
               width: 340,
               child: CardSwiper(
                 controller: controller,
