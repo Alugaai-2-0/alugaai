@@ -182,7 +182,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   // Alternativa: se quiser substituir a tela atual pela tela admin
                   // Navigator.pushReplacementNamed(context, '/admin');
                 }),
-              _buildMenuItem(Icons.favorite_outline, 'Favoritos'),
+              _buildMenuItem(Icons.favorite_outline, 'Conexões', onTap: (){
+                Navigator.pushNamed(context, '/connections');
+              }),
               _buildMenuItem(Icons.download_outlined, 'Downloads'),
               const Divider(thickness: 2, height: 20, color: AppColors.primaryTextColor),
 
