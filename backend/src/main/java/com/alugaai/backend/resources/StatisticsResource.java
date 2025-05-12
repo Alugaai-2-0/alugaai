@@ -1,19 +1,14 @@
 package com.alugaai.backend.resources;
 
-import com.alugaai.backend.dtos.api.ViaCepResponseDTO;
 import com.alugaai.backend.dtos.statistics.AllMonthlyRentResponseDTO;
 import com.alugaai.backend.dtos.statistics.AllOwnersResponseDTO;
 import com.alugaai.backend.dtos.statistics.AllPropertiesResponseDTO;
 import com.alugaai.backend.dtos.statistics.AllStudentsResponseDTO;
 import com.alugaai.backend.services.StatisticsService;
-import com.alugaai.backend.services.ViaCepService;
-import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

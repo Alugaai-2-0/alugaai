@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/connections")
+@RequestMapping("/connections")
 @PreAuthorize("hasRole('STUDENT')")
 @RequiredArgsConstructor
 public class StudentConnectionsResource {
@@ -92,7 +92,6 @@ public class StudentConnectionsResource {
         return ResponseEntity.ok(responseDTOs);
     }
 
-    // Método auxiliar para converter entidade para DTO
     private ConnectionResponseDTO convertToDTO(StudentConnection connection) {
         ConnectionResponseDTO dto = new ConnectionResponseDTO();
         dto.setId(connection.getId());
