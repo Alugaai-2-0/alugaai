@@ -408,92 +408,143 @@ class _SearchPageState extends State<SearchPage> {
                 ),
               ),
             ),
-            SizedBox(
-              height: 430, // Reduced height to match the card's fixed height
-              width: 340,
-              child: CardSwiper(
-                controller: controller,
-                cardsCount: students.length,
-                cardBuilder: (context, index, percentThresholdX, percentThresholdY) {
-                  return _buildProfileCard(students[index]);
-                },
-                onSwipe: (previousIndex, currentIndex, direction) {
-                  print('Profile $previousIndex was swiped $direction');
-                  return true;
-                },
-              ),
-            ),
+            // Conditional rendering based on number of students
+            students.isEmpty
+                ? _buildNoCardsView()
+                : students.length == 1
+                ? _buildSingleCardView(students[0])
+                : _buildMultiCardSwiper(),
             const SizedBox(height: 20),
-            // Swipe buttons
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // Existing swipe buttons row
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // Dislike button (X)
-                    Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(color: Colors.orange, width: 2),
-                      ),
-                      child: IconButton(
-                        icon: const Icon(Icons.close, color: Colors.orange),
-                        onPressed: () {
-                          controller.swipe(CardSwiperDirection.left);
-                        },
-                        iconSize: 30,
-                      ),
-                    ),
-                    const SizedBox(width: 40),
-                    // Like button (check)
-                    Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(color: Colors.orange, width: 2),
-                      ),
-                      child: IconButton(
-                        icon: const Icon(Icons.check, color: Colors.orange),
-                        onPressed: () {
-                          controller.swipe(CardSwiperDirection.right);
-                        },
-                        iconSize: 30,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20), // Add some vertical spacing
-                // Mapa button - Updated with navigation to MapPage
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 20),
-                  child: ElevatedButton.icon(
-                    onPressed: () {
-                      // Navigate to MapPage
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const MapPage()),
-                      );
-                    },
-                    icon: const Icon(Icons.map, color: Colors.white),
-                    label: const Text('Mapa'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.orange,
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            // Existing swipe buttons and map button (only show if at least one card)
+            if (students.isNotEmpty) _buildSwipeControls(context),
           ],
         ),
       ),
     );
   }
+
+  Widget _buildSingleCardView(Student student) {
+    return SizedBox(
+      height: 430,
+      width: 340,
+      child: _buildProfileCard(student),
+    );
+  }
+
+  Widget _buildMultiCardSwiper() {
+    return SizedBox(
+      height: 430,
+      width: 340,
+      child: CardSwiper(
+        controller: controller,
+        cardsCount: students.length,
+        cardBuilder: (context, index, percentThresholdX, percentThresholdY) {
+          return _buildProfileCard(students[index]);
+        },
+        onSwipe: (previousIndex, currentIndex, direction) {
+          print('Profile $previousIndex was swiped $direction');
+          return true;
+        },
+      ),
+    );
+  }
+
+  Widget _buildNoCardsView() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(Icons.person_off, color: Colors.orange, size: 60),
+          const SizedBox(height: 16),
+          const Text(
+            'No students match your filters',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 8),
+          const Text(
+            'Try adjusting your search criteria',
+            style: TextStyle(color: Colors.grey),
+          ),
+          const SizedBox(height: 24),
+          ElevatedButton(
+            onPressed: _loadStudents,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.orange,
+              foregroundColor: Colors.white,
+            ),
+            child: const Text('Reset Filters'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSwipeControls(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Dislike button (X)
+            Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.orange, width: 2),
+              ),
+              child: IconButton(
+                icon: const Icon(Icons.close, color: Colors.orange),
+                onPressed: () {
+                  controller.swipe(CardSwiperDirection.left);
+                },
+                iconSize: 30,
+              ),
+            ),
+            const SizedBox(width: 40),
+            // Like button (check)
+            Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.orange, width: 2),
+              ),
+              child: IconButton(
+                icon: const Icon(Icons.check, color: Colors.orange),
+                onPressed: () {
+                  controller.swipe(CardSwiperDirection.right);
+                },
+                iconSize: 30,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 20),
+        // Mapa button
+        Padding(
+          padding: const EdgeInsets.only(bottom: 20),
+          child: ElevatedButton.icon(
+            onPressed: () {
+              // Navigate to MapPage
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const MapPage()),
+              );
+            },
+            icon: const Icon(Icons.map, color: Colors.white),
+            label: const Text('Mapa'),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.orange,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
 
   Widget _buildProfileCard(Student student) {
     // Calculate age based on birthDate

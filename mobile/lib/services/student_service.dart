@@ -2,13 +2,36 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:mobile/models/student_model.dart';
-class StudentService{
+class StudentService {
   final String baseUrl = 'http://10.0.2.2:8080';
 
-  Future<List<Student>> fetchStudents() async {
+  Future<List<Student>> fetchStudents({
+    int? maxAge,
+    Set<String>? personalities,
+  }) async {
     try {
+      // Construct query parameters
+      final queryParams = <String, dynamic>{};
+
+      // Add maxAge to query parameters if provided
+      if (maxAge != null) {
+        queryParams['maxAge'] = maxAge.toString();
+      }
+
+      // Add personalities to query parameters if provided
+      if (personalities != null && personalities.isNotEmpty) {
+        queryParams['personalities'] = personalities.toList();
+      }
+
+      // Construct the URI with query parameters
+      final uri = Uri.parse('$baseUrl/student/get-all').replace(
+        queryParameters: queryParams.map((key, value) => MapEntry(key,
+            value is List ? value.map((e) => e.toString()).toList() : [value.toString()]
+        )),
+      );
+
       final response = await http.get(
-        Uri.parse('$baseUrl/student/get-all'),
+        uri,
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
           'Accept': 'application/json; charset=utf-8',
