@@ -1,7 +1,6 @@
 // college_detail_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong2/latlong.dart';
 import 'package:mobile/models/college_model.dart';
 
 
@@ -131,7 +130,7 @@ class _CollegeDetailPageState extends State<CollegeDetailPage> {
                   ),
                   const SizedBox(height: 8),
                   Text('${college.address}, ${college.homeNumber}'),
-                  if (college.homeComplement.isNotEmpty)
+                  if (college.homeComplement!.isNotEmpty)
                     Text('Complemento: ${college.homeComplement}'),
                   Text('${college.neighborhood}, ${college.district}'),
                   const SizedBox(height: 16),

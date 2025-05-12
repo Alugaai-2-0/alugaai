@@ -6,7 +6,7 @@ class College {
   final String address;
   final String collegeName;
   final String homeNumber;
-  final String homeComplement;
+  final String? homeComplement;
   final String neighborhood;
   final String district;
   final String latitude;
@@ -18,7 +18,7 @@ class College {
     required this.address,
     required this.collegeName,
     required this.homeNumber,
-    required this.homeComplement,
+    this.homeComplement,
     required this.neighborhood,
     required this.district,
     required this.latitude,

@@ -1,10 +1,12 @@
-// MAP PAGE using flutter_map with college service integration
+// MAP PAGE using flutter_map with college and property service integration
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:mobile/models/college_model.dart';
+import 'package:mobile/models/property_model.dart';
+import 'package:mobile/screens/property_detail_page.dart';
 import 'package:mobile/services/college_service.dart';
-
+import 'package:mobile/services/property_service.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({Key? key}) : super(key: key);
@@ -16,12 +18,14 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> {
   final MapController mapController = MapController();
   final CollegeService _collegeService = CollegeService();
+  final PropertyService _propertyService = PropertyService();
 
   // Collection of markers
   final List<Marker> markers = [];
 
-  // College data
+  // Data collections
   List<College> colleges = [];
+  List<Property> properties = [];
 
   // Loading state
   bool isLoading = false;
@@ -33,35 +37,33 @@ class _MapPageState extends State<MapPage> {
   @override
   void initState() {
     super.initState();
-    // Load colleges from API
-    _loadColleges();
-
-    // Add sample properties (you might want to remove this and load properties from an API too)
-    _addSampleProperties();
+    // Load data from APIs
+    _loadData();
   }
 
-  // Load colleges from the API
-  Future<void> _loadColleges() async {
+  // Load all data
+  Future<void> _loadData() async {
     setState(() {
       isLoading = true;
       errorMessage = '';
+      // Clear existing markers
+      markers.clear();
     });
 
     try {
-      // Fetch colleges from the service
-      final fetchedColleges = await _collegeService.fetchColleges();
+      // Load both colleges and properties concurrently
+      await Future.wait([
+        _loadColleges(),
+        _loadProperties(),
+      ]);
 
       setState(() {
-        colleges = fetchedColleges;
         isLoading = false;
       });
-
-      // Add college markers to the map
-      _addCollegeMarkers();
     } catch (e) {
       setState(() {
         isLoading = false;
-        errorMessage = 'Failed to load colleges: $e';
+        errorMessage = 'Failed to load data: $e';
       });
 
       // Show error message
@@ -71,6 +73,46 @@ class _MapPageState extends State<MapPage> {
           backgroundColor: Colors.red,
         ),
       );
+    }
+  }
+
+  // Load colleges from the API
+  Future<void> _loadColleges() async {
+    try {
+      // Fetch colleges from the service
+      final fetchedColleges = await _collegeService.fetchColleges();
+
+      setState(() {
+        colleges = fetchedColleges;
+      });
+
+      // Add college markers to the map
+      _addCollegeMarkers();
+    } catch (e) {
+      setState(() {
+        errorMessage = 'Failed to load colleges: $e';
+      });
+      print('Error loading colleges: $e');
+    }
+  }
+
+  // Load properties from the API
+  Future<void> _loadProperties() async {
+    try {
+      // Fetch properties from the service
+      final fetchedProperties = await _propertyService.fetchProperties();
+
+      setState(() {
+        properties = fetchedProperties;
+      });
+
+      // Add property markers to the map
+      _addPropertyMarkers();
+    } catch (e) {
+      setState(() {
+        errorMessage = 'Failed to load properties: $e';
+      });
+      print('Error loading properties: $e');
     }
   }
 
@@ -104,37 +146,34 @@ class _MapPageState extends State<MapPage> {
     setState(() {});
   }
 
-  // Add sample properties
-  void _addSampleProperties() {
-    // Sample properties (in a real app, you'd get these from your database)
-    final List<Map<String, dynamic>> properties = [
-      {
-        'id': 'property1',
-        'title': 'Apartamento Centro',
-        'type': 'property',
-        'position': LatLng(-23.4827, -47.4352), // Near FACENS
-        'snippet': 'RS1.200/mês - 2 quartos',
-      },
-      {
-        'id': 'property2',
-        'title': 'Casa Compartilhada',
-        'type': 'property',
-        'position': LatLng(-23.5632, -46.7309), // Near USP
-        'snippet': 'RS800/mês - Quarto individual',
-      },
-    ];
-
-    // Create markers from the properties
+  // Add property markers to the map
+  void _addPropertyMarkers() {
     for (var property in properties) {
-      markers.add(
-        Marker(
-          point: property['position'],
-          width: 40.0,
-          height: 40.0,
-          child: _buildMarkerWidget(property),
-        ),
-      );
+      try {
+        final LatLng position = property.getLatLng();
+
+        markers.add(
+          Marker(
+            point: position,
+            width: 40.0,
+            height: 40.0,
+            child: _buildMarkerWidget({
+              'id': property.id.toString(),
+              'title': property.address,
+              'type': 'property',
+              'position': position,
+              'snippet': property.snippet,
+              'property': property, // Pass the full property object
+            }),
+          ),
+        );
+      } catch (e) {
+        print('Error adding marker for property ${property.id}: $e');
+      }
     }
+
+    // Update the state to show the markers
+    setState(() {});
   }
 
   Widget _buildMarkerWidget(Map<String, dynamic> location) {
@@ -213,15 +252,17 @@ class _MapPageState extends State<MapPage> {
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () {
-                          // Handle viewing nearby properties
+                          // Handle viewing property details
                           Navigator.pop(context);
-                          // You could navigate to a filtered list of properties near this college
-                          _showNearbyProperties(location['position']);
+                          // Navigate to property details page
+                          if (location['property'] != null) {
+                            _navigateToPropertyDetails(location['property']);
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.orange,
                         ),
-                        child: const Text('Acomodações Próximas', style: TextStyle(color: Colors.white)),
+                        child: const Text('Ver Detalhes', style: TextStyle(color: Colors.white)),
                       ),
                     ),
                   ],
@@ -232,6 +273,9 @@ class _MapPageState extends State<MapPage> {
                     // Handle viewing property details
                     Navigator.pop(context);
                     // Navigate to property details page
+                    if (location['property'] != null) {
+                      _navigateToPropertyDetails(location['property']);
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.orange,
@@ -252,11 +296,25 @@ class _MapPageState extends State<MapPage> {
     // Navigator.push(context, MaterialPageRoute(builder: (context) => CollegeDetailPage(college: college)));
   }
 
+  // Navigate to property details page (to be implemented)
+  void _navigateToPropertyDetails(Property property) {
+    // Navigate to property details page
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => PropertyDetailPage(property: property)
+        )
+    );
+  }
+
   // Show nearby properties (to be implemented)
-  void _showNearbyProperties(LatLng position) {
-    // Implementation for showing nearby properties
-    print('Showing properties near: ${position.latitude}, ${position.longitude}');
-    // You could filter your property list or make an API call to get properties near this location
+
+
+  // Simple distance calculation in kilometers
+
+
+  double _toRadians(double degree) {
+    return degree * (3.141592653589793 / 180.0);
   }
 
   @override
@@ -273,7 +331,7 @@ class _MapPageState extends State<MapPage> {
           // Refresh button
           IconButton(
             icon: const Icon(Icons.refresh, color: Colors.white),
-            onPressed: _loadColleges,
+            onPressed: _loadData,
           ),
         ],
       ),
