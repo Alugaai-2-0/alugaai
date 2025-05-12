@@ -26,4 +26,10 @@ public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecifi
     boolean existsByEmail(@NotNull String email);
 
     Optional<User> findByEmailOrCpfOrPhoneNumber(@NotNull String email, @NotNull String cpf, @NotNull String phoneNumber);
+
+    @Query("SELECT COUNT(s) FROM Student s")
+    long countStudents();
+
+    @Query("SELECT COUNT(o) FROM Owner o")
+    long countOwners();
 }

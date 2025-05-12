@@ -15,4 +15,10 @@ import java.util.Optional;
 @Repository
 public interface PropertyRepository extends JpaRepository<Property, Integer>, JpaSpecificationExecutor<Property> {
 
+    @Query("SELECT COUNT(p) FROM Property p")
+    public long countProperties();
+
+    @Query("SELECT COUNT(p.price) FROM Property p")
+    public double countMonthlyRentalProperties();
+
 }
