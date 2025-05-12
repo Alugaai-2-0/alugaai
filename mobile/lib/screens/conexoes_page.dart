@@ -61,38 +61,24 @@ class _ConexoesPageState extends State<ConexoesPage> {
   ];
 
   @override
-  void initState() {
-    super.initState();
-    _setCustomAppBar();
-  }
-
-  void _setCustomAppBar() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<AppBarController>(context, listen: false).setAppBar(
-        AppBar(
-          title: const Text('Conexões'),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.filter_list),
-              onPressed: () {
-                // TODO: Implement filtering logic
-              },
-            ),
-          ],
-        ),
-      );
-    });
-  }
-
-  @override
-  void dispose() {
-    Provider.of<AppBarController>(context, listen: false).resetToDefault();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 1.0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: AppColors.primaryOrangeColor),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        title: Text(
+          'Conexões',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),

@@ -30,10 +30,13 @@ class _ProfilePageState extends State<ProfilePage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<AppBarController>(context, listen: false).setAppBar(
         AppBar(
-          title: const Text('Meu perfil'),
+          title: Text('Meu perfil', style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ), ),
           actions: [
             IconButton(
-              icon: const Icon(Icons.settings),
+              icon: const Icon(Icons.settings, color: AppColors.primaryOrangeColor,),
               onPressed: () {},
             ),
           ],
