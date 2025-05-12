@@ -79,15 +79,21 @@ class _SearchPageState extends State<SearchPage> {
     super.dispose();
   }
 
-  Future<void> _loadStudents() async {
+  Future<void> _loadStudents({
+    double? maxAge,
+    List<String>? personalities,
+  }) async {
     setState(() {
       isLoading = true;
       errorMessage = '';
     });
-
     try {
       // Fetch students from the service
-      final fetchedStudents = await _studentService.fetchStudents();
+      final fetchedStudents = await _studentService.fetchStudents(
+        maxAge: maxAge?.toInt(),
+        personalities: personalities?.toSet(),
+      );
+
       setState(() {
         students = fetchedStudents;
         isLoading = false;
@@ -296,6 +302,14 @@ class _SearchPageState extends State<SearchPage> {
                   onPressed: () {
                     // Here you would implement the actual filtering logic
                     Navigator.pop(context);
+
+                    _loadStudents(
+                      maxAge: _maxAge,
+                      personalities: _selectedPersonalities.isNotEmpty
+                          ? _selectedPersonalities
+                          : null,
+                    );
+
                     // For now, just close the drawer since we're only mocking the UI
                   },
                   style: ElevatedButton.styleFrom(
