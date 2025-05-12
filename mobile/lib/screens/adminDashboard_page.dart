@@ -136,9 +136,6 @@ class _AdminDashboardState extends State<AdminDashboard> {
             const SizedBox(height: 24),
 
             // Mapa de propriedades
-            _buildSectionTitle('Distribuição de Propriedades'),
-            _buildMap(),
-            const SizedBox(height: 24),
 
             // Gráficos comparativos
 
@@ -302,51 +299,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
   }
 
   // Widget para o mapa
-  Widget _buildMap() {
-    return Container(
-      height: 300,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
-            spreadRadius: 1,
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      clipBehavior: Clip.antiAlias,
-      child: FlutterMap(
-        options: MapOptions(
-          center: LatLng(-23.5505, -46.6333), // São Paulo
-          zoom: 12,
-        ),
-        children: [
-          TileLayer(
-            urlTemplate: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
-            subdomains: ['a', 'b', 'c'], // Required for CartoDB
-            userAgentPackageName: 'com.example.app',
-          ),
-          MarkerLayer(
-            markers: [
-              Marker(
-                point: LatLng(-23.5505, -46.6333),
-                width: 80,
-                height: 80,
-                child: const Icon(  // Changed from 'builder' to 'child'
-                  Icons.location_on,
-                  color: Colors.red,
-                  size: 30,
-                ),
-              ),
-              // Add more markers as needed
-            ],
-          ),
-        ],
-      ),
-    );
-  }
+
 
   // Widget para linha de gráficos
   Widget _buildChartRow() {
