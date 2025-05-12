@@ -18,18 +18,13 @@ import java.util.Optional;
 import java.util.Set;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecificationExecutor<Student> {
+public interface UserRepository extends JpaRepository<User, Integer> {
     Optional<User> findByUserName(@NotNull String name);
+
     @Query(value = "SELECT discriminator FROM users WHERE id = :userId", nativeQuery = true)
     String findDiscriminatorByUserId(@Param("userId") @NotNull Integer userId);
 
     boolean existsByEmail(@NotNull String email);
 
     Optional<User> findByEmailOrCpfOrPhoneNumber(@NotNull String email, @NotNull String cpf, @NotNull String phoneNumber);
-
-    @Query("SELECT COUNT(s) FROM Student s")
-    long countStudents();
-
-    @Query("SELECT COUNT(o) FROM Owner o")
-    long countOwners();
 }

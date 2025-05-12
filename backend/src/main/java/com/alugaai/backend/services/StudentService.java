@@ -4,6 +4,7 @@ import com.alugaai.backend.dtos.mappers.StudentMapper;
 import com.alugaai.backend.dtos.student.StudentFeedResponseDTO;
 import com.alugaai.backend.models.Role;
 import com.alugaai.backend.models.Student;
+import com.alugaai.backend.repositories.StudentRepository;
 import com.alugaai.backend.repositories.UserRepository;
 import com.alugaai.backend.security.SecurityService;
 import com.alugaai.backend.services.errors.CustomException;
@@ -25,7 +26,7 @@ import static com.alugaai.backend.repositories.specification.StudentSpecificatio
 @RequiredArgsConstructor
 public class StudentService {
 
-    private final UserRepository userRepository;
+    private final StudentRepository studentRepository;
 
     private final UserService userService;
 
@@ -78,7 +79,7 @@ public class StudentService {
         }
 
         existingPersonalities.addAll(normalizedPersonalities);
-        userRepository.save(student);
+        studentRepository.save(student);
     }
 
     @Transactional(readOnly = true)
@@ -119,7 +120,7 @@ public class StudentService {
                 .and(betweenBirthDate(minBirthDate, maxBirthDate))
                 .and(hasPersonalities(normalizedPersonalities));
 
-        return userRepository.findAll(spec)
+        return studentRepository.findAll(spec)
                 .stream()
                 .map(StudentMapper::toStudentFeedResponseDTO)
                 .collect(Collectors.toList());

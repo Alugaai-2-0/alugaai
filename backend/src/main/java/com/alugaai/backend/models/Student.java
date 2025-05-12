@@ -29,13 +29,12 @@ public class Student extends User {
     @Column(name = "personality")
     private Set<String> personalities = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "students_connections",
-            joinColumns = @JoinColumn(name = "student_id"),
-            inverseJoinColumns = @JoinColumn(name = "connected_student_id")
-    )
-    private Set<Student> connections = new HashSet<>();
+    @OneToMany(mappedBy = "requester", cascade = CascadeType.ALL)
+    private Set<StudentConnection> sentConnectionRequests = new HashSet<>();
+
+    @OneToMany(mappedBy = "addressee", cascade = CascadeType.ALL)
+    private Set<StudentConnection> receivedConnectionRequests = new HashSet<>();
+
 
     @ManyToOne
     @JoinColumn(name = "college_principal_id", nullable = true)
@@ -61,4 +60,5 @@ public class Student extends User {
                    String passwordHash) {
         super(birthDate, createdDate, gender, userName, email, passwordHash);
     }
+
 }
