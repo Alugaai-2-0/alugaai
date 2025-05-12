@@ -34,12 +34,6 @@ class _ProfilePageState extends State<ProfilePage> {
             color: Colors.black,
             fontWeight: FontWeight.bold,
           ), ),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.settings, color: AppColors.primaryOrangeColor,),
-              onPressed: () {},
-            ),
-          ],
         ),
       );
     });
@@ -185,20 +179,20 @@ class _ProfilePageState extends State<ProfilePage> {
                   // Alternativa: se quiser substituir a tela atual pela tela admin
                   // Navigator.pushReplacementNamed(context, '/admin');
                 }),
-              _buildMenuItem(Icons.favorite_outline, 'Conexões', onTap: (){
+              _buildMenuItem(Icons.supervised_user_circle_rounded, 'Conexões', onTap: (){
                 Navigator.pushNamed(context, '/connections');
               }),
-              _buildMenuItem(Icons.download_outlined, 'Downloads'),
+              _buildMenuItem(Icons.privacy_tip_rounded, 'Privacidade'),
               const Divider(thickness: 2, height: 20, color: AppColors.primaryTextColor),
 
-              _buildMenuItem(Icons.language, 'Idiomas'),
-              _buildMenuItem(Icons.location_on_outlined, 'Localização'),
-              _buildMenuItem(Icons.card_membership_outlined, 'Plano'),
-              _buildMenuItem(Icons.desktop_windows_outlined, 'Exibir'),
+              _buildMenuItem(Icons.notifications_rounded, 'Notificações'),
+              _buildMenuItem(Icons.account_circle_rounded, 'Preferências'),
+              _buildMenuItem(Icons.visibility_rounded, 'Visibilidade'),
+              _buildMenuItem(Icons.settings_rounded, 'Configurações'),
               const Divider(thickness: 2, height: 20, color: AppColors.primaryTextColor),
 
-              _buildMenuItem(Icons.delete_outline, 'Limpar Cache'),
-              _buildMenuItem(Icons.history, 'Limpar Histórico'),
+              _buildMenuItem(Icons.delete_outline, 'Placeholder'),
+              _buildMenuItem(Icons.history, 'Placeholder'),
               _buildMenuItem(
                 Icons.logout,
                 'Sair',
