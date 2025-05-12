@@ -228,45 +228,6 @@ class _MapPageState extends State<MapPage> {
                 style: const TextStyle(fontSize: 16.0),
               ),
               const SizedBox(height: 16.0),
-              if (location['type'] == 'university')
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: () {
-                          // Handle viewing college details
-                          Navigator.pop(context);
-                          // Navigate to college details page with the college data
-                          if (location['college'] != null) {
-                            _navigateToCollegeDetails(location['college']);
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue,
-                        ),
-                        child: const Text('Ver Detalhes', style: TextStyle(color: Colors.white)),
-                      ),
-                    ),
-                    const SizedBox(width: 8.0),
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: () {
-                          // Handle viewing property details
-                          Navigator.pop(context);
-                          // Navigate to property details page
-                          if (location['property'] != null) {
-                            _navigateToPropertyDetails(location['property']);
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.orange,
-                        ),
-                        child: const Text('Ver Detalhes', style: TextStyle(color: Colors.white)),
-                      ),
-                    ),
-                  ],
-                ),
               if (location['type'] == 'property')
                 ElevatedButton(
                   onPressed: () {

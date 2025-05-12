@@ -100,10 +100,10 @@ class _SearchPageState extends State<SearchPage> {
       });
     } catch (e) {
       setState(() {
-        errorMessage = 'Failed to load students: $e';
+        errorMessage = 'Falha ao carregar estudantes: $e';
         isLoading = false;
       });
-      print('Error loading students: $e');
+      print('Falha ao carregar estudantes: $e');
     }
   }
 
@@ -138,7 +138,7 @@ class _SearchPageState extends State<SearchPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                'Filters',
+                'Filtros',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -155,14 +155,14 @@ class _SearchPageState extends State<SearchPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text(
-                        'Max Age:',
+                        'Idade máxima:',
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
                       Text(
-                        '${_maxAge.round()} years',
+                        '${_maxAge.round()} anos',
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
@@ -191,7 +191,7 @@ class _SearchPageState extends State<SearchPage> {
 
               // Personalities Filter
               const Text(
-                'Personalities:',
+                'Personalidades:',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w500,
@@ -225,7 +225,7 @@ class _SearchPageState extends State<SearchPage> {
                         controller: textEditingController,
                         focusNode: focusNode,
                         decoration: InputDecoration(
-                          hintText: 'Search personalities',
+                          hintText: 'Procurar personalidades',
                           suffixIcon: Icon(Icons.search, color: Colors.orange),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
@@ -321,7 +321,7 @@ class _SearchPageState extends State<SearchPage> {
                     ),
                   ),
                   child: const Text(
-                    'Apply Filters',
+                    'Aplicar Filtros',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -341,7 +341,7 @@ class _SearchPageState extends State<SearchPage> {
           const Icon(Icons.error_outline, color: Colors.orange, size: 60),
           const SizedBox(height: 16),
           Text(
-            'Oops! Something went wrong.',
+            'Oops! Algo deu errado.',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
@@ -360,7 +360,7 @@ class _SearchPageState extends State<SearchPage> {
               backgroundColor: Colors.orange,
               foregroundColor: Colors.white,
             ),
-            child: const Text('Try Again'),
+            child: const Text('Tentar novamente'),
           ),
         ],
       ),
@@ -375,12 +375,12 @@ class _SearchPageState extends State<SearchPage> {
           const Icon(Icons.person_off, color: Colors.orange, size: 60),
           const SizedBox(height: 16),
           const Text(
-            'No students found',
+            'Nenhum estudante encontrado',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
           const Text(
-            'Check back later for potential matches',
+            'Volte depois para matchs em potencial',
             style: TextStyle(color: Colors.grey),
           ),
           const SizedBox(height: 24),
@@ -390,7 +390,7 @@ class _SearchPageState extends State<SearchPage> {
               backgroundColor: Colors.orange,
               foregroundColor: Colors.white,
             ),
-            child: const Text('Refresh'),
+            child: const Text('Atualizar'),
           ),
         ],
       ),
@@ -411,7 +411,7 @@ class _SearchPageState extends State<SearchPage> {
                   Scaffold.of(context).openDrawer();
                 },
                 icon: const Icon(Icons.filter_list, color: Colors.white),
-                label: const Text('Filters'),
+                label: const Text('Filtrar'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.orange,
                   foregroundColor: Colors.white,
@@ -471,12 +471,12 @@ class _SearchPageState extends State<SearchPage> {
           const Icon(Icons.person_off, color: Colors.orange, size: 60),
           const SizedBox(height: 16),
           const Text(
-            'No students match your filters',
+            'Nenhum estudante se aplica aos filtros',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
           const Text(
-            'Try adjusting your search criteria',
+            'Tente ajustar seus filtros',
             style: TextStyle(color: Colors.grey),
           ),
           const SizedBox(height: 24),
@@ -486,7 +486,7 @@ class _SearchPageState extends State<SearchPage> {
               backgroundColor: Colors.orange,
               foregroundColor: Colors.white,
             ),
-            child: const Text('Reset Filters'),
+            child: const Text('Resetar Filtros'),
           ),
         ],
       ),
