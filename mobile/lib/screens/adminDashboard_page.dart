@@ -3,6 +3,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:intl/intl.dart';
+import 'package:mobile/services/statistics_service.dart';
 import 'package:mobile/utils/app_bar_controller.dart';
 import 'package:provider/provider.dart';
 
@@ -14,6 +15,15 @@ class AdminDashboard extends StatefulWidget {
 }
 
 class _AdminDashboardState extends State<AdminDashboard> {
+  final StatisticsService _statisticsService = StatisticsService(
+    baseUrl: 'http://10.0.2.2:8080', // Replace with your actual base URL
+  );
+
+  int _totalStudents = 0;
+  int _totalOwners = 0;
+  int _totalProperties = 0;
+  double _monthlyRent = 0.0;
+  bool _isLoading = true;
 
   @override
   void initState() {
@@ -21,7 +31,37 @@ class _AdminDashboardState extends State<AdminDashboard> {
     // Execute após a conclusão do primeiro quadro
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _setCustomAppBar();
+      _loadStatistics();
     });
+  }
+
+  Future<void> _loadStatistics() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final stats = await _statisticsService.fetchAllStatistics();
+      setState(() {
+        _totalStudents = stats['totalStudents'] ?? 0;
+        _totalOwners = stats['totalOwners'] ?? 0;
+        _totalProperties = stats['totalProperties'] ?? 0;
+        _monthlyRent = (stats['monthlyRent'] ?? 0).toDouble();
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
+      // You might want to show an error message here
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to load statistics: $e')),
+      );
+    }
+  }
+
+  void _refreshData() {
+    _loadStatistics();
   }
 
   @override
@@ -53,9 +93,6 @@ class _AdminDashboardState extends State<AdminDashboard> {
     Provider.of<AppBarController>(context, listen: false).setAppBar(appBar);
   }
 
-  void _refreshData() {
-    // Your refresh logic
-  }
 
   void _openDashboardSettings() {
     // Your settings logic
@@ -156,6 +193,10 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
   // Widget para os cartões de estatísticas
   Widget _buildStatisticsCards() {
+    if (_isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
     return GridView.count(
       physics: const NeverScrollableScrollPhysics(),
       crossAxisCount: 2,
@@ -163,10 +204,30 @@ class _AdminDashboardState extends State<AdminDashboard> {
       mainAxisSpacing: 16,
       shrinkWrap: true,
       children: [
-        _buildStatCard('Total de Estudantes', '1,245', Icons.school, Colors.blue),
-        _buildStatCard('Total de Proprietários', '387', Icons.person, Colors.green),
-        _buildStatCard('Propriedades Ativas', '629', Icons.home, Colors.orange),
-        _buildStatCard('Receita Mensal', currencyFormat.format(12500), Icons.attach_money, Colors.purple),
+        _buildStatCard(
+            'Total de Estudantes',
+            NumberFormat.decimalPattern().format(_totalStudents),
+            Icons.school,
+            Colors.blue
+        ),
+        _buildStatCard(
+            'Total de Proprietários',
+            NumberFormat.decimalPattern().format(_totalOwners),
+            Icons.person,
+            Colors.green
+        ),
+        _buildStatCard(
+            'Propriedades Ativas',
+            NumberFormat.decimalPattern().format(_totalProperties),
+            Icons.home,
+            Colors.orange
+        ),
+        _buildStatCard(
+            'Receita Mensal',
+            currencyFormat.format(_monthlyRent),
+            Icons.attach_money,
+            Colors.purple
+        ),
       ],
     );
   }
