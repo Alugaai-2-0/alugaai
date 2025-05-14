@@ -14,9 +14,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class StatisticsService {
 
-    private StudentRepository studentRepository;
-    private OwnerRepository ownerRepository;
-    private PropertyRepository propertyRepository;
+    private final StudentRepository studentRepository;
+    private final OwnerRepository ownerRepository;
+    private final PropertyRepository propertyRepository;
 
     public AllStudentsResponseDTO getAllStudents() {
         return new AllStudentsResponseDTO(studentRepository.countStudents());
@@ -31,7 +31,7 @@ public class StatisticsService {
     }
 
     public AllMonthlyRentResponseDTO getAllMonthlyRent() {
-        return new AllMonthlyRentResponseDTO(propertyRepository.countMonthlyRentalProperties());
+        return new AllMonthlyRentResponseDTO(propertyRepository.getTotalMonthlyRent());
     }
 
 
