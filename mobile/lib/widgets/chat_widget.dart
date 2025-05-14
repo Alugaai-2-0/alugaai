@@ -55,22 +55,60 @@ class _ChatWidgetState extends State<ChatWidget> {
   String _getBotResponse(String userMessage) {
     final lower = userMessage.toLowerCase();
 
-    if (lower.contains("oi") || lower.contains("olá") || lower.contains("eae") || lower.contains("salve")) {
+    if (lower.contains("oi") || lower.contains("olá") || lower.contains("eae") ||
+        lower.contains("salve") || lower.contains("opa") || lower.contains("ei") ||
+        lower.contains("hello") || lower.contains("hi")) {
       return "Oi! 👋 Como posso ajudar você hoje?";
-    } else if (lower.contains("ajuda")) {
-      return "Estou aqui para ajudar com suas dúvidas sobre moradia estudantil. Posso dar informações sobre vagas, preços, ou como encontrar um colega de quarto!";
-    } else if (lower.contains("tchau") || lower.contains("flw") || lower.contains("adeus")) {
-      return "Até logo! Tenha um ótimo dia! 😊";
-    } else if (lower.contains("preço") || lower.contains("valor") || lower.contains("custo")) {
+    } else if (lower.contains("ajuda") || lower.contains("socorro") ||
+        lower.contains("orientação") || lower.contains("dúvida")) {
+      return "Estou aqui para ajudar com suas dúvidas sobre moradia estudantil. Posso dar informações sobre vagas, preços, como encontrar um colega de quarto ou documentos necessários!";
+    } else if (lower.contains("tchau") || lower.contains("flw") ||
+        lower.contains("adeus") || lower.contains("até mais") ||
+        lower.contains("vou embora") || lower.contains("xau")) {
+      return "Até logo! Tenha um ótimo dia! 😊 Se precisar de algo mais, é só chamar!";
+    } else if (lower.contains("preço") || lower.contains("valor") ||
+        lower.contains("custo") || lower.contains("quanto custa") ||
+        lower.contains("mensalidade") || lower.contains("aluguel")) {
       return "Os preços variam dependendo da localização e tipo de acomodação. Posso ajudar você a encontrar opções dentro do seu orçamento!";
-    } else if (lower.contains("quarto") || lower.contains("vaga") || lower.contains("disponível")) {
-      return "Temos várias opções de quartos disponíveis. Você está procurando algo específico como localização ou valor?";
+    } else if (lower.contains("quarto") || lower.contains("vaga") ||
+        lower.contains("disponível") || lower.contains("moradia") ||
+        lower.contains("república") || lower.contains("kitnet") ||
+        lower.contains("apartamento") || lower.contains("alojamento") ||
+        lower.contains("residência")) {
+      return "Temos várias opções de quartos disponíveis. Você está procurando algo específico como localização, valor ou tipo de acomodação?";
+    } else if (lower.contains("localização") || lower.contains("onde fica") ||
+        lower.contains("endereço") || lower.contains("bairro") ||
+        lower.contains("cidade") || lower.contains("próximo")) {
+      return "As moradias estão distribuídas em vários bairros próximos às universidades. Você tem preferência por alguma região específica?";
+    } else if (lower.contains("colega de quarto") || lower.contains("roommate") ||
+        lower.contains("dividir") || lower.contains("compartilhar")) {
+      return "Posso te ajudar a encontrar um colega de quarto compatível! Você prefere alguém com hábitos específicos (ex: estudo noturno, limpeza, etc)?";
+    } else if (lower.contains("obrigado") || lower.contains("valeu") ||
+        lower.contains("agradeço") || lower.contains("grato")) {
+      return "Por nada! 😊 Fico feliz em ajudar. Se tiver mais alguma dúvida, é só perguntar!";
+    } else if (lower.contains("faculdade") || lower.contains("universidade") ||
+        lower.contains("campus") || lower.contains("uf") ||
+        lower.contains("estudar")) {
+      return "Temos moradias próximas aos principais campi universitários. De qual instituição você precisa?";
+    } else if (lower.contains("segurança") || lower.contains("violência") ||
+        lower.contains("roubo") || lower.contains("assalto")) {
+      return "Priorizamos locais com boa segurança, muitos têm portaria 24h e sistemas de monitoramento. Quer saber sobre medidas específicas?";
+    } else if (lower.contains("limpeza") || lower.contains("faxina") ||
+        lower.contains("arrumação")) {
+      return "Algumas moradias incluem serviço de limpeza semanal. Você prefere esse serviço ou quer saber sobre divisão de tarefas?";
+    } else if (lower.contains("wifi") || lower.contains("internet") ||
+        lower.contains("conexão")) {
+      return "Todas as nossas moradias possuem internet de alta velocidade inclusa no valor!";
+    } else if (lower.contains("animais") || lower.contains("pet") ||
+        lower.contains("gato") || lower.contains("cachorro")) {
+      return "Algumas moradias aceitam pets com restrições. Você precisa de um local pet friendly?";
     } else {
       // Random fallback
       List<String> fallbackReplies = [
         "Não sei se entendi sua mensagem. Pode me perguntar sobre vagas, preços ou como funciona nossa plataforma?",
         "Pode tentar me explicar novamente? Estou aqui para ajudar com tudo relacionado à moradia estudantil.",
-        "Interessante, conte-me mais sobre o que você precisa para sua moradia ideal...",
+        "Desculpe, não entendi. Quer tentar reformular? Posso ajudar com informações sobre moradias ou localização!",
+        "Ainda estou aprendendo! Me pergunte sobre aluguel, repúblicas ou como encontrar roommates universitários."
       ];
       fallbackReplies.shuffle();
       return fallbackReplies.first;
