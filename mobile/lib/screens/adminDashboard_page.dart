@@ -33,7 +33,9 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
   @override
   void dispose() {
-    Provider.of<AppBarController>(context, listen: false).resetToDefault();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<AppBarController>(context, listen: false).resetToDefault();
+    });
     super.dispose();
   }
 

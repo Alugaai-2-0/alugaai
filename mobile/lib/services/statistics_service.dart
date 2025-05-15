@@ -1,21 +1,27 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:mobile/models/dashboard_stats.dart'; // Import the model class
+import 'package:mobile/models/dashboard_stats.dart';
+import 'package:mobile/services/auth_service.dart';
+import 'package:mobile/services/http_interceptor.dart';// Import your authenticated client
 
 class StatisticsService {
-  // Update this with your actual API base URL
   final String baseUrl = 'http://10.0.2.2:8080';
+  final AuthService _authService = AuthService();
+  late final AuthenticatedHttpClient _client;
+
+  // Constructor that initializes the authenticated client
+  StatisticsService() {
+    _client = AuthenticatedHttpClient(_authService);
+  }
 
   // Get total students
   Future<int> getTotalStudents() async {
     try {
-      final response = await http.get(Uri.parse('$baseUrl/statistics/getAllStudents'));
+      final response = await _client.get(Uri.parse('$baseUrl/statistics/getAllStudents'));
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         return data['totalStudents'] ?? 0;
       } else {
-        // Handle error cases
         print('Failed to load total students. Status code: ${response.statusCode}');
         return 0;
       }
@@ -28,7 +34,7 @@ class StatisticsService {
   // Get total properties
   Future<int> getTotalProperties() async {
     try {
-      final response = await http.get(Uri.parse('$baseUrl/statistics/getAllProperties'));
+      final response = await _client.get(Uri.parse('$baseUrl/statistics/getAllProperties'));
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
@@ -46,7 +52,7 @@ class StatisticsService {
   // Get total owners
   Future<int> getTotalOwners() async {
     try {
-      final response = await http.get(Uri.parse('$baseUrl/statistics/getAllOwners'));
+      final response = await _client.get(Uri.parse('$baseUrl/statistics/getAllOwners'));
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
@@ -64,7 +70,7 @@ class StatisticsService {
   // Get monthly rent
   Future<double> getMonthlyRent() async {
     try {
-      final response = await http.get(Uri.parse('$baseUrl/statistics/getAllMonthlyRent'));
+      final response = await _client.get(Uri.parse('$baseUrl/statistics/getAllMonthlyRent'));
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
@@ -97,5 +103,10 @@ class StatisticsService {
       print('Error fetching all dashboard statistics: $e');
       return DashboardStats.empty();
     }
+  }
+
+  // Don't forget to close the client when done
+  void dispose() {
+    _client.close();
   }
 }
