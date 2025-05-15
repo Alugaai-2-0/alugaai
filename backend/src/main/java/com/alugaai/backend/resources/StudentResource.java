@@ -2,7 +2,7 @@ package com.alugaai.backend.resources;
 
 import com.alugaai.backend.dtos.student.StudentFeedResponseDTO;
 import com.alugaai.backend.services.StudentService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -12,13 +12,13 @@ import java.util.Set;
 
 @RestController
 @RequestMapping(value = "/student")
-@AllArgsConstructor
+@PreAuthorize("hasRole('STUDENT')")
+@RequiredArgsConstructor
 public class StudentResource {
 
     private final StudentService studentService;
 
-    @PostMapping(consumes = "application/json")
-    @PreAuthorize("hasRole('STUDENT')")
+    @PostMapping
     public void addPersonalities(@RequestBody Set<String> personalities) {
         studentService.addPersonalities(personalities);
     }

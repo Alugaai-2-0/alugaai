@@ -4,6 +4,7 @@ import com.alugaai.backend.dtos.mappers.StudentMapper;
 import com.alugaai.backend.dtos.student.StudentFeedResponseDTO;
 import com.alugaai.backend.models.Role;
 import com.alugaai.backend.models.Student;
+import com.alugaai.backend.models.StudentConnection;
 import com.alugaai.backend.repositories.StudentRepository;
 import com.alugaai.backend.repositories.UserRepository;
 import com.alugaai.backend.security.SecurityService;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -93,6 +95,23 @@ public class StudentService {
             );
         }
 
+        // ids excluidos
+        Set<Integer> excludeIds = new HashSet<>();
+
+        // Pegar o usuário logado
+        var currentStudent = (Student) userService.getCurrentUser();
+
+        // Pegar os ids das suas conexoes enviadas e recebidas
+        var sentConnectionRequests = currentStudent.getSentConnectionRequests().stream().map(StudentConnection::getId).collect(Collectors.toSet());
+        var receivedConnectionRequests = currentStudent.getReceivedConnectionRequests().stream().map(StudentConnection::getId).collect(Collectors.toSet());
+
+
+        // Adicionar os ids na lista de ids excluidos
+        excludeIds.add(currentStudent.getId());
+        excludeIds.addAll(sentConnectionRequests);
+        excludeIds.addAll(receivedConnectionRequests);
+
+
         // Converter idades para datas
         LocalDateTime maxBirthDate = minAge != null
                 ? LocalDateTime.now().minusYears(minAge).withHour(0).withMinute(0).withSecond(0)
@@ -118,7 +137,8 @@ public class StudentService {
         // Construir specification
         Specification<Student> spec = Specification.where(hasRole(Role.RoleName.ROLE_STUDENT))
                 .and(betweenBirthDate(minBirthDate, maxBirthDate))
-                .and(hasPersonalities(normalizedPersonalities));
+                .and(hasPersonalities(normalizedPersonalities))
+                .and((idNotIn(excludeIds)));
 
         return studentRepository.findAll(spec)
                 .stream()

@@ -46,4 +46,8 @@ public class StudentSpecifications {
             return personalitiesJoin.in(personalities);
         };
     }
+
+    public static Specification<Student> idNotIn(Set<Integer> excludedIds) {
+        return (root, query, cb) -> root.get("id").in(excludedIds).not();
+    }
 }

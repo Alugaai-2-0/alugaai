@@ -44,7 +44,6 @@ public class SecurityConfig {
                         .requestMatchers("/admin/**", "/college/**").permitAll()
                         .requestMatchers("/property/**").permitAll()
                         .requestMatchers("/owner/**", "/cep/**").permitAll()
-                        .requestMatchers("/student/**").permitAll()
                         .requestMatchers("/image/**").permitAll()
                         .anyRequest().authenticated()
                 )
