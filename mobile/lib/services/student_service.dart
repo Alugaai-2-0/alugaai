@@ -1,16 +1,40 @@
 import 'dart:convert';
 
-import 'package:http/http.dart' as http;
 import 'package:mobile/core/config.dart';
 import 'package:mobile/models/student_model.dart';
+import 'package:mobile/services/auth_service.dart';
+import 'package:mobile/services/http_interceptor.dart';
+
 class StudentService {
   final String baseUrl = '${EnvironmentConfig.baseUrl}';
+  final AuthService _authService = AuthService();
+  late final AuthenticatedHttpClient _client;
+  bool _isInitialized = false;
+
+  StudentService() {
+    _client = AuthenticatedHttpClient(_authService);
+    _initialize();
+  }
+
+  Future<void> _initialize() async {
+    try {
+      // Ensure the auth token is loaded/refreshed
+      await _authService.getToken();
+      _isInitialized = true;
+    } catch (e) {
+      print('Failed to initialize ConnectionsService: $e');
+    }
+  }
 
   Future<List<Student>> fetchStudents({
     int? maxAge,
     Set<String>? personalities,
   }) async {
     try {
+      if (!_isInitialized) {
+        await _initialize();
+      }
+
       // Construct query parameters
       final queryParams = <String, dynamic>{};
 
@@ -31,18 +55,16 @@ class StudentService {
         )),
       );
 
-      final response = await http.get(
+      // Use the authenticated client instead of the regular http client
+      final response = await _client.get(
         uri,
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Accept': 'application/json; charset=utf-8',
-          // Add any authentication headers if needed
-          // 'Authorization': 'Bearer $token',
-        },
+        headers: {'Accept-Charset': 'utf-8'},
       );
 
       if (response.statusCode == 200) {
-        final List<dynamic> data = json.decode(response.body);
+        // Explicitly decode the body as UTF-8
+        final String responseBody = utf8.decode(response.bodyBytes);
+        final List<dynamic> data = json.decode(responseBody);
         return data.map((json) => Student.fromJson(json)).toList();
       } else {
         throw Exception('Failed to load students: ${response.statusCode}');

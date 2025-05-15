@@ -46,7 +46,7 @@ class ConnectionsService {
       } else {
         // If we get a 403, try to refresh the token and try again
         if (response.statusCode == 403) {
-          //await _authService.refreshToken();
+          //await _authService.refreshToken(); no such thing
 
           // Try the request again after refreshing the token
           final retryResponse = await _client.get(uri);
