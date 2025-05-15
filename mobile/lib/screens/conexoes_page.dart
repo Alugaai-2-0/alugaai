@@ -13,6 +13,9 @@ class ConexoesPage extends StatefulWidget {
 class _ConexoesPageState extends State<ConexoesPage> {
   final ConnectionsService _connectionsService = ConnectionsService();
   List<ConnectionModel> _connections = [];
+  List<ConnectionModel> _filteredConnections = [];
+  String _searchQuery = '';
+  final TextEditingController _searchController = TextEditingController();
   bool _isLoading = true;
   String _errorMessage = '';
   int _retryCount = 0;
@@ -24,8 +27,19 @@ class _ConexoesPageState extends State<ConexoesPage> {
     _fetchConnections();
   }
 
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
   Future<void> _fetchConnections() async {
     if (!mounted) return;
+
+    // Reset search when refreshing
+    if (_searchQuery.isNotEmpty) {
+      _clearSearch();
+    }
 
     try {
       setState(() {
@@ -40,6 +54,7 @@ class _ConexoesPageState extends State<ConexoesPage> {
       setState(() {
         _connections = connections.where((connection) =>
         connection.status == 'ACCEPTED').toList();
+        _filteredConnections = List.from(_connections);
         _isLoading = false;
         _retryCount = 0; // Reset retry count on success
       });
@@ -62,6 +77,35 @@ class _ConexoesPageState extends State<ConexoesPage> {
         _errorMessage = 'Falha ao carregar conexões: ${e.toString()}';
       });
     }
+  }
+
+  // Add these methods to your _ConexoesPageState class
+
+  void _filterConnections(String query) {
+    setState(() {
+      _searchQuery = query.toLowerCase().trim();
+
+      if (_searchQuery.isEmpty) {
+        _filteredConnections = List.from(_connections);
+      } else {
+        _filteredConnections = _connections.where((connection) {
+          // Search by student name (case insensitive)
+          final studentName = connection.studentName.toLowerCase();
+          // You could add more fields to search here if needed
+          // For example: connection.email, connection.course, etc.
+
+          return studentName.contains(_searchQuery);
+        }).toList();
+      }
+    });
+  }
+
+  void _clearSearch() {
+    setState(() {
+      _searchQuery = '';
+      _searchController.clear();
+      _filteredConnections = List.from(_connections);
+    });
   }
 
   @override
@@ -92,6 +136,7 @@ class _ConexoesPageState extends State<ConexoesPage> {
               children: [
                 // Search and Filter Section
                 TextField(
+                  controller: _searchController,
                   decoration: InputDecoration(
                     hintText: 'Pesquisar conexões',
                     prefixIcon: const Icon(Icons.search),
@@ -101,7 +146,14 @@ class _ConexoesPageState extends State<ConexoesPage> {
                     ),
                     filled: true,
                     fillColor: Colors.grey[200],
+                    suffixIcon: _searchQuery.isNotEmpty
+                        ? IconButton(
+                      icon: Icon(Icons.clear),
+                      onPressed: _clearSearch,
+                    )
+                        : null,
                   ),
+                  onChanged: _filterConnections,
                 ),
                 const SizedBox(height: 16),
 
@@ -110,7 +162,7 @@ class _ConexoesPageState extends State<ConexoesPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '${_connections.length} Conexões',
+                      '${_filteredConnections.length} Conexões',
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -180,7 +232,7 @@ class _ConexoesPageState extends State<ConexoesPage> {
                       ),
                     ),
                   )
-                else if (_connections.isEmpty)
+                else if (_filteredConnections.isEmpty && _searchQuery.isEmpty)
                     Container(
                       height: 200,
                       child: Center(
@@ -204,15 +256,40 @@ class _ConexoesPageState extends State<ConexoesPage> {
                         ),
                       ),
                     )
-                  else
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: _connections.length,
-                      itemBuilder: (context, index) {
-                        return _buildConnectionItem(_connections[index]);
-                      },
-                    ),
+                  else if (_filteredConnections.isEmpty && _searchQuery.isNotEmpty)
+                      Container(
+                        height: 200,
+                        child: Center(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.search_off,
+                                color: Colors.grey[400],
+                                size: 48,
+                              ),
+                              SizedBox(height: 16),
+                              Text(
+                                'Nenhuma conexão encontrada para "$_searchQuery"',
+                                style: TextStyle(
+                                  color: Colors.grey[600],
+                                  fontSize: 16,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    else
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: _filteredConnections.length,
+                        itemBuilder: (context, index) {
+                          return _buildConnectionItem(_filteredConnections[index]);
+                        },
+                      ),
               ],
             ),
           ),
