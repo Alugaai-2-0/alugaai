@@ -1,12 +1,13 @@
 // college_service.dart
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:mobile/core/config.dart';
 import 'package:mobile/models/college_model.dart';
 
 
 class CollegeService {
   // Replace with your actual API base URL
-  final String baseUrl = 'http://10.0.2.2:8080';
+  final String baseUrl = '${EnvironmentConfig.baseUrl}';
 
   // Fetch all colleges
   Future<List<College>> fetchColleges() async {

@@ -1,24 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/utils/Colors.dart';
-import 'package:mobile/utils/app_bar_controller.dart';
-import 'package:provider/provider.dart';
-
-// Mock connection data model
-class ConnectionData {
-  final String name;
-  final int age;
-  final String college;
-  final String description;
-  final String photoUrl;
-
-  ConnectionData({
-    required this.name,
-    required this.age,
-    required this.college,
-    required this.description,
-    required this.photoUrl,
-  });
-}
+import 'package:mobile/services/connections_service.dart';
+import 'package:mobile/models/connections_model.dart';
 
 class ConexoesPage extends StatefulWidget {
   const ConexoesPage({Key? key}) : super(key: key);
@@ -28,37 +11,58 @@ class ConexoesPage extends StatefulWidget {
 }
 
 class _ConexoesPageState extends State<ConexoesPage> {
-  // Mock list of connections
-  final List<ConnectionData> _connections = [
-    ConnectionData(
-      name: 'Abdiel Athayde',
-      age: 28,
-      college: 'Universidade Federal de São Carlos',
-      description: 'Desenvolvedor Backend apaixonado por tecnologia e soluções inovadoras.',
-      photoUrl: '',
-    ),
-    ConnectionData(
-      name: 'Gabriel Lima da Silva',
-      age: 32,
-      college: 'Instituto Tecnológico de Computação',
-      description: 'Especialista em Cloud e Python, buscando sempre aprender e crescer.',
-      photoUrl: '',
-    ),
-    ConnectionData(
-      name: 'Gabriel Alberto de Oliveira',
-      age: 25,
-      college: 'Centro Universitário de Tecnologia',
-      description: 'Auxiliar de sistemas com foco em análise e desenvolvimento.',
-      photoUrl: '',
-    ),
-    ConnectionData(
-      name: 'Raphael Okuyama',
-      age: 30,
-      college: 'Universidade de São Paulo',
-      description: 'Desenvolvedor Full-Stack com experiência em múltiplas tecnologias.',
-      photoUrl: '',
-    ),
-  ];
+  final ConnectionsService _connectionsService = ConnectionsService();
+  List<ConnectionModel> _connections = [];
+  bool _isLoading = true;
+  String _errorMessage = '';
+  int _retryCount = 0;
+  final int _maxRetries = 2;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchConnections();
+  }
+
+  Future<void> _fetchConnections() async {
+    if (!mounted) return;
+
+    try {
+      setState(() {
+        _isLoading = true;
+        _errorMessage = '';
+      });
+
+      final connections = await _connectionsService.fetchMyConnections();
+
+      if (!mounted) return;
+
+      setState(() {
+        _connections = connections.where((connection) =>
+        connection.status == 'ACCEPTED').toList();
+        _isLoading = false;
+        _retryCount = 0; // Reset retry count on success
+      });
+    } catch (e) {
+      if (!mounted) return;
+
+      // If we've tried less than maxRetries times and got a 403 error, retry automatically
+      if (_retryCount < _maxRetries && e.toString().contains('403')) {
+        setState(() {
+          _retryCount++;
+        });
+
+        // Wait a moment before retrying
+        await Future.delayed(Duration(seconds: 1));
+        return _fetchConnections();
+      }
+
+      setState(() {
+        _isLoading = false;
+        _errorMessage = 'Falha ao carregar conexões: ${e.toString()}';
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,66 +81,147 @@ class _ConexoesPageState extends State<ConexoesPage> {
             fontWeight: FontWeight.bold,
           ),
         ),
-
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              // Search and Filter Section
-              TextField(
-                decoration: InputDecoration(
-                  hintText: 'Pesquisar conexões',
-                  prefixIcon: const Icon(Icons.search),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide.none,
-                  ),
-                  filled: true,
-                  fillColor: Colors.grey[200],
-                ),
-              ),
-              const SizedBox(height: 16),
-
-              // Connections Count
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '${_connections.length} Conexões',
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+      body: RefreshIndicator(
+        onRefresh: _fetchConnections,
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                // Search and Filter Section
+                TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Pesquisar conexões',
+                    prefixIcon: const Icon(Icons.search),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide.none,
                     ),
+                    filled: true,
+                    fillColor: Colors.grey[200],
                   ),
-                  TextButton(
-                    onPressed: () {
-                      // TODO: Implement sorting
-                    },
-                    child: const Text('Classificar por'),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
+                ),
+                const SizedBox(height: 16),
 
-              // Connections List
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: _connections.length,
-                itemBuilder: (context, index) {
-                  return _buildConnectionItem(_connections[index]);
-                },
-              ),
-            ],
+                // Connections Count
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '${_connections.length} Conexões',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        // TODO: Implement sorting
+                      },
+                      child: const Text('Classificar por'),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+
+                // Loading, Error or Connections List
+                if (_isLoading)
+                  Container(
+                    height: 200,
+                    child: Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(AppColors.primaryOrangeColor),
+                          ),
+                          SizedBox(height: 16),
+                          Text(
+                            _retryCount > 0
+                                ? 'Tentando novamente (${_retryCount}/${_maxRetries})...'
+                                : 'Carregando conexões...',
+                            style: TextStyle(
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                else if (_errorMessage.isNotEmpty)
+                  Container(
+                    height: 200,
+                    child: Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.error_outline,
+                            color: Colors.red,
+                            size: 48,
+                          ),
+                          SizedBox(height: 16),
+                          Text(
+                            _errorMessage,
+                            style: TextStyle(color: Colors.red),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: 16),
+                          ElevatedButton(
+                            onPressed: _fetchConnections,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.primaryOrangeColor,
+                            ),
+                            child: Text('Tentar novamente'),
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                else if (_connections.isEmpty)
+                    Container(
+                      height: 200,
+                      child: Center(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.people_outline,
+                              color: Colors.grey[400],
+                              size: 48,
+                            ),
+                            SizedBox(height: 16),
+                            Text(
+                              'Nenhuma conexão encontrada',
+                              style: TextStyle(
+                                color: Colors.grey[600],
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  else
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: _connections.length,
+                      itemBuilder: (context, index) {
+                        return _buildConnectionItem(_connections[index]);
+                      },
+                    ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildConnectionItem(ConnectionData connection) {
+  Widget _buildConnectionItem(ConnectionModel connection) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: Row(
@@ -163,32 +248,12 @@ class _ConexoesPageState extends State<ConexoesPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Name and Age
+                // Name
                 Text(
-                  '${connection.name} - ${connection.age}',
+                  connection.studentName,
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 4),
-
-                // College
-                Text(
-                  connection.college,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey[600],
-                  ),
-                ),
-                const SizedBox(height: 4),
-
-                // Description
-                Text(
-                  connection.description,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey[800],
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -216,7 +281,10 @@ class _ConexoesPageState extends State<ConexoesPage> {
                     const SizedBox(width: 8),
                     OutlinedButton(
                       onPressed: () {
-                        // TODO: Implement profile view functionality
+                        // TODO: Navigate to profile view with studentId
+                        // Navigator.push(context, MaterialPageRoute(
+                        //   builder: (context) => StudentProfilePage(studentId: connection.studentId),
+                        // ));
                       },
                       style: OutlinedButton.styleFrom(
                         shape: RoundedRectangleBorder(

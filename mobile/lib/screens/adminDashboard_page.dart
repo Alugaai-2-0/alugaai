@@ -25,7 +25,10 @@ class _AdminDashboardState extends State<AdminDashboard> {
   @override
   void initState() {
     super.initState();
-    // Execute após a conclusão do primeiro quadro
+    // Load data as soon as the widget initializes
+    _loadDashboardData();
+
+    // Set up the app bar after the first frame is rendered
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _setCustomAppBar();
     });
@@ -33,7 +36,14 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
   @override
   void dispose() {
-    Provider.of<AppBarController>(context, listen: false).resetToDefault();
+    // Use a post-frame callback to reset the app bar
+    // This prevents the "setState during build" error
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted && context.mounted) {
+        final appBarController = Provider.of<AppBarController>(context, listen: false);
+        appBarController.resetToDefault();
+      }
+    });
     super.dispose();
   }
 
@@ -45,22 +55,26 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
     try {
       final stats = await _statsService.getAllDashboardStats();
-      setState(() {
-        _stats = stats;
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _stats = stats;
+          _isLoading = false;
+        });
+      }
     } catch (e) {
       print('Error loading dashboard data: $e');
-      setState(() {
-        _isLoading = false;
-        _hasError = true;
-      });
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+          _hasError = true;
+        });
+      }
     }
   }
 
-
-
   void _setCustomAppBar() {
+    if (!mounted || !context.mounted) return;
+
     final appBar = AppBar(
       title: const Text('Dashboard Administrativo'),
       actions: [
@@ -69,28 +83,22 @@ class _AdminDashboardState extends State<AdminDashboard> {
           onPressed: _refreshData,
         ),
       ],
-      automaticallyImplyLeading: true, // Isto deveria mostrar o botão de voltar
+      automaticallyImplyLeading: true,
       leading: IconButton(
         icon: const Icon(Icons.arrow_back),
         onPressed: () {
           Navigator.pop(context);
-          // Navegar para a tela admin
-           // Volta para a página anterior
         },
       ),
     );
 
-    Provider.of<AppBarController>(context, listen: false).setAppBar(appBar);
+    final appBarController = Provider.of<AppBarController>(context, listen: false);
+    appBarController.setAppBar(appBar);
   }
 
   void _refreshData() {
     _loadDashboardData();
   }
-
-  void _openDashboardSettings() {
-    // Your settings logic
-  }
-
 
   final currencyFormat = NumberFormat.currency(locale: "pt_BR", symbol: "R\$");
 
@@ -193,6 +201,9 @@ class _AdminDashboardState extends State<AdminDashboard> {
       ),
     );
   }
+
+  // Rest of your widget building methods stay the same
+  // ...
 
   // Widget para os cartões de estatísticas
   Widget _buildStatisticsCards() {
@@ -355,20 +366,6 @@ class _AdminDashboardState extends State<AdminDashboard> {
           ],
         ),
       ),
-    );
-  }
-
-  // Widget para o mapa
-
-
-  // Widget para linha de gráficos
-  Widget _buildChartRow() {
-    return Row(
-      children: [
-        Expanded(child: _buildPieChart()),
-        const SizedBox(width: 16),
-        Expanded(child: _buildBarChart()),
-      ],
     );
   }
 

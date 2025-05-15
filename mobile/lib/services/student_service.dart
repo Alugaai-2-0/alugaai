@@ -1,9 +1,10 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:mobile/core/config.dart';
 import 'package:mobile/models/student_model.dart';
 class StudentService {
-  final String baseUrl = 'http://10.0.2.2:8080';
+  final String baseUrl = '${EnvironmentConfig.baseUrl}';
 
   Future<List<Student>> fetchStudents({
     int? maxAge,
