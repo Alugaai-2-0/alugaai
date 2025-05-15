@@ -2,13 +2,14 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile/core/config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/login_request.dart';
 import '../models/login_response.dart';
 
 class AuthService {
   // Replace with your actual API URL
-  final String baseUrl = 'http://10.0.2.2:8080/';
+  final String baseUrl = '${EnvironmentConfig.baseUrl}';
   final String userKey = 'user';
 
   // Create a stream controller to broadcast login state changes

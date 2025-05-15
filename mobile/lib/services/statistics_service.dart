@@ -1,10 +1,11 @@
 import 'dart:convert';
+import 'package:mobile/core/config.dart';
 import 'package:mobile/models/dashboard_stats.dart';
 import 'package:mobile/services/auth_service.dart';
 import 'package:mobile/services/http_interceptor.dart';// Import your authenticated client
 
 class StatisticsService {
-  final String baseUrl = 'http://10.0.2.2:8080';
+  final String baseUrl = '${EnvironmentConfig.baseUrl}';
   final AuthService _authService = AuthService();
   late final AuthenticatedHttpClient _client;
 
