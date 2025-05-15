@@ -34,7 +34,7 @@ class AuthService {
   // Login method
   Future<LoginResponse> login(LoginRequest loginRequest) async {
     final response = await http.post(
-      Uri.parse('${baseUrl}auth/login'),
+      Uri.parse('${baseUrl}/auth/login'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(loginRequest.toJson()),
     );
