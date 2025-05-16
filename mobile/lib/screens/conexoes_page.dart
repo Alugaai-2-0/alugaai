@@ -10,10 +10,17 @@ class ConexoesPage extends StatefulWidget {
   State<ConexoesPage> createState() => _ConexoesPageState();
 }
 
-class _ConexoesPageState extends State<ConexoesPage> {
+class _ConexoesPageState extends State<ConexoesPage> with SingleTickerProviderStateMixin {
   final ConnectionsService _connectionsService = ConnectionsService();
   List<ConnectionModel> _connections = [];
+  List<ConnectionModel> _pendingConnections = [];
+  List<ConnectionModel> _rejectedConnections = [];
+
   List<ConnectionModel> _filteredConnections = [];
+  List<ConnectionModel> _filteredPendingConnections = [];
+  List<ConnectionModel> _filteredRejectedConnections = [];
+
+  late TabController _tabController;
   String _searchQuery = '';
   final TextEditingController _searchController = TextEditingController();
   bool _isLoading = true;
@@ -24,11 +31,18 @@ class _ConexoesPageState extends State<ConexoesPage> {
   @override
   void initState() {
     super.initState();
+    _tabController = TabController(length: 3, vsync: this);
     _fetchConnections();
+
+    // Listen for tab changes to update the app bar title
+    _tabController.addListener(() {
+      setState(() {});
+    });
   }
 
   @override
   void dispose() {
+    _tabController.dispose();
     _searchController.dispose();
     super.dispose();
   }
@@ -52,9 +66,19 @@ class _ConexoesPageState extends State<ConexoesPage> {
       if (!mounted) return;
 
       setState(() {
+        // Separate connections by status
         _connections = connections.where((connection) =>
         connection.status == 'ACCEPTED').toList();
+        _pendingConnections = connections.where((connection) =>
+        connection.status == 'PENDING').toList();
+        _rejectedConnections = connections.where((connection) =>
+        connection.status == 'REJECTED').toList();
+
+        // Initialize filtered lists
         _filteredConnections = List.from(_connections);
+        _filteredPendingConnections = List.from(_pendingConnections);
+        _filteredRejectedConnections = List.from(_rejectedConnections);
+
         _isLoading = false;
         _retryCount = 0; // Reset retry count on success
       });
@@ -79,21 +103,30 @@ class _ConexoesPageState extends State<ConexoesPage> {
     }
   }
 
-  // Add these methods to your _ConexoesPageState class
-
   void _filterConnections(String query) {
     setState(() {
       _searchQuery = query.toLowerCase().trim();
 
       if (_searchQuery.isEmpty) {
         _filteredConnections = List.from(_connections);
+        _filteredPendingConnections = List.from(_pendingConnections);
+        _filteredRejectedConnections = List.from(_rejectedConnections);
       } else {
+        // Filter accepted connections
         _filteredConnections = _connections.where((connection) {
-          // Search by student name (case insensitive)
           final studentName = connection.studentName.toLowerCase();
-          // You could add more fields to search here if needed
-          // For example: connection.email, connection.course, etc.
+          return studentName.contains(_searchQuery);
+        }).toList();
 
+        // Filter pending connections
+        _filteredPendingConnections = _pendingConnections.where((connection) {
+          final studentName = connection.studentName.toLowerCase();
+          return studentName.contains(_searchQuery);
+        }).toList();
+
+        // Filter rejected connections
+        _filteredRejectedConnections = _rejectedConnections.where((connection) {
+          final studentName = connection.studentName.toLowerCase();
           return studentName.contains(_searchQuery);
         }).toList();
       }
@@ -105,7 +138,35 @@ class _ConexoesPageState extends State<ConexoesPage> {
       _searchQuery = '';
       _searchController.clear();
       _filteredConnections = List.from(_connections);
+      _filteredPendingConnections = List.from(_pendingConnections);
+      _filteredRejectedConnections = List.from(_rejectedConnections);
     });
+  }
+
+  String _getTabTitle() {
+    switch (_tabController.index) {
+      case 0:
+        return 'Conexões';
+      case 1:
+        return 'Conexões pendentes';
+      case 2:
+        return 'Recusadas';
+      default:
+        return 'Conexões';
+    }
+  }
+
+  int _getCurrentConnectionCount() {
+    switch (_tabController.index) {
+      case 0:
+        return _filteredConnections.length;
+      case 1:
+        return _filteredPendingConnections.length;
+      case 2:
+        return _filteredRejectedConnections.length;
+      default:
+        return 0;
+    }
   }
 
   @override
@@ -119,90 +180,148 @@ class _ConexoesPageState extends State<ConexoesPage> {
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
-          'Conexões',
+          _getTabTitle(),
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,
           ),
         ),
+        bottom: TabBar(
+          controller: _tabController,
+          labelColor: AppColors.primaryOrangeColor,
+          unselectedLabelColor: Colors.grey,
+          indicatorColor: AppColors.primaryOrangeColor,
+          tabs: const [
+            Tab(text: 'Conexões'),
+            Tab(text: 'Pendentes'),
+            Tab(text: 'Recusadas'),
+          ],
+        ),
       ),
-      body: RefreshIndicator(
-        onRefresh: _fetchConnections,
-        child: SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                // Search and Filter Section
-                TextField(
-                  controller: _searchController,
-                  decoration: InputDecoration(
-                    hintText: 'Pesquisar conexões',
-                    prefixIcon: const Icon(Icons.search),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide.none,
-                    ),
-                    filled: true,
-                    fillColor: Colors.grey[200],
-                    suffixIcon: _searchQuery.isNotEmpty
-                        ? IconButton(
-                      icon: Icon(Icons.clear),
-                      onPressed: _clearSearch,
-                    )
-                        : null,
+      body: TabBarView(
+        controller: _tabController,
+        children: [
+          // Accepted Connections Tab
+          _buildConnectionsTab(_filteredConnections, 'ACCEPTED'),
+
+          // Pending Connections Tab
+          _buildConnectionsTab(_filteredPendingConnections, 'PENDING'),
+
+          // Rejected Connections Tab
+          _buildConnectionsTab(_filteredRejectedConnections, 'REJECTED'),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildConnectionsTab(List<ConnectionModel> connections, String status) {
+    return RefreshIndicator(
+      onRefresh: _fetchConnections,
+      child: SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              // Search and Filter Section
+              TextField(
+                controller: _searchController,
+                decoration: InputDecoration(
+                  hintText: 'Pesquisar conexões',
+                  prefixIcon: const Icon(Icons.search),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide.none,
                   ),
-                  onChanged: _filterConnections,
-                ),
-                const SizedBox(height: 16),
-
-                // Connections Count
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      '${_filteredConnections.length} Conexões',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        // TODO: Implement sorting
-                      },
-                      child: const Text('Classificar por'),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-
-                // Loading, Error or Connections List
-                if (_isLoading)
-                  Container(
-                    height: 200,
-                    child: Center(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation<Color>(AppColors.primaryOrangeColor),
-                          ),
-                          SizedBox(height: 16),
-                          Text(
-                            _retryCount > 0
-                                ? 'Tentando novamente (${_retryCount}/${_maxRetries})...'
-                                : 'Carregando conexões...',
-                            style: TextStyle(
-                              color: Colors.grey[600],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                  filled: true,
+                  fillColor: Colors.grey[200],
+                  suffixIcon: _searchQuery.isNotEmpty
+                      ? IconButton(
+                    icon: Icon(Icons.clear),
+                    onPressed: _clearSearch,
                   )
-                else if (_errorMessage.isNotEmpty)
+                      : null,
+                ),
+                onChanged: _filterConnections,
+              ),
+              const SizedBox(height: 16),
+
+              // Connections Count
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '${_getCurrentConnectionCount()} ${_getTabTitle()}',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      // TODO: Implement sorting
+                    },
+                    child: const Text('Classificar por'),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+
+              // Loading, Error or Connections List
+              if (_isLoading)
+                Container(
+                  height: 200,
+                  child: Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(AppColors.primaryOrangeColor),
+                        ),
+                        SizedBox(height: 16),
+                        Text(
+                          _retryCount > 0
+                              ? 'Tentando novamente (${_retryCount}/${_maxRetries})...'
+                              : 'Carregando conexões...',
+                          style: TextStyle(
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              else if (_errorMessage.isNotEmpty)
+                Container(
+                  height: 200,
+                  child: Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.error_outline,
+                          color: Colors.red,
+                          size: 48,
+                        ),
+                        SizedBox(height: 16),
+                        Text(
+                          _errorMessage,
+                          style: TextStyle(color: Colors.red),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(height: 16),
+                        ElevatedButton(
+                          onPressed: _fetchConnections,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primaryOrangeColor,
+                          ),
+                          child: Text('Tentar novamente'),
+                        )
+                      ],
+                    ),
+                  ),
+                )
+              else if (connections.isEmpty && _searchQuery.isEmpty)
                   Container(
                     height: 200,
                     child: Center(
@@ -210,29 +329,27 @@ class _ConexoesPageState extends State<ConexoesPage> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(
-                            Icons.error_outline,
-                            color: Colors.red,
+                            Icons.people_outline,
+                            color: Colors.grey[400],
                             size: 48,
                           ),
                           SizedBox(height: 16),
                           Text(
-                            _errorMessage,
-                            style: TextStyle(color: Colors.red),
-                            textAlign: TextAlign.center,
-                          ),
-                          SizedBox(height: 16),
-                          ElevatedButton(
-                            onPressed: _fetchConnections,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.primaryOrangeColor,
+                            status == 'ACCEPTED'
+                                ? 'Nenhuma conexão encontrada'
+                                : status == 'PENDING'
+                                ? 'Nenhuma conexão pendente encontrada'
+                                : 'Nenhuma conexão recusada encontrada',
+                            style: TextStyle(
+                              color: Colors.grey[600],
+                              fontSize: 16,
                             ),
-                            child: Text('Tentar novamente'),
-                          )
+                          ),
                         ],
                       ),
                     ),
                   )
-                else if (_filteredConnections.isEmpty && _searchQuery.isEmpty)
+                else if (connections.isEmpty && _searchQuery.isNotEmpty)
                     Container(
                       height: 200,
                       child: Center(
@@ -240,65 +357,40 @@ class _ConexoesPageState extends State<ConexoesPage> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Icon(
-                              Icons.people_outline,
+                              Icons.search_off,
                               color: Colors.grey[400],
                               size: 48,
                             ),
                             SizedBox(height: 16),
                             Text(
-                              'Nenhuma conexão encontrada',
+                              'Nenhuma conexão encontrada para "$_searchQuery"',
                               style: TextStyle(
                                 color: Colors.grey[600],
                                 fontSize: 16,
                               ),
+                              textAlign: TextAlign.center,
                             ),
                           ],
                         ),
                       ),
                     )
-                  else if (_filteredConnections.isEmpty && _searchQuery.isNotEmpty)
-                      Container(
-                        height: 200,
-                        child: Center(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                Icons.search_off,
-                                color: Colors.grey[400],
-                                size: 48,
-                              ),
-                              SizedBox(height: 16),
-                              Text(
-                                'Nenhuma conexão encontrada para "$_searchQuery"',
-                                style: TextStyle(
-                                  color: Colors.grey[600],
-                                  fontSize: 16,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
-                    else
-                      ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: _filteredConnections.length,
-                        itemBuilder: (context, index) {
-                          return _buildConnectionItem(_filteredConnections[index]);
-                        },
-                      ),
-              ],
-            ),
+                  else
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: connections.length,
+                      itemBuilder: (context, index) {
+                        return _buildConnectionItem(connections[index], status);
+                      },
+                    ),
+            ],
           ),
         ),
       ),
     );
   }
 
-  Widget _buildConnectionItem(ConnectionModel connection) {
+  Widget _buildConnectionItem(ConnectionModel connection, String status) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: Row(
@@ -338,24 +430,67 @@ class _ConexoesPageState extends State<ConexoesPage> {
                 // Action Buttons
                 Row(
                   children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        // TODO: Implement message functionality
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primaryOrangeColor,
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
+                    if (status == 'ACCEPTED')
+                      ...[
+                        ElevatedButton(
+                          onPressed: () {
+                            // TODO: Implement message functionality
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primaryOrangeColor,
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                          ),
+                          child: const Text(
+                            'Mensagem',
+                            style: TextStyle(fontSize: 12),
+                          ),
                         ),
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                      ),
-                      child: const Text(
-                        'Mensagem',
-                        style: TextStyle(fontSize: 12),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
+                        const SizedBox(width: 8),
+                      ],
+                    if (status == 'PENDING')
+                      ...[
+                        ElevatedButton(
+                          onPressed: () {
+                            // TODO: Implement accept functionality
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primaryOrangeColor,
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                          ),
+                          child: const Text(
+                            'Aceitar',
+                            style: TextStyle(fontSize: 12),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        OutlinedButton(
+                          onPressed: () {
+                            // TODO: Implement reject functionality
+                          },
+                          style: OutlinedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            side: BorderSide(color: Colors.red),
+                          ),
+                          child: Text(
+                            'Recusar',
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                      ],
                     OutlinedButton(
                       onPressed: () {
                         // TODO: Navigate to profile view with studentId
