@@ -8,15 +8,30 @@ class StatisticsService {
   final String baseUrl = '${EnvironmentConfig.baseUrl}';
   final AuthService _authService = AuthService();
   late final AuthenticatedHttpClient _client;
+  bool _isInitialized = false;
 
   // Constructor that initializes the authenticated client
   StatisticsService() {
     _client = AuthenticatedHttpClient(_authService);
   }
 
+  Future<void> _initialize() async {
+    try {
+      // Ensure the auth token is loaded/refreshed
+      await _authService.getToken();
+      _isInitialized = true;
+    } catch (e) {
+      print('Failed to initialize StatisticsService: $e');
+    }
+  }
+
   // Get total students
   Future<int> getTotalStudents() async {
     try {
+      if (!_isInitialized) {
+        await _initialize();
+      }
+
       final response = await _client.get(Uri.parse('$baseUrl/statistics/getAllStudents'));
 
       if (response.statusCode == 200) {
