@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'dart:async'; // Add this import for TimeoutException
+import 'package:mobile/services/chat_api.dart';
 import 'package:mobile/utils/Colors.dart';
 
 class ChatWidget extends StatefulWidget {
@@ -13,31 +15,141 @@ class _ChatWidgetState extends State<ChatWidget> {
   final List<_ChatMessage> _messages = [];
   final TextEditingController _controller = TextEditingController();
   final ScrollController _scrollController = ScrollController();
+  bool _isLoading = false; // Track when waiting for the bot to respond
+  bool _isOffline = false; // Track if the bot is offline
 
-  void _sendMessage() {
+  // Retry logic
+  int _retryCount = 0;
+  static const int _maxRetries = 2;
+
+  void _sendMessage() async {
     final text = _controller.text.trim();
     if (text.isEmpty) return;
 
     setState(() {
       _messages.add(_ChatMessage(text: text, isUser: true));
       _controller.clear();
+      _isLoading = true; // Start loading indicator
+      _isOffline = false; // Reset offline state
+      _retryCount = 0; // Reset retry count
     });
 
-    // Resposta do BOT
-    Future.delayed(const Duration(milliseconds: 300), () {
-      final botReply = _getBotResponse(text); // Respostas mockadas para teste
-      // final botReply = await fetchChatGPTReply(text); (Use chat GPT API)
+    // Scroll to bottom when user sends a message
+    _scrollToBottom();
+
+    // Create a timeout that will force update UI if the network operation takes too long
+    Timer timeoutTimer = Timer(const Duration(seconds: 15), () {
+      if (_isLoading) {
+        setState(() {
+          _isLoading = false;
+          _isOffline = true;
+          _messages.add(_ChatMessage(
+            text: "A conexão demorou muito tempo. O servidor pode estar offline ou inacessível.",
+            isUser: false,
+            isError: true,
+          ));
+        });
+        _scrollToBottom();
+      }
+    });
+
+    try {
+      await _getResponseFromBot(text);
+    } finally {
+      // Cancel the timeout timer if it hasn't fired yet
+      if (timeoutTimer.isActive) {
+        timeoutTimer.cancel();
+      }
+    }
+  }
+
+  Future<void> _getResponseFromBot(String text) async {
+    try {
+      // Get response from your Python Flask server with timeout
+      final botReply = await fetchChatbotReply(text).timeout(
+        const Duration(seconds: 10),
+        onTimeout: () {
+          throw TimeoutException('Connection timed out');
+        },
+      );
 
       setState(() {
         _messages.add(_ChatMessage(text: botReply, isUser: false));
+        _isLoading = false; // Stop loading indicator
+        _isOffline = false; // Connection successful
       });
 
-      // Scrollar pra baixo quando o BOT responder
+      // Scroll to bottom when the bot responds
       _scrollToBottom();
-    });
+    } catch (e) {
+      print('Error caught in chat widget: $e');
 
-    // Scrollar pra baixo quando uma mensagem for enviada
-    _scrollToBottom();
+      if (_retryCount < _maxRetries) {
+        // Try again but don't chain the futures (to avoid staying in loading state)
+        setState(() {
+          _retryCount++;
+        });
+
+        await Future.delayed(const Duration(seconds: 2));
+
+        // If we're still in the retry process and not manually cancelled
+        if (_isLoading && _retryCount <= _maxRetries) {
+          return _getResponseFromBot(text);
+        }
+      }
+
+      // After max retries or if process was cancelled, show error
+      if (_isLoading) {
+        setState(() {
+          _isOffline = true;
+          _isLoading = false;
+          _messages.add(_ChatMessage(
+            text: _getErrorMessage(e.toString()),
+            isUser: false,
+            isError: true,
+          ));
+        });
+        _scrollToBottom();
+      }
+    }
+  }
+
+  String _getErrorMessage(String error) {
+    if (error.contains('SocketException') || error.contains('Connection refused')) {
+      return "Ops! Parece que nosso assistente está offline no momento. Por favor, tente novamente mais tarde.";
+    } else if (error.contains('timeout') || error.contains('TimeoutException')) {
+      return "A conexão expirou. Nossa rede pode estar lenta ou o servidor está offline.";
+    } else if (error.contains('service_unavailable')) {
+      return "O serviço do assistente está temporariamente indisponível. Por favor, tente novamente mais tarde.";
+    } else {
+      return "Desculpe, ocorreu um erro inesperado. Por favor, tente novamente em alguns instantes.";
+    }
+  }
+
+  void _retryConnection() {
+    if (_messages.isNotEmpty) {
+      // Get the last user message to retry
+      String? lastUserMessage;
+      for (int i = _messages.length - 1; i >= 0; i--) {
+        if (_messages[i].isUser) {
+          lastUserMessage = _messages[i].text;
+          break;
+        }
+      }
+
+      if (lastUserMessage != null) {
+        setState(() {
+          // Remove the error message
+          if (_messages.last.isError) {
+            _messages.removeLast();
+          }
+          _isLoading = true;
+          _isOffline = false;
+          _retryCount = 0;
+        });
+        _getResponseFromBot(lastUserMessage);
+      }
+    }
   }
 
   void _scrollToBottom() {
@@ -52,74 +164,11 @@ class _ChatWidgetState extends State<ChatWidget> {
     });
   }
 
-  String _getBotResponse(String userMessage) {
-    final lower = userMessage.toLowerCase();
-
-    if (lower.contains("oi") || lower.contains("olá") || lower.contains("eae") ||
-        lower.contains("salve") || lower.contains("opa") || lower.contains("ei") ||
-        lower.contains("hello") || lower.contains("hi")) {
-      return "Oi! 👋 Como posso ajudar você hoje?";
-    } else if (lower.contains("ajuda") || lower.contains("socorro") ||
-        lower.contains("orientação") || lower.contains("dúvida")) {
-      return "Estou aqui para ajudar com suas dúvidas sobre moradia estudantil. Posso dar informações sobre vagas, preços, como encontrar um colega de quarto ou documentos necessários!";
-    } else if (lower.contains("tchau") || lower.contains("flw") ||
-        lower.contains("adeus") || lower.contains("até mais") ||
-        lower.contains("vou embora") || lower.contains("xau")) {
-      return "Até logo! Tenha um ótimo dia! 😊 Se precisar de algo mais, é só chamar!";
-    } else if (lower.contains("preço") || lower.contains("valor") ||
-        lower.contains("custo") || lower.contains("quanto custa") ||
-        lower.contains("mensalidade") || lower.contains("aluguel")) {
-      return "Os preços variam dependendo da localização e tipo de acomodação. Posso ajudar você a encontrar opções dentro do seu orçamento!";
-    } else if (lower.contains("quarto") || lower.contains("vaga") ||
-        lower.contains("disponível") || lower.contains("moradia") ||
-        lower.contains("república") || lower.contains("kitnet") ||
-        lower.contains("apartamento") || lower.contains("alojamento") ||
-        lower.contains("residência")) {
-      return "Temos várias opções de quartos disponíveis. Você está procurando algo específico como localização, valor ou tipo de acomodação?";
-    } else if (lower.contains("localização") || lower.contains("onde fica") ||
-        lower.contains("endereço") || lower.contains("bairro") ||
-        lower.contains("cidade") || lower.contains("próximo")) {
-      return "As moradias estão distribuídas em vários bairros próximos às universidades. Você tem preferência por alguma região específica?";
-    } else if (lower.contains("colega de quarto") || lower.contains("roommate") ||
-        lower.contains("dividir") || lower.contains("compartilhar")) {
-      return "Posso te ajudar a encontrar um colega de quarto compatível! Você prefere alguém com hábitos específicos (ex: estudo noturno, limpeza, etc)?";
-    } else if (lower.contains("obrigado") || lower.contains("valeu") ||
-        lower.contains("agradeço") || lower.contains("grato")) {
-      return "Por nada! 😊 Fico feliz em ajudar. Se tiver mais alguma dúvida, é só perguntar!";
-    } else if (lower.contains("faculdade") || lower.contains("universidade") ||
-        lower.contains("campus") || lower.contains("uf") ||
-        lower.contains("estudar")) {
-      return "Temos moradias próximas aos principais campi universitários. De qual instituição você precisa?";
-    } else if (lower.contains("segurança") || lower.contains("violência") ||
-        lower.contains("roubo") || lower.contains("assalto")) {
-      return "Priorizamos locais com boa segurança, muitos têm portaria 24h e sistemas de monitoramento. Quer saber sobre medidas específicas?";
-    } else if (lower.contains("limpeza") || lower.contains("faxina") ||
-        lower.contains("arrumação")) {
-      return "Algumas moradias incluem serviço de limpeza semanal. Você prefere esse serviço ou quer saber sobre divisão de tarefas?";
-    } else if (lower.contains("wifi") || lower.contains("internet") ||
-        lower.contains("conexão")) {
-      return "Todas as nossas moradias possuem internet de alta velocidade inclusa no valor!";
-    } else if (lower.contains("animais") || lower.contains("pet") ||
-        lower.contains("gato") || lower.contains("cachorro")) {
-      return "Algumas moradias aceitam pets com restrições. Você precisa de um local pet friendly?";
-    } else {
-      // Random fallback
-      List<String> fallbackReplies = [
-        "Não sei se entendi sua mensagem. Pode me perguntar sobre vagas, preços ou como funciona nossa plataforma?",
-        "Pode tentar me explicar novamente? Estou aqui para ajudar com tudo relacionado à moradia estudantil.",
-        "Desculpe, não entendi. Quer tentar reformular? Posso ajudar com informações sobre moradias ou localização!",
-        "Ainda estou aprendendo! Me pergunte sobre aluguel, repúblicas ou como encontrar roommates universitários."
-      ];
-      fallbackReplies.shuffle();
-      return fallbackReplies.first;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        // Botão do chat
+        // Chat button
         Positioned(
           bottom: 20,
           right: 20,
@@ -137,7 +186,7 @@ class _ChatWidgetState extends State<ChatWidget> {
           ),
         ),
 
-        // Janela do chat
+        // Chat window
         if (_isChatOpen)
           Positioned(
             bottom: 80,
@@ -170,15 +219,15 @@ class _ChatWidgetState extends State<ChatWidget> {
       ),
       child: Column(
         children: [
-          // Header com botão de fechar
+          // Header with status and close button
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 children: [
                   Icon(
-                    Icons.support_agent,
-                    color: AppColors.primaryOrangeColor,
+                    _isOffline ? Icons.cloud_off : Icons.support_agent,
+                    color: _isOffline ? Colors.red : AppColors.primaryOrangeColor,
                     size: 20,
                   ),
                   const SizedBox(width: 8),
@@ -189,6 +238,23 @@ class _ChatWidgetState extends State<ChatWidget> {
                       color: AppColors.primaryTextColor,
                     ),
                   ),
+                  if (_isOffline)
+                    Container(
+                      margin: const EdgeInsets.only(left: 6),
+                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: Colors.red.shade100,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Text(
+                        "Offline",
+                        style: TextStyle(
+                          color: Colors.red.shade800,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
                 ],
               ),
               IconButton(
@@ -204,7 +270,7 @@ class _ChatWidgetState extends State<ChatWidget> {
           ),
           Divider(height: 2, thickness: 1, color: Colors.grey.shade200),
 
-          // Mensagem de boas-vindas se não houver mensagens
+          // Welcome message if no messages
           if (_messages.isEmpty)
             Expanded(
               child: Center(
@@ -218,7 +284,7 @@ class _ChatWidgetState extends State<ChatWidget> {
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      "Olá! Como posso ajudar você\na encontrar sua moradia ideal?",
+                      "Olá! Como posso ajudar você?\nTente dizer um 'Oi'",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.grey.shade700,
@@ -230,7 +296,7 @@ class _ChatWidgetState extends State<ChatWidget> {
               ),
             ),
 
-          // Lista de mensagens
+          // Message list
           if (_messages.isNotEmpty)
             Expanded(
               child: ListView.builder(
@@ -252,8 +318,13 @@ class _ChatWidgetState extends State<ChatWidget> {
                       decoration: BoxDecoration(
                         color: message.isUser
                             ? AppColors.primaryOrangeColor
+                            : message.isError
+                            ? Colors.red.shade50
                             : Colors.grey.shade200,
                         borderRadius: BorderRadius.circular(12),
+                        border: message.isError
+                            ? Border.all(color: Colors.red.shade200)
+                            : null,
                         boxShadow: [
                           BoxShadow(
                             blurRadius: 2,
@@ -262,12 +333,58 @@ class _ChatWidgetState extends State<ChatWidget> {
                           )
                         ],
                       ),
-                      child: Text(
-                        message.text,
-                        style: TextStyle(
-                          color: message.isUser ? Colors.white : Colors.black87,
-                          fontSize: 14,
-                        ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            message.text,
+                            style: TextStyle(
+                              color: message.isUser
+                                  ? Colors.white
+                                  : message.isError
+                                  ? Colors.red.shade800
+                                  : Colors.black87,
+                              fontSize: 14,
+                            ),
+                          ),
+                          if (message.isError)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: GestureDetector(
+                                onTap: _retryConnection,
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 10,
+                                    vertical: 4,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(12),
+                                    border: Border.all(color: Colors.red.shade300),
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(
+                                        Icons.refresh,
+                                        size: 14,
+                                        color: Colors.red.shade700,
+                                      ),
+                                      const SizedBox(width: 4),
+                                      Text(
+                                        "Tentar novamente",
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.red.shade700,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                        ],
                       ),
                     ),
                   );
@@ -275,7 +392,34 @@ class _ChatWidgetState extends State<ChatWidget> {
               ),
             ),
 
-          // Input de texto
+          // Show loading indicator while waiting for response
+          if (_isLoading)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Row(
+                children: [
+                  SizedBox(width: 16),
+                  SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: AppColors.primaryOrangeColor,
+                    ),
+                  ),
+                  SizedBox(width: 8),
+                  Text(
+                    "Digitando...",
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey.shade600,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+          // Text input
           Container(
             margin: const EdgeInsets.only(top: 8),
             decoration: BoxDecoration(
@@ -294,12 +438,13 @@ class _ChatWidgetState extends State<ChatWidget> {
                       contentPadding: const EdgeInsets.only(left: 16, right: 16),
                     ),
                     onSubmitted: (_) => _sendMessage(),
+                    enabled: !_isLoading, // Disable input while loading
                   ),
                 ),
                 IconButton(
                   icon: const Icon(Icons.send, size: 20),
-                  color: AppColors.primaryOrangeColor,
-                  onPressed: _sendMessage,
+                  color: _isLoading ? Colors.grey : AppColors.primaryOrangeColor,
+                  onPressed: _isLoading ? null : _sendMessage,
                   padding: const EdgeInsets.all(8),
                   constraints: const BoxConstraints(
                     minHeight: 36,
@@ -315,10 +460,15 @@ class _ChatWidgetState extends State<ChatWidget> {
   }
 }
 
-// Classe de mensagens internas
+// Internal message class
 class _ChatMessage {
   final String text;
   final bool isUser;
+  final bool isError;
 
-  _ChatMessage({required this.text, required this.isUser});
+  _ChatMessage({
+    required this.text,
+    required this.isUser,
+    this.isError = false,
+  });
 }
