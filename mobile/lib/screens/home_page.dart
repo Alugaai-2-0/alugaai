@@ -71,7 +71,15 @@ class HomePage extends StatelessWidget {
                 child: Column(
                   children: [
                     const TemosVagasSection(),
-                    // Add more content below if needed
+                    // Add the new image at the bottom of the content
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20, bottom: 40),
+                      child: Image.asset(
+                        'lib/assets/images/home/imageHome2.png',
+                        width: double.infinity,
+                        fit: BoxFit.contain,
+                      ),
+                    ),
                   ],
                 ),
               ),
