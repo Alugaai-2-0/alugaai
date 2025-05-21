@@ -3,10 +3,11 @@ import 'package:http/http.dart' as http;
 
 /// Sends a message to the Python Flask chatbot server and returns the response
 Future<String> fetchChatbotReply(String message) async {
-  // Your Flask server URL - change this to match your server's address
-  // If running on the same device during development, use your local IP instead of localhost
+  // For Android emulator, use 10.0.2.2 to access the host machine
   const endpoint = 'http://10.0.2.2:5000/chat'; // For Android emulator
-  // const endpoint = 'http://localhost:5000/chat'; // For iOS simulator or web
+  // const endpoint = 'http://127.0.0.1:5000/chat'; // For iOS simulator
+  // If running on a physical device, use your computer's local IP address
+  // const endpoint = 'http://192.168.1.XXX:5000/chat'; // Replace with your actual IP
 
   final headers = {
     'Content-Type': 'application/json',
@@ -17,7 +18,6 @@ Future<String> fetchChatbotReply(String message) async {
   });
 
   try {
-    // Note: We're not setting a timeout here, we'll handle it in the calling method
     final response = await http.post(
         Uri.parse(endpoint),
         headers: headers,
@@ -26,7 +26,14 @@ Future<String> fetchChatbotReply(String message) async {
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      return data['response'];
+      // Check if 'reply' exists in the response and is not null
+      if (data != null && data['reply'] != null) {
+        return data['reply']; // Changed from 'response' to 'reply' to match Flask API
+      } else {
+        // Return a default message if the server response doesn't contain a reply
+        print('Warning: Server response is missing "reply" field: ${response.body}');
+        return "Desculpe, ocorreu um erro na comunicação com o servidor.";
+      }
     } else if (response.statusCode == 503 || response.statusCode == 502) {
       throw Exception('service_unavailable');
     } else {
@@ -35,7 +42,7 @@ Future<String> fetchChatbotReply(String message) async {
     }
   } catch (e) {
     print('Error connecting to chatbot server: $e');
-    // Let the calling code handle the specific error
+    // Always throw an exception, don't return null
     throw e;
   }
 }
