@@ -1,0 +1,348 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-tables
+      author: joao-silveira
+      changes:
+        - createTable:
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: role_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+
+        - createTable:
+            tableName: buildings
+            columns:
+              - column:
+                  name: id
+                  type: integer
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: discriminator
+                  type: varchar(31)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: address
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: home_number
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: home_complement
+                  type: varchar(255)
+              - column:
+                  name: neighborhood
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: district
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: latitude
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: longitude
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: college_name
+                  type: varchar(255)
+              - column:
+                  name: owner_id
+                  type: integer
+              - column:
+                  name: price
+                  type: double precision
+
+        - createTable:
+            tableName: images
+            columns:
+              - column:
+                  name: id
+                  type: integer
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: image_data
+                  type: bytea
+                  constraints:
+                    nullable: false
+              - column:
+                  name: inserted_on
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: building_id
+                  type: integer
+                  constraints:
+                    foreignKeyName: fk_image_building
+                    references: buildings(id)
+
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: integer
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: discriminator
+                  type: varchar(31)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: refresh_token
+                  type: varchar(255)
+              - column:
+                  name: refresh_token_expiry_time
+                  type: timestamp
+              - column:
+                  name: birth_date
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_date
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: gender
+                  type: char(1)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: password_hash
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: email_confirmed
+                  type: boolean
+              - column:
+                  name: cpf
+                  type: varchar(14)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: phone_number
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: phone_number_confirmed
+                  type: boolean
+              - column:
+                  name: two_factor_enabled
+                  type: boolean
+              - column:
+                  name: image_id
+                  type: integer
+                  constraints:
+                    foreignKeyName: fk_user_image
+                    references: images(id)
+              - column:
+                  name: college_principal_id
+                  type: integer
+                  constraints:
+                    foreignKeyName: fk_student_college
+                    references: buildings(id)
+              - column:
+                  name: description
+                  type: varchar(255)
+
+        - createTable:
+            tableName: notifications
+            columns:
+              - column:
+                  name: id
+                  type: integer
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: text
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: moment
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_read
+                  type: boolean
+                  constraints:
+                    nullable: false
+
+        - createTable:
+            tableName: user_personalities
+            columns:
+              - column:
+                  name: user_id
+                  type: integer
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_personality_user
+                    references: users(id)
+              - column:
+                  name: personality
+                  type: varchar(255)
+
+        - createTable:
+            tableName: students_connections
+            columns:
+              - column:
+                  name: student_id
+                  type: integer
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_connection_student
+                    references: users(id)
+              - column:
+                  name: connected_student_id
+                  type: integer
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_connection_connected_student
+                    references: users(id)
+
+        - createTable:
+            tableName: students_seconds_colleges
+            columns:
+              - column:
+                  name: student_id
+                  type: integer
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_second_college_student
+                    references: users(id)
+              - column:
+                  name: college_id
+                  type: integer
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_second_college_college
+                    references: buildings(id)
+
+        - createTable:
+            tableName: students_properties_likes
+            columns:
+              - column:
+                  name: student_id
+                  type: integer
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_property_like_student
+                    references: users(id)
+              - column:
+                  name: property_id
+                  type: integer
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_property_like_property
+                    references: buildings(id)
+
+        - createTable:
+            tableName: users_notifications
+            columns:
+              - column:
+                  name: user_id
+                  type: integer
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_notification_user
+                    references: users(id)
+              - column:
+                  name: notification_id
+                  type: integer
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_notification_notification
+                    references: notifications(id)
+
+        - createTable:
+            tableName: user_roles
+            columns:
+              - column:
+                  name: user_id
+                  type: integer
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_user_role_user
+                    references: users(id)
+              - column:
+                  name: role_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_user_role_role
+                    references: roles(id)
+
+  - changeSet:
+      id: 2
+      author: alugaai
+      changes:
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: role_name
+                  value: "ROLE_ADMIN"
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: role_name
+                  value: "ROLE_OWNER"
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: role_name
+                  value: "ROLE_STUDENT"

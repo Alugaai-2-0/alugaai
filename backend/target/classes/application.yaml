@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: backend
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    jersey:
+      type: filter
+      application-path: /
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+    enabled: true
+  datasource:
+    #local
+    url: jdbc:postgresql://localhost:5433/postgres
+
+    #docker
+    #url: jdbc:postgresql://db:5432/alugaaidb
+    username: postgres
+
+    #local
+    password:
+
+    #docker
+    #password: pedraomasculodecalcinharosa
+
+jwt:
+  secret: 8Ff93GcOBjEq6nXJ42ZY6Uz4nX7L6GyHECifWQEVdTq4UMM6lZmYMIhWDO25ocP9bO6ziWW6GE18fgV7A8PsoQ==
+  expiration: 8640000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+geocode:
+  api:
+    key: AIzaSyC8YnM2erJgoRgGuOpC2QQHPrexhOX09-w
+
+logging:
+  level:
+    liquibase: DEBUG
+    org.springframework: INFO

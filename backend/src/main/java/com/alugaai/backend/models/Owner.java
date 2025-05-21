@@ -23,4 +23,9 @@ public class Owner extends User {
         super(birthDate, createdDate, gender, userName, email, passwordHash);
     }
 
+    public Owner(LocalDateTime birthDate, LocalDateTime createdDate, Character gender, String userName,
+                 String email, String passwordHash, String cpf, String phoneNumber) {
+        super(birthDate, createdDate, gender, userName, email, passwordHash, cpf, phoneNumber);
+    }
+
 }

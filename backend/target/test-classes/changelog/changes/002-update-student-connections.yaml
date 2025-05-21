@@ -1,0 +1,45 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002-update-student-connections
+      author: joao-silveira
+      changes:
+        - dropTable:
+            tableName: students_connections
+
+        - createTable:
+            tableName: student_connections
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: requester_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_connection_requester
+                    references: users(id)
+              - column:
+                  name: addressee_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_connection_addressee
+                    references: users(id)
+              - column:
+                  name: status
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: request_date
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: response_date
+                  type: timestamp

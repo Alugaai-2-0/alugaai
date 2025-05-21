@@ -1,0 +1,5 @@
+com/alugaai/backend/BackendApplicationTests.class
+com/alugaai/backend/handlers/GlobalExceptionHandlerTest.class
+com/alugaai/backend/services/UserServiceTest.class
+com/alugaai/backend/asbtractClasses/ClassHelper.class
+com/alugaai/backend/repositories/UserRepositoryTest.class
