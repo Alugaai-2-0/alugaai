@@ -2,7 +2,9 @@ spring:
   application:
     name: backend
   datasource:
-    url: jdbc:${DATABASE_URL}
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -19,12 +21,12 @@ server:
   port: ${PORT:8080}
 
 jwt:
-  secret: ${JWT_SECRET:8Ff93GcOBjEq6nXJ42ZY6Uz4nX7L6GyHECifWQEVdTq4UMM6lZmYMIhWDO25ocP9bO6ziWW6GE18fgV7A8PsoQ==}
+  secret: ${JWT_SECRET}
   expiration: 8640000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 
 geocode:
   api:
-    key: ${GEOCODE_API_KEY:AIzaSyC8YnM2erJgoRgGuOpC2QQHPrexhOX09-w}
+    key: ${GEOCODE_API_KEY}
 
 logging:
   level:
