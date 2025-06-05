@@ -116,4 +116,16 @@ public class User implements UserDetails {
         this.email = email;
         this.passwordHash = passwordHash;
     }
+
+    public User(LocalDateTime birthDate, LocalDateTime createdDate, Character gender, String userName,
+                String email, String passwordHash, String cpf, String phoneNumber) {
+        this.birthDate = birthDate;
+        this.createdDate = createdDate;
+        this.gender = gender;
+        this.userName = userName;
+        this.email = email;
+        this.passwordHash = passwordHash;
+        this.cpf = cpf;
+        this.phoneNumber = phoneNumber;
+    }
 }

@@ -21,12 +21,12 @@ import static org.junit.jupiter.api.Assertions.*;
 @ActiveProfiles("test")
 public class UserRepositoryTest extends ClassHelper {
 
-   @Autowired
-   private UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Test
     public void testInsertOwner() {
-        User user = generateOwner("owner@gmail.com", "owner", "passwordHashSenha");
+        User user = generateOwner("owner@gmail.com", "owner", "passwordHashSenha", "12345678901", "11999999999");
         User savedUser = userRepository.save(user);
 
         assertNotNull(savedUser.getId());
@@ -39,7 +39,7 @@ public class UserRepositoryTest extends ClassHelper {
 
     @Test
     public void testInsertStudent() {
-        User user = generateStudent("student@gmail.com", "student", "passwordHashSenha");
+        User user = generateStudent("student@gmail.com", "student", "passwordHashSenha", "98765432100", "11888888888");
         User savedUser = userRepository.save(user);
 
         assertNotNull(savedUser.getId());
@@ -54,7 +54,6 @@ public class UserRepositoryTest extends ClassHelper {
         assertEquals("student@gmail.com", fetchedUser.get().getEmail());
         assertEquals("STUDENT", discriminator);
     }
-
 
 
 }

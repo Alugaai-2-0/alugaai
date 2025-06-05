@@ -1,0 +1,940 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.alugaai.backend.repositories.UserRepositoryTest" time="0.664" tests="2" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="23"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.class.path" value="/Users/joaoadsistemas/Documents/GitHub/JoaoRepo/alugaai/backend/target/test-classes:/Users/joaoadsistemas/Documents/GitHub/JoaoRepo/alugaai/backend/target/classes:/Users/joaoadsistemas/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/3.3.4/spring-boot-starter-data-jpa-3.3.4.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/boot/spring-boot-starter-aop/3.3.4/spring-boot-starter-aop-3.3.4.jar:/Users/joaoadsistemas/.m2/repository/org/aspectj/aspectjweaver/1.9.22.1/aspectjweaver-1.9.22.1.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/3.3.4/spring-boot-starter-jdbc-3.3.4.jar:/Users/joaoadsistemas/.m2/repository/com/zaxxer/HikariCP/5.1.0/HikariCP-5.1.0.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/spring-jdbc/6.1.13/spring-jdbc-6.1.13.jar:/Users/joaoadsistemas/.m2/repository/org/hibernate/orm/hibernate-core/6.5.3.Final/hibernate-core-6.5.3.Final.jar:/Users/joaoadsistemas/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.1.0/jakarta.persistence-api-3.1.0.jar:/Users/joaoadsistemas/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.1/jakarta.transaction-api-2.0.1.jar:/Users/joaoadsistemas/.m2/repository/org/hibernate/common/hibernate-commons-annotations/6.0.6.Final/hibernate-commons-annotations-6.0.6.Final.jar:/Users/joaoadsistemas/.m2/repository/io/smallrye/jandex/3.1.2/jandex-3.1.2.jar:/Users/joaoadsistemas/.m2/repository/net/bytebuddy/byte-buddy/1.14.19/byte-buddy-1.14.19.jar:/Users/joaoadsistemas/.m2/repository/org/glassfish/jaxb/jaxb-runtime/4.0.5/jaxb-runtime-4.0.5.jar:/Users/joaoadsistemas/.m2/repository/org/glassfish/jaxb/jaxb-core/4.0.5/jaxb-core-4.0.5.jar:/Users/joaoadsistemas/.m2/repository/org/eclipse/angus/angus-activation/2.0.2/angus-activation-2.0.2.jar:/Users/joaoadsistemas/.m2/repository/org/glassfish/jaxb/txw2/4.0.5/txw2-4.0.5.jar:/Users/joaoadsistemas/.m2/repository/com/sun/istack/istack-commons-runtime/4.1.2/istack-commons-runtime-4.1.2.jar:/Users/joaoadsistemas/.m2/repository/jakarta/inject/jakarta.inject-api/2.0.1/jakarta.inject-api-2.0.1.jar:/Users/joaoadsistemas/.m2/repository/org/antlr/antlr4-runtime/4.13.0/antlr4-runtime-4.13.0.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/data/spring-data-jpa/3.3.4/spring-data-jpa-3.3.4.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/data/spring-data-commons/3.3.4/spring-data-commons-3.3.4.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/spring-orm/6.1.13/spring-orm-6.1.13.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/spring-context/6.1.13/spring-context-6.1.13.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/spring-tx/6.1.13/spring-tx-6.1.13.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/spring-beans/6.1.13/spring-beans-6.1.13.jar:/Users/joaoadsistemas/.m2/repository/org/slf4j/slf4j-api/2.0.16/slf4j-api-2.0.16.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/spring-aspects/6.1.13/spring-aspects-6.1.13.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/boot/spring-boot-starter-web/3.3.4/spring-boot-starter-web-3.3.4.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/boot/spring-boot-starter/3.3.4/spring-boot-starter-3.3.4.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/boot/spring-boot-starter-logging/3.3.4/spring-boot-starter-logging-3.3.4.jar:/Users/joaoadsistemas/.m2/repository/ch/qos/logback/logback-classic/1.5.8/logback-classic-1.5.8.jar:/Users/joaoadsistemas/.m2/repository/ch/qos/logback/logback-core/1.5.8/logback-core-1.5.8.jar:/Users/joaoadsistemas/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.23.1/log4j-to-slf4j-2.23.1.jar:/Users/joaoadsistemas/.m2/repository/org/apache/logging/log4j/log4j-api/2.23.1/log4j-api-2.23.1.jar:/Users/joaoadsistemas/.m2/repository/org/slf4j/jul-to-slf4j/2.0.16/jul-to-slf4j-2.0.16.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/boot/spring-boot-starter-json/3.3.4/spring-boot-starter-json-3.3.4.jar:/Users/joaoadsistemas/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.17.2/jackson-datatype-jdk8-2.17.2.jar:/Users/joaoadsistemas/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.17.2/jackson-datatype-jsr310-2.17.2.jar:/Users/joaoadsistemas/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.17.2/jackson-module-parameter-names-2.17.2.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/boot/spring-boot-starter-tomcat/3.3.4/spring-boot-starter-tomcat-3.3.4.jar:/Users/joaoadsistemas/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.30/tomcat-embed-core-10.1.30.jar:/Users/joaoadsistemas/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/10.1.30/tomcat-embed-websocket-10.1.30.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/spring-web/6.1.13/spring-web-6.1.13.jar:/Users/joaoadsistemas/.m2/repository/io/micrometer/micrometer-observation/1.13.4/micrometer-observation-1.13.4.jar:/Users/joaoadsistemas/.m2/repository/io/micrometer/micrometer-commons/1.13.4/micrometer-commons-1.13.4.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/spring-webmvc/6.1.13/spring-webmvc-6.1.13.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/spring-expression/6.1.13/spring-expression-6.1.13.jar:/Users/joaoadsistemas/.m2/repository/org/liquibase/liquibase-core/4.27.0/liquibase-core-4.27.0.jar:/Users/joaoadsistemas/.m2/repository/com/opencsv/opencsv/5.9/opencsv-5.9.jar:/Users/joaoadsistemas/.m2/repository/org/apache/commons/commons-text/1.11.0/commons-text-1.11.0.jar:/Users/joaoadsistemas/.m2/repository/org/apache/commons/commons-collections4/4.4/commons-collections4-4.4.jar:/Users/joaoadsistemas/.m2/repository/org/yaml/snakeyaml/2.2/snakeyaml-2.2.jar:/Users/joaoadsistemas/.m2/repository/javax/xml/bind/jaxb-api/2.3.1/jaxb-api-2.3.1.jar:/Users/joaoadsistemas/.m2/repository/org/apache/commons/commons-lang3/3.14.0/commons-lang3-3.14.0.jar:/Users/joaoadsistemas/.m2/repository/com/h2database/h2/2.2.224/h2-2.2.224.jar:/Users/joaoadsistemas/.m2/repository/org/jetbrains/annotations/26.0.1/annotations-26.0.1.jar:/Users/joaoadsistemas/.m2/repository/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/boot/spring-boot-devtools/3.3.4/spring-boot-devtools-3.3.4.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/boot/spring-boot/3.3.4/spring-boot-3.3.4.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.3.4/spring-boot-autoconfigure-3.3.4.jar:/Users/joaoadsistemas/.m2/repository/org/postgresql/postgresql/42.7.4/postgresql-42.7.4.jar:/Users/joaoadsistemas/.m2/repository/org/checkerframework/checker-qual/3.42.0/checker-qual-3.42.0.jar:/Users/joaoadsistemas/.m2/repository/org/projectlombok/lombok/1.18.34/lombok-1.18.34.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/boot/spring-boot-starter-test/3.3.4/spring-boot-starter-test-3.3.4.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/boot/spring-boot-test/3.3.4/spring-boot-test-3.3.4.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/boot/spring-boot-test-autoconfigure/3.3.4/spring-boot-test-autoconfigure-3.3.4.jar:/Users/joaoadsistemas/.m2/repository/com/jayway/jsonpath/json-path/2.9.0/json-path-2.9.0.jar:/Users/joaoadsistemas/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/4.0.2/jakarta.xml.bind-api-4.0.2.jar:/Users/joaoadsistemas/.m2/repository/jakarta/activation/jakarta.activation-api/2.1.3/jakarta.activation-api-2.1.3.jar:/Users/joaoadsistemas/.m2/repository/net/minidev/json-smart/2.5.1/json-smart-2.5.1.jar:/Users/joaoadsistemas/.m2/repository/net/minidev/accessors-smart/2.5.1/accessors-smart-2.5.1.jar:/Users/joaoadsistemas/.m2/repository/org/ow2/asm/asm/9.6/asm-9.6.jar:/Users/joaoadsistemas/.m2/repository/org/assertj/assertj-core/3.25.3/assertj-core-3.25.3.jar:/Users/joaoadsistemas/.m2/repository/org/awaitility/awaitility/4.2.2/awaitility-4.2.2.jar:/Users/joaoadsistemas/.m2/repository/org/hamcrest/hamcrest/2.2/hamcrest-2.2.jar:/Users/joaoadsistemas/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.3/junit-jupiter-5.10.3.jar:/Users/joaoadsistemas/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.3/junit-jupiter-api-5.10.3.jar:/Users/joaoadsistemas/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/joaoadsistemas/.m2/repository/org/junit/platform/junit-platform-commons/1.10.3/junit-platform-commons-1.10.3.jar:/Users/joaoadsistemas/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/joaoadsistemas/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.3/junit-jupiter-params-5.10.3.jar:/Users/joaoadsistemas/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.3/junit-jupiter-engine-5.10.3.jar:/Users/joaoadsistemas/.m2/repository/org/junit/platform/junit-platform-engine/1.10.3/junit-platform-engine-1.10.3.jar:/Users/joaoadsistemas/.m2/repository/org/mockito/mockito-core/5.11.0/mockito-core-5.11.0.jar:/Users/joaoadsistemas/.m2/repository/net/bytebuddy/byte-buddy-agent/1.14.19/byte-buddy-agent-1.14.19.jar:/Users/joaoadsistemas/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/Users/joaoadsistemas/.m2/repository/org/mockito/mockito-junit-jupiter/5.11.0/mockito-junit-jupiter-5.11.0.jar:/Users/joaoadsistemas/.m2/repository/org/skyscreamer/jsonassert/1.5.3/jsonassert-1.5.3.jar:/Users/joaoadsistemas/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/spring-core/6.1.13/spring-core-6.1.13.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/spring-jcl/6.1.13/spring-jcl-6.1.13.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/spring-test/6.1.13/spring-test-6.1.13.jar:/Users/joaoadsistemas/.m2/repository/org/xmlunit/xmlunit-core/2.9.1/xmlunit-core-2.9.1.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/boot/spring-boot-starter-security/3.3.4/spring-boot-starter-security-3.3.4.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/spring-aop/6.1.13/spring-aop-6.1.13.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/security/spring-security-config/6.3.3/spring-security-config-6.3.3.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/security/spring-security-core/6.3.3/spring-security-core-6.3.3.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/security/spring-security-crypto/6.3.3/spring-security-crypto-6.3.3.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/security/spring-security-web/6.3.3/spring-security-web-6.3.3.jar:/Users/joaoadsistemas/.m2/repository/org/hibernate/validator/hibernate-validator/8.0.0.Final/hibernate-validator-8.0.0.Final.jar:/Users/joaoadsistemas/.m2/repository/jakarta/validation/jakarta.validation-api/3.0.2/jakarta.validation-api-3.0.2.jar:/Users/joaoadsistemas/.m2/repository/org/jboss/logging/jboss-logging/3.5.3.Final/jboss-logging-3.5.3.Final.jar:/Users/joaoadsistemas/.m2/repository/com/fasterxml/classmate/1.7.0/classmate-1.7.0.jar:/Users/joaoadsistemas/.m2/repository/io/jsonwebtoken/jjwt-api/0.11.5/jjwt-api-0.11.5.jar:/Users/joaoadsistemas/.m2/repository/io/jsonwebtoken/jjwt-impl/0.11.5/jjwt-impl-0.11.5.jar:/Users/joaoadsistemas/.m2/repository/io/jsonwebtoken/jjwt-jackson/0.11.5/jjwt-jackson-0.11.5.jar:/Users/joaoadsistemas/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.17.2/jackson-databind-2.17.2.jar:/Users/joaoadsistemas/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.17.2/jackson-annotations-2.17.2.jar:/Users/joaoadsistemas/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.17.2/jackson-core-2.17.2.jar:/Users/joaoadsistemas/.m2/repository/org/springdoc/springdoc-openapi-starter-webmvc-ui/2.6.0/springdoc-openapi-starter-webmvc-ui-2.6.0.jar:/Users/joaoadsistemas/.m2/repository/org/springdoc/springdoc-openapi-starter-webmvc-api/2.6.0/springdoc-openapi-starter-webmvc-api-2.6.0.jar:/Users/joaoadsistemas/.m2/repository/org/springdoc/springdoc-openapi-starter-common/2.6.0/springdoc-openapi-starter-common-2.6.0.jar:/Users/joaoadsistemas/.m2/repository/io/swagger/core/v3/swagger-core-jakarta/2.2.22/swagger-core-jakarta-2.2.22.jar:/Users/joaoadsistemas/.m2/repository/io/swagger/core/v3/swagger-annotations-jakarta/2.2.22/swagger-annotations-jakarta-2.2.22.jar:/Users/joaoadsistemas/.m2/repository/io/swagger/core/v3/swagger-models-jakarta/2.2.22/swagger-models-jakarta-2.2.22.jar:/Users/joaoadsistemas/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.17.2/jackson-dataformat-yaml-2.17.2.jar:/Users/joaoadsistemas/.m2/repository/org/webjars/swagger-ui/5.17.14/swagger-ui-5.17.14.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/boot/spring-boot-starter-validation/3.3.4/spring-boot-starter-validation-3.3.4.jar:/Users/joaoadsistemas/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/10.1.30/tomcat-embed-el-10.1.30.jar:"/>
+    <property name="java.vm.vendor" value="Homebrew"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.vendor.url" value="https://github.com/Homebrew/homebrew-core/issues"/>
+    <property name="user.timezone" value="America/Sao_Paulo"/>
+    <property name="org.jboss.logging.provider" value="slf4j"/>
+    <property name="os.name" value="Mac OS X"/>
+    <property name="java.vm.specification.version" value="23"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="BR"/>
+    <property name="sun.boot.library.path" value="/opt/homebrew/Cellar/openjdk/23.0.1/libexec/openjdk.jdk/Contents/Home/lib"/>
+    <property name="sun.java.command" value="/Users/joaoadsistemas/Documents/GitHub/JoaoRepo/alugaai/backend/target/surefire/surefirebooter-20250521193654243_3.jar /Users/joaoadsistemas/Documents/GitHub/JoaoRepo/alugaai/backend/target/surefire 2025-05-21T19-36-54_174-jvmRun1 surefire-20250521193654243_1tmp surefire_0-20250521193654243_2tmp"/>
+    <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="/Users/joaoadsistemas/Documents/GitHub/JoaoRepo/alugaai/backend/target/test-classes:/Users/joaoadsistemas/Documents/GitHub/JoaoRepo/alugaai/backend/target/classes:/Users/joaoadsistemas/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/3.3.4/spring-boot-starter-data-jpa-3.3.4.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/boot/spring-boot-starter-aop/3.3.4/spring-boot-starter-aop-3.3.4.jar:/Users/joaoadsistemas/.m2/repository/org/aspectj/aspectjweaver/1.9.22.1/aspectjweaver-1.9.22.1.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/3.3.4/spring-boot-starter-jdbc-3.3.4.jar:/Users/joaoadsistemas/.m2/repository/com/zaxxer/HikariCP/5.1.0/HikariCP-5.1.0.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/spring-jdbc/6.1.13/spring-jdbc-6.1.13.jar:/Users/joaoadsistemas/.m2/repository/org/hibernate/orm/hibernate-core/6.5.3.Final/hibernate-core-6.5.3.Final.jar:/Users/joaoadsistemas/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.1.0/jakarta.persistence-api-3.1.0.jar:/Users/joaoadsistemas/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.1/jakarta.transaction-api-2.0.1.jar:/Users/joaoadsistemas/.m2/repository/org/hibernate/common/hibernate-commons-annotations/6.0.6.Final/hibernate-commons-annotations-6.0.6.Final.jar:/Users/joaoadsistemas/.m2/repository/io/smallrye/jandex/3.1.2/jandex-3.1.2.jar:/Users/joaoadsistemas/.m2/repository/net/bytebuddy/byte-buddy/1.14.19/byte-buddy-1.14.19.jar:/Users/joaoadsistemas/.m2/repository/org/glassfish/jaxb/jaxb-runtime/4.0.5/jaxb-runtime-4.0.5.jar:/Users/joaoadsistemas/.m2/repository/org/glassfish/jaxb/jaxb-core/4.0.5/jaxb-core-4.0.5.jar:/Users/joaoadsistemas/.m2/repository/org/eclipse/angus/angus-activation/2.0.2/angus-activation-2.0.2.jar:/Users/joaoadsistemas/.m2/repository/org/glassfish/jaxb/txw2/4.0.5/txw2-4.0.5.jar:/Users/joaoadsistemas/.m2/repository/com/sun/istack/istack-commons-runtime/4.1.2/istack-commons-runtime-4.1.2.jar:/Users/joaoadsistemas/.m2/repository/jakarta/inject/jakarta.inject-api/2.0.1/jakarta.inject-api-2.0.1.jar:/Users/joaoadsistemas/.m2/repository/org/antlr/antlr4-runtime/4.13.0/antlr4-runtime-4.13.0.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/data/spring-data-jpa/3.3.4/spring-data-jpa-3.3.4.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/data/spring-data-commons/3.3.4/spring-data-commons-3.3.4.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/spring-orm/6.1.13/spring-orm-6.1.13.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/spring-context/6.1.13/spring-context-6.1.13.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/spring-tx/6.1.13/spring-tx-6.1.13.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/spring-beans/6.1.13/spring-beans-6.1.13.jar:/Users/joaoadsistemas/.m2/repository/org/slf4j/slf4j-api/2.0.16/slf4j-api-2.0.16.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/spring-aspects/6.1.13/spring-aspects-6.1.13.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/boot/spring-boot-starter-web/3.3.4/spring-boot-starter-web-3.3.4.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/boot/spring-boot-starter/3.3.4/spring-boot-starter-3.3.4.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/boot/spring-boot-starter-logging/3.3.4/spring-boot-starter-logging-3.3.4.jar:/Users/joaoadsistemas/.m2/repository/ch/qos/logback/logback-classic/1.5.8/logback-classic-1.5.8.jar:/Users/joaoadsistemas/.m2/repository/ch/qos/logback/logback-core/1.5.8/logback-core-1.5.8.jar:/Users/joaoadsistemas/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.23.1/log4j-to-slf4j-2.23.1.jar:/Users/joaoadsistemas/.m2/repository/org/apache/logging/log4j/log4j-api/2.23.1/log4j-api-2.23.1.jar:/Users/joaoadsistemas/.m2/repository/org/slf4j/jul-to-slf4j/2.0.16/jul-to-slf4j-2.0.16.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/boot/spring-boot-starter-json/3.3.4/spring-boot-starter-json-3.3.4.jar:/Users/joaoadsistemas/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.17.2/jackson-datatype-jdk8-2.17.2.jar:/Users/joaoadsistemas/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.17.2/jackson-datatype-jsr310-2.17.2.jar:/Users/joaoadsistemas/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.17.2/jackson-module-parameter-names-2.17.2.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/boot/spring-boot-starter-tomcat/3.3.4/spring-boot-starter-tomcat-3.3.4.jar:/Users/joaoadsistemas/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.30/tomcat-embed-core-10.1.30.jar:/Users/joaoadsistemas/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/10.1.30/tomcat-embed-websocket-10.1.30.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/spring-web/6.1.13/spring-web-6.1.13.jar:/Users/joaoadsistemas/.m2/repository/io/micrometer/micrometer-observation/1.13.4/micrometer-observation-1.13.4.jar:/Users/joaoadsistemas/.m2/repository/io/micrometer/micrometer-commons/1.13.4/micrometer-commons-1.13.4.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/spring-webmvc/6.1.13/spring-webmvc-6.1.13.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/spring-expression/6.1.13/spring-expression-6.1.13.jar:/Users/joaoadsistemas/.m2/repository/org/liquibase/liquibase-core/4.27.0/liquibase-core-4.27.0.jar:/Users/joaoadsistemas/.m2/repository/com/opencsv/opencsv/5.9/opencsv-5.9.jar:/Users/joaoadsistemas/.m2/repository/org/apache/commons/commons-text/1.11.0/commons-text-1.11.0.jar:/Users/joaoadsistemas/.m2/repository/org/apache/commons/commons-collections4/4.4/commons-collections4-4.4.jar:/Users/joaoadsistemas/.m2/repository/org/yaml/snakeyaml/2.2/snakeyaml-2.2.jar:/Users/joaoadsistemas/.m2/repository/javax/xml/bind/jaxb-api/2.3.1/jaxb-api-2.3.1.jar:/Users/joaoadsistemas/.m2/repository/org/apache/commons/commons-lang3/3.14.0/commons-lang3-3.14.0.jar:/Users/joaoadsistemas/.m2/repository/com/h2database/h2/2.2.224/h2-2.2.224.jar:/Users/joaoadsistemas/.m2/repository/org/jetbrains/annotations/26.0.1/annotations-26.0.1.jar:/Users/joaoadsistemas/.m2/repository/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/boot/spring-boot-devtools/3.3.4/spring-boot-devtools-3.3.4.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/boot/spring-boot/3.3.4/spring-boot-3.3.4.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.3.4/spring-boot-autoconfigure-3.3.4.jar:/Users/joaoadsistemas/.m2/repository/org/postgresql/postgresql/42.7.4/postgresql-42.7.4.jar:/Users/joaoadsistemas/.m2/repository/org/checkerframework/checker-qual/3.42.0/checker-qual-3.42.0.jar:/Users/joaoadsistemas/.m2/repository/org/projectlombok/lombok/1.18.34/lombok-1.18.34.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/boot/spring-boot-starter-test/3.3.4/spring-boot-starter-test-3.3.4.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/boot/spring-boot-test/3.3.4/spring-boot-test-3.3.4.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/boot/spring-boot-test-autoconfigure/3.3.4/spring-boot-test-autoconfigure-3.3.4.jar:/Users/joaoadsistemas/.m2/repository/com/jayway/jsonpath/json-path/2.9.0/json-path-2.9.0.jar:/Users/joaoadsistemas/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/4.0.2/jakarta.xml.bind-api-4.0.2.jar:/Users/joaoadsistemas/.m2/repository/jakarta/activation/jakarta.activation-api/2.1.3/jakarta.activation-api-2.1.3.jar:/Users/joaoadsistemas/.m2/repository/net/minidev/json-smart/2.5.1/json-smart-2.5.1.jar:/Users/joaoadsistemas/.m2/repository/net/minidev/accessors-smart/2.5.1/accessors-smart-2.5.1.jar:/Users/joaoadsistemas/.m2/repository/org/ow2/asm/asm/9.6/asm-9.6.jar:/Users/joaoadsistemas/.m2/repository/org/assertj/assertj-core/3.25.3/assertj-core-3.25.3.jar:/Users/joaoadsistemas/.m2/repository/org/awaitility/awaitility/4.2.2/awaitility-4.2.2.jar:/Users/joaoadsistemas/.m2/repository/org/hamcrest/hamcrest/2.2/hamcrest-2.2.jar:/Users/joaoadsistemas/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.3/junit-jupiter-5.10.3.jar:/Users/joaoadsistemas/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.3/junit-jupiter-api-5.10.3.jar:/Users/joaoadsistemas/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/joaoadsistemas/.m2/repository/org/junit/platform/junit-platform-commons/1.10.3/junit-platform-commons-1.10.3.jar:/Users/joaoadsistemas/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/joaoadsistemas/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.3/junit-jupiter-params-5.10.3.jar:/Users/joaoadsistemas/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.3/junit-jupiter-engine-5.10.3.jar:/Users/joaoadsistemas/.m2/repository/org/junit/platform/junit-platform-engine/1.10.3/junit-platform-engine-1.10.3.jar:/Users/joaoadsistemas/.m2/repository/org/mockito/mockito-core/5.11.0/mockito-core-5.11.0.jar:/Users/joaoadsistemas/.m2/repository/net/bytebuddy/byte-buddy-agent/1.14.19/byte-buddy-agent-1.14.19.jar:/Users/joaoadsistemas/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/Users/joaoadsistemas/.m2/repository/org/mockito/mockito-junit-jupiter/5.11.0/mockito-junit-jupiter-5.11.0.jar:/Users/joaoadsistemas/.m2/repository/org/skyscreamer/jsonassert/1.5.3/jsonassert-1.5.3.jar:/Users/joaoadsistemas/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/spring-core/6.1.13/spring-core-6.1.13.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/spring-jcl/6.1.13/spring-jcl-6.1.13.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/spring-test/6.1.13/spring-test-6.1.13.jar:/Users/joaoadsistemas/.m2/repository/org/xmlunit/xmlunit-core/2.9.1/xmlunit-core-2.9.1.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/boot/spring-boot-starter-security/3.3.4/spring-boot-starter-security-3.3.4.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/spring-aop/6.1.13/spring-aop-6.1.13.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/security/spring-security-config/6.3.3/spring-security-config-6.3.3.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/security/spring-security-core/6.3.3/spring-security-core-6.3.3.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/security/spring-security-crypto/6.3.3/spring-security-crypto-6.3.3.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/security/spring-security-web/6.3.3/spring-security-web-6.3.3.jar:/Users/joaoadsistemas/.m2/repository/org/hibernate/validator/hibernate-validator/8.0.0.Final/hibernate-validator-8.0.0.Final.jar:/Users/joaoadsistemas/.m2/repository/jakarta/validation/jakarta.validation-api/3.0.2/jakarta.validation-api-3.0.2.jar:/Users/joaoadsistemas/.m2/repository/org/jboss/logging/jboss-logging/3.5.3.Final/jboss-logging-3.5.3.Final.jar:/Users/joaoadsistemas/.m2/repository/com/fasterxml/classmate/1.7.0/classmate-1.7.0.jar:/Users/joaoadsistemas/.m2/repository/io/jsonwebtoken/jjwt-api/0.11.5/jjwt-api-0.11.5.jar:/Users/joaoadsistemas/.m2/repository/io/jsonwebtoken/jjwt-impl/0.11.5/jjwt-impl-0.11.5.jar:/Users/joaoadsistemas/.m2/repository/io/jsonwebtoken/jjwt-jackson/0.11.5/jjwt-jackson-0.11.5.jar:/Users/joaoadsistemas/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.17.2/jackson-databind-2.17.2.jar:/Users/joaoadsistemas/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.17.2/jackson-annotations-2.17.2.jar:/Users/joaoadsistemas/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.17.2/jackson-core-2.17.2.jar:/Users/joaoadsistemas/.m2/repository/org/springdoc/springdoc-openapi-starter-webmvc-ui/2.6.0/springdoc-openapi-starter-webmvc-ui-2.6.0.jar:/Users/joaoadsistemas/.m2/repository/org/springdoc/springdoc-openapi-starter-webmvc-api/2.6.0/springdoc-openapi-starter-webmvc-api-2.6.0.jar:/Users/joaoadsistemas/.m2/repository/org/springdoc/springdoc-openapi-starter-common/2.6.0/springdoc-openapi-starter-common-2.6.0.jar:/Users/joaoadsistemas/.m2/repository/io/swagger/core/v3/swagger-core-jakarta/2.2.22/swagger-core-jakarta-2.2.22.jar:/Users/joaoadsistemas/.m2/repository/io/swagger/core/v3/swagger-annotations-jakarta/2.2.22/swagger-annotations-jakarta-2.2.22.jar:/Users/joaoadsistemas/.m2/repository/io/swagger/core/v3/swagger-models-jakarta/2.2.22/swagger-models-jakarta-2.2.22.jar:/Users/joaoadsistemas/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.17.2/jackson-dataformat-yaml-2.17.2.jar:/Users/joaoadsistemas/.m2/repository/org/webjars/swagger-ui/5.17.14/swagger-ui-5.17.14.jar:/Users/joaoadsistemas/.m2/repository/org/springframework/boot/spring-boot-starter-validation/3.3.4/spring-boot-starter-validation-3.3.4.jar:/Users/joaoadsistemas/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/10.1.30/tomcat-embed-el-10.1.30.jar:"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="/Users/joaoadsistemas"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2024-10-15"/>
+    <property name="java.home" value="/opt/homebrew/Cellar/openjdk/23.0.1/libexec/openjdk.jdk/Contents/Home"/>
+    <property name="file.separator" value="/"/>
+    <property name="basedir" value="/Users/joaoadsistemas/Documents/GitHub/JoaoRepo/alugaai/backend"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="FILE_LOG_CHARSET" value="UTF-8"/>
+    <property name="java.awt.headless" value="true"/>
+    <property name="apple.awt.application.name" value="ForkedBooter"/>
+    <property name="surefire.real.class.path" value="/Users/joaoadsistemas/Documents/GitHub/JoaoRepo/alugaai/backend/target/surefire/surefirebooter-20250521193654243_3.jar"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="java.runtime.version" value="23.0.1"/>
+    <property name="user.name" value="joaoadsistemas"/>
+    <property name="stdout.encoding" value="UTF-8"/>
+    <property name="path.separator" value=":"/>
+    <property name="os.version" value="15.3.2"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="java.vendor.version" value="Homebrew"/>
+    <property name="localRepository" value="/Users/joaoadsistemas/.m2/repository"/>
+    <property name="java.vendor.url.bug" value="https://github.com/Homebrew/homebrew-core/issues"/>
+    <property name="java.io.tmpdir" value="/var/folders/pm/861bjyy17j7br8g_gtyfh4s40000gp/T/"/>
+    <property name="idea.version" value="2024.3.1.1"/>
+    <property name="com.zaxxer.hikari.pool_number" value="1"/>
+    <property name="java.version" value="23.0.1"/>
+    <property name="user.dir" value="/Users/joaoadsistemas/Documents/GitHub/JoaoRepo/alugaai/backend"/>
+    <property name="os.arch" value="aarch64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="PID" value="96558"/>
+    <property name="CONSOLE_LOG_CHARSET" value="UTF-8"/>
+    <property name="native.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="/Users/joaoadsistemas/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:."/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="stderr.encoding" value="UTF-8"/>
+    <property name="java.vendor" value="Homebrew"/>
+    <property name="java.vm.version" value="23.0.1"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
+    <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="java.class.version" value="67.0"/>
+    <property name="LOGGED_APPLICATION_NAME" value="[backend] "/>
+  </properties>
+  <testcase name="testInsertOwner" classname="com.alugaai.backend.repositories.UserRepositoryTest" time="0.043">
+    <system-out><![CDATA[2025-05-21T19:36:58.759-03:00  INFO 96558 --- [backend] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.alugaai.backend.repositories.UserRepositoryTest]: UserRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2025-05-21T19:36:58.769-03:00  INFO 96558 --- [backend] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.alugaai.backend.BackendApplication for test class com.alugaai.backend.repositories.UserRepositoryTest
+2025-05-21T19:36:58.771-03:00  INFO 96558 --- [backend] [           main] o.s.b.d.r.RestartApplicationListener     : Restart disabled due to context in which it is running
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.4)
+
+2025-05-21T19:36:58.786-03:00  INFO 96558 --- [backend] [           main] c.a.b.repositories.UserRepositoryTest    : Starting UserRepositoryTest using Java 23.0.1 with PID 96558 (started by joaoadsistemas in /Users/joaoadsistemas/Documents/GitHub/JoaoRepo/alugaai/backend)
+2025-05-21T19:36:58.786-03:00  INFO 96558 --- [backend] [           main] c.a.b.repositories.UserRepositoryTest    : The following 1 profile is active: "test"
+2025-05-21T19:36:58.831-03:00  INFO 96558 --- [backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-21T19:36:58.839-03:00  INFO 96558 --- [backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 7 ms. Found 9 JPA repository interfaces.
+2025-05-21T19:36:58.852-03:00  INFO 96558 --- [backend] [           main] beddedDataSourceBeanFactoryPostProcessor : Replacing 'dataSource' DataSource bean with embedded version
+2025-05-21T19:36:58.866-03:00  INFO 96558 --- [backend] [           main] o.s.j.d.e.EmbeddedDatabaseFactory        : Starting embedded database: url='jdbc:h2:mem:9bf2cca0-1b8b-48a3-9e9d-02b374652e2e;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa'
+2025-05-21T19:36:58.975-03:00 DEBUG 96558 --- [backend] [           main] liquibase.database                       : Connected to SA@jdbc:h2:mem:9bf2cca0-1b8b-48a3-9e9d-02b374652e2e
+2025-05-21T19:36:58.975-03:00 DEBUG 96558 --- [backend] [           main] liquibase.database                       : Setting auto commit to false from true
+2025-05-21T19:36:58.975-03:00  INFO 96558 --- [backend] [           main] liquibase.database                       : Set default schema name to PUBLIC
+2025-05-21T19:36:58.976-03:00 DEBUG 96558 --- [backend] [           main] liquibase.configuration                  : Found 'liquibase.command.update.changelogParameters' configuration of 'liquibase.changelog.ChangeLogParameters@59a8891e'
+    command argument 'changelogParameters' of 'liquibase.changelog.ChangeLogParameters@59a8891e'
+2025-05-21T19:36:58.976-03:00 DEBUG 96558 --- [backend] [           main] liquibase.configuration                  : Found 'liquibase.command.update.database' configuration of 'SA @ jdbc:h2:mem:9bf2cca0-1b8b-48a3-9e9d-02b374652e2e (Default Schema: PUBLIC)'
+    command argument 'database' of 'SA @ jdbc:h2:mem:9bf2cca0-1b8b-48a3-9e9d-02b374652e2e (Default Schema: PUBLIC)'
+2025-05-21T19:36:58.976-03:00 DEBUG 96558 --- [backend] [           main] liquibase.configuration                  : Configuration liquibase.command.update.showSummary is using the default value of SUMMARY
+2025-05-21T19:36:58.977-03:00 DEBUG 96558 --- [backend] [           main] liquibase.configuration                  : Configuration liquibase.command.showSummary is using the default value of SUMMARY
+2025-05-21T19:36:58.977-03:00 DEBUG 96558 --- [backend] [           main] liquibase.configuration                  : Configuration liquibase.command.update.skipDatabaseStep is using the default value of false
+2025-05-21T19:36:58.977-03:00 DEBUG 96558 --- [backend] [           main] liquibase.configuration                  : Configuration liquibase.command.skipDatabaseStep is using the default value of false
+2025-05-21T19:36:58.977-03:00 DEBUG 96558 --- [backend] [           main] liquibase.configuration                  : No configuration value for liquibase.command.update.updateNullChecksums found
+2025-05-21T19:36:58.977-03:00 DEBUG 96558 --- [backend] [           main] liquibase.configuration                  : Configuration liquibase.command.update.updateNullChecksums is using the default value of false
+2025-05-21T19:36:58.977-03:00 DEBUG 96558 --- [backend] [           main] liquibase.configuration                  : Configuration liquibase.command.updateNullChecksums is using the default value of false
+2025-05-21T19:36:58.977-03:00 DEBUG 96558 --- [backend] [           main] liquibase.command                        : Pipeline for command 'update: liquibase.command.core.helpers.DbUrlConnectionArgumentsCommandStep then liquibase.command.core.helpers.ShowSummaryArgument then liquibase.command.core.helpers.DbUrlConnectionCommandStep then liquibase.command.core.helpers.DatabaseChangelogCommandStep then liquibase.command.core.helpers.ChangeExecListenerCommandStep then liquibase.command.core.UpdateCommandStep
+2025-05-21T19:36:58.977-03:00 DEBUG 96558 --- [backend] [           main] liquibase.command                        : Writing output with encoding 'UTF-8'
+2025-05-21T19:36:58.977-03:00 DEBUG 96558 --- [backend] [           main] liquibase.command                        : Executing internal command dbUrlConnectionArguments
+2025-05-21T19:36:58.977-03:00 DEBUG 96558 --- [backend] [           main] liquibase.command                        : Executing internal command showSummary
+2025-05-21T19:36:58.977-03:00 DEBUG 96558 --- [backend] [           main] liquibase.configuration                  : Configuration liquibase.command.update.showSummary is using the default value of SUMMARY
+2025-05-21T19:36:58.977-03:00 DEBUG 96558 --- [backend] [           main] liquibase.configuration                  : Configuration liquibase.command.showSummary is using the default value of SUMMARY
+2025-05-21T19:36:58.977-03:00 DEBUG 96558 --- [backend] [           main] liquibase.command                        : Executing internal command dbUrlConnectionCommandStep
+2025-05-21T19:36:58.977-03:00 DEBUG 96558 --- [backend] [           main] liquibase.configuration                  : Configuration liquibase.command.update.skipDatabaseStep is using the default value of false
+2025-05-21T19:36:58.977-03:00 DEBUG 96558 --- [backend] [           main] liquibase.configuration                  : Configuration liquibase.command.skipDatabaseStep is using the default value of false
+2025-05-21T19:36:58.977-03:00 DEBUG 96558 --- [backend] [           main] liquibase.command                        : Executing internal command changelogCommandStep
+2025-05-21T19:36:58.978-03:00 DEBUG 96558 --- [backend] [           main] liquibase.parser                         : Matched file 'classpath:db/changelog/db.changelog-master.yaml' to parser 'YamlChangeLogParser'
+2025-05-21T19:36:58.979-03:00 DEBUG 96558 --- [backend] [           main] liquibase.parser                         : Matched file 'db/changelog/changes/001-create-tables.yaml' to parser 'YamlChangeLogParser'
+2025-05-21T19:36:58.986-03:00 DEBUG 96558 --- [backend] [           main] liquibase.parser                         : Matched file 'db/changelog/changes/002-update-student-connections.yaml' to parser 'YamlChangeLogParser'
+2025-05-21T19:36:58.988-03:00 DEBUG 96558 --- [backend] [           main] liquibase.configuration                  : Found 'liquibase.command.update.updateNullChecksums' configuration of 'true'
+    command argument 'updateNullChecksums' of 'true'
+2025-05-21T19:36:58.989-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : Create Database Change Log Table
+2025-05-21T19:36:58.989-03:00  INFO 96558 --- [backend] [           main] liquibase.changelog                      : Creating database history table with name: PUBLIC.DATABASECHANGELOG
+2025-05-21T19:36:58.990-03:00 DEBUG 96558 --- [backend] [           main] liquibase.configuration                  : No configuration value for liquibase.liquibaseTablespaceName aka liquibase.databaseChangeLogTablespaceName aka liquibase.liquibaseTableSpaceName found
+2025-05-21T19:36:58.992-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : CREATE TABLE PUBLIC.DATABASECHANGELOG (ID VARCHAR(255) NOT NULL, AUTHOR VARCHAR(255) NOT NULL, FILENAME VARCHAR(255) NOT NULL, DATEEXECUTED TIMESTAMP NOT NULL, ORDEREXECUTED INT NOT NULL, EXECTYPE VARCHAR(10) NOT NULL, MD5SUM VARCHAR(35), DESCRIPTION VARCHAR(255), COMMENTS VARCHAR(255), TAG VARCHAR(255), LIQUIBASE VARCHAR(20), CONTEXTS VARCHAR(255), LABELS VARCHAR(255), DEPLOYMENT_ID VARCHAR(10))
+2025-05-21T19:36:58.994-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : 0 row(s) affected
+2025-05-21T19:36:58.994-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : Changelog query completed.
+2025-05-21T19:36:58.996-03:00  INFO 96558 --- [backend] [           main] liquibase.changelog                      : Reading from PUBLIC.DATABASECHANGELOG
+2025-05-21T19:36:58.997-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : Changelog query completed.
+2025-05-21T19:36:58.998-03:00 DEBUG 96558 --- [backend] [           main] liquibase.servicelocator                 : Loaded liquibase.lockservice.LockService instance liquibase.lockservice.LockServiceImpl
+2025-05-21T19:36:58.998-03:00 DEBUG 96558 --- [backend] [           main] liquibase.servicelocator                 : Loaded liquibase.lockservice.LockService instance liquibase.lockservice.MockLockService
+2025-05-21T19:36:58.998-03:00 DEBUG 96558 --- [backend] [           main] liquibase.servicelocator                 : Loaded liquibase.lockservice.LockService instance liquibase.lockservice.OfflineLockService
+2025-05-21T19:36:58.998-03:00 DEBUG 96558 --- [backend] [           main] liquibase.servicelocator                 : Loaded liquibase.lockservice.LockService instance liquibase.lockservice.StandardLockService
+2025-05-21T19:36:58.999-03:00 DEBUG 96558 --- [backend] [           main] liquibase.configuration                  : No configuration value for liquibase.sql.showSqlWarnings found
+2025-05-21T19:36:58.999-03:00 DEBUG 96558 --- [backend] [           main] liquibase.configuration                  : Configuration liquibase.sql.showSqlWarnings is using the default value of true
+2025-05-21T19:36:58.999-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : Create Database Lock Table
+2025-05-21T19:36:59.000-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : CREATE TABLE PUBLIC.DATABASECHANGELOGLOCK (ID INT NOT NULL, LOCKED BOOLEAN NOT NULL, LOCKGRANTED TIMESTAMP, LOCKEDBY VARCHAR(255), CONSTRAINT PK_DATABASECHANGELOGLOCK PRIMARY KEY (ID))
+2025-05-21T19:36:59.001-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : 0 row(s) affected
+2025-05-21T19:36:59.001-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : Changelog query completed.
+2025-05-21T19:36:59.001-03:00 DEBUG 96558 --- [backend] [           main] liquibase.lockservice                    : Created database lock table with name: PUBLIC.DATABASECHANGELOGLOCK
+2025-05-21T19:36:59.002-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : Changelog query completed.
+2025-05-21T19:36:59.002-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : Initialize Database Lock Table
+2025-05-21T19:36:59.002-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : DELETE FROM PUBLIC.DATABASECHANGELOGLOCK
+2025-05-21T19:36:59.003-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : 0 row(s) affected
+2025-05-21T19:36:59.003-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : INSERT INTO PUBLIC.DATABASECHANGELOGLOCK (ID, LOCKED) VALUES (1, FALSE)
+2025-05-21T19:36:59.003-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : 1 row(s) affected
+2025-05-21T19:36:59.003-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : Changelog query completed.
+2025-05-21T19:36:59.032-03:00 DEBUG 96558 --- [backend] [           main] liquibase.command                        : Executing internal command changeExecListener
+2025-05-21T19:36:59.032-03:00 DEBUG 96558 --- [backend] [           main] liquibase.command                        : Executing internal command update migrate
+2025-05-21T19:36:59.045-03:00 DEBUG 96558 --- [backend] [           main] liquibase.configuration                  : No configuration value for liquibase.changelogLockWaitTimeInMinutes aka liquibase.changeLogLockWaitTimeInMinutes found
+2025-05-21T19:36:59.046-03:00 DEBUG 96558 --- [backend] [           main] liquibase.configuration                  : Configuration liquibase.changelogLockWaitTimeInMinutes is using the default value of 5
+2025-05-21T19:36:59.049-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : Changelog query completed.
+2025-05-21T19:36:59.051-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : Changelog query completed.
+2025-05-21T19:36:59.051-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : Lock Database
+2025-05-21T19:36:59.052-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : Changelog query completed.
+2025-05-21T19:36:59.053-03:00  INFO 96558 --- [backend] [           main] liquibase.lockservice                    : Successfully acquired change log lock
+2025-05-21T19:36:59.053-03:00  INFO 96558 --- [backend] [           main] liquibase.command                        : Using deploymentId: 7867019053
+2025-05-21T19:36:59.053-03:00  INFO 96558 --- [backend] [           main] liquibase.changelog                      : Reading from PUBLIC.DATABASECHANGELOG
+2025-05-21T19:36:59.053-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : Changelog query completed.
+2025-05-21T19:36:59.054-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for createTable:[
+    columns=[
+        [
+            [
+                nullable="false"
+                primaryKey="true"
+            ]
+            autoIncrement="true"
+            name="id"
+            type="bigint"
+        ],
+        [
+            [
+                nullable="false"
+                unique="true"
+            ]
+            name="role_name"
+            type="varchar(255)"
+        ]
+    ]
+    tableName="roles"
+] as 18083811bdd5c429f094d4ae0fd447d4
+2025-05-21T19:36:59.055-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for createTable:[
+    columns=[
+        [
+            [
+                nullable="false"
+                primaryKey="true"
+            ]
+            autoIncrement="true"
+            name="id"
+            type="integer"
+        ],
+        [
+            [
+                nullable="false"
+            ]
+            name="discriminator"
+            type="varchar(31)"
+        ],
+        [
+            [
+                nullable="false"
+            ]
+            name="address"
+            type="varchar(255)... [truncated in log] as 816c5fa88f705ef57f4cdbca03571929
+2025-05-21T19:36:59.055-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for createTable:[
+    columns=[
+        [
+            [
+                nullable="false"
+                primaryKey="true"
+            ]
+            autoIncrement="true"
+            name="id"
+            type="integer"
+        ],
+        [
+            [
+                nullable="false"
+            ]
+            name="image_data"
+            type="bytea"
+        ],
+        [
+            [
+                nullable="false"
+            ]
+            name="inserted_on"
+            type="timestamp"
+      ... [truncated in log] as e3cc03877131756477b9b70a9436866e
+2025-05-21T19:36:59.057-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for createTable:[
+    columns=[
+        [
+            [
+                nullable="false"
+                primaryKey="true"
+            ]
+            autoIncrement="true"
+            name="id"
+            type="integer"
+        ],
+        [
+            [
+                nullable="false"
+            ]
+            name="discriminator"
+            type="varchar(31)"
+        ],
+        [
+            name="refresh_token"
+            type="varchar(255)"
+        ],
+        [
+            name="refresh_token_... [truncated in log] as 52f2535ca4a9cd25b0c23cc3ff0cabbd
+2025-05-21T19:36:59.057-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for createTable:[
+    columns=[
+        [
+            [
+                nullable="false"
+                primaryKey="true"
+            ]
+            autoIncrement="true"
+            name="id"
+            type="integer"
+        ],
+        [
+            [
+                nullable="false"
+            ]
+            name="text"
+            type="varchar(255)"
+        ],
+        [
+            [
+                nullable="false"
+            ]
+            name="moment"
+            type="timestamp"
+        ],... [truncated in log] as 0c68d8c1152422c95ffbc25a834c94c3
+2025-05-21T19:36:59.058-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for createTable:[
+    columns=[
+        [
+            [
+                foreignKeyName="fk_personality_user"
+                nullable="false"
+                references="users(id)"
+            ]
+            name="user_id"
+            type="integer"
+        ],
+        [
+            name="personality"
+            type="varchar(255)"
+        ]
+    ]
+    tableName="user_personalities"
+] as 6b2d03ab3b55ded169910a3ec7fca551
+2025-05-21T19:36:59.058-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for createTable:[
+    columns=[
+        [
+            [
+                foreignKeyName="fk_connection_student"
+                nullable="false"
+                references="users(id)"
+            ]
+            name="student_id"
+            type="integer"
+        ],
+        [
+            [
+                foreignKeyName="fk_connection_connected_student"
+                nullable="false"
+                references="users(id)"
+            ]
+            name="connected_student_id"
+            type="intege... [truncated in log] as aae653ff63fae917c90e4a2e4b2c6f29
+2025-05-21T19:36:59.058-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for createTable:[
+    columns=[
+        [
+            [
+                foreignKeyName="fk_second_college_student"
+                nullable="false"
+                references="users(id)"
+            ]
+            name="student_id"
+            type="integer"
+        ],
+        [
+            [
+                foreignKeyName="fk_second_college_college"
+                nullable="false"
+                references="buildings(id)"
+            ]
+            name="college_id"
+            type="integer"
+     ... [truncated in log] as 45cc8610a8eebbb33256dcf715f37317
+2025-05-21T19:36:59.058-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for createTable:[
+    columns=[
+        [
+            [
+                foreignKeyName="fk_property_like_student"
+                nullable="false"
+                references="users(id)"
+            ]
+            name="student_id"
+            type="integer"
+        ],
+        [
+            [
+                foreignKeyName="fk_property_like_property"
+                nullable="false"
+                references="buildings(id)"
+            ]
+            name="property_id"
+            type="integer"
+     ... [truncated in log] as fbc82e26980d510479bfc2996a6a751f
+2025-05-21T19:36:59.058-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for createTable:[
+    columns=[
+        [
+            [
+                foreignKeyName="fk_notification_user"
+                nullable="false"
+                references="users(id)"
+            ]
+            name="user_id"
+            type="integer"
+        ],
+        [
+            [
+                foreignKeyName="fk_notification_notification"
+                nullable="false"
+                references="notifications(id)"
+            ]
+            name="notification_id"
+            type="integer"
+ ... [truncated in log] as 68e562244f82b0824c995e6838325d18
+2025-05-21T19:36:59.059-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for createTable:[
+    columns=[
+        [
+            [
+                foreignKeyName="fk_user_role_user"
+                nullable="false"
+                references="users(id)"
+            ]
+            name="user_id"
+            type="integer"
+        ],
+        [
+            [
+                foreignKeyName="fk_user_role_role"
+                nullable="false"
+                references="roles(id)"
+            ]
+            name="role_id"
+            type="bigint"
+        ]
+    ]
+    tableName="u... [truncated in log] as 83ac6c70c08723da6a204a906a1c46dc
+2025-05-21T19:36:59.059-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for 9:18083811bdd5c429f094d4ae0fd447d4:9:816c5fa88f705ef57f4cdbca03571929:9:e3cc03877131756477b9b70a9436866e:9:52f2535ca4a9cd25b0c23cc3ff0cabbd:9:0c68d8c1152422c95ffbc25a834c94c3:9:6b2d03ab3b55ded169910a3ec7fca551:9:aae653ff63fae917c90e4a2e4b2c6f29:9:45cc8610a8eebbb33256dcf715f37317:9:fbc82e26980d510479bfc2996a6a751f:9:68e562244f82b0824c995e6838325d18:9:83ac6c70c08723da6a204a906a1c46dc: as 7bb5fc49e236b27d1bbeaacbfa363136
+2025-05-21T19:36:59.059-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for insert:[
+    columns=[
+        [
+            name="role_name"
+            value="ROLE_ADMIN"
+        ]
+    ]
+    tableName="roles"
+] as 15dbff4cebd9c0cb474d35b258872dbf
+2025-05-21T19:36:59.059-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for insert:[
+    columns=[
+        [
+            name="role_name"
+            value="ROLE_OWNER"
+        ]
+    ]
+    tableName="roles"
+] as e86be6cb9202529b3f8c116903037af4
+2025-05-21T19:36:59.059-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for insert:[
+    columns=[
+        [
+            name="role_name"
+            value="ROLE_STUDENT"
+        ]
+    ]
+    tableName="roles"
+] as c5713e32bf3a15a85d1b38afb26c8400
+2025-05-21T19:36:59.059-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for 9:15dbff4cebd9c0cb474d35b258872dbf:9:e86be6cb9202529b3f8c116903037af4:9:c5713e32bf3a15a85d1b38afb26c8400: as 45e22134d372c4867dc2780dfdd43a09
+2025-05-21T19:36:59.059-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for dropTable:[
+    tableName="students_connections"
+] as 9a42df1adf462266e4b2c3780dfbc391
+2025-05-21T19:36:59.060-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for createTable:[
+    columns=[
+        [
+            [
+                nullable="false"
+                primaryKey="true"
+            ]
+            autoIncrement="true"
+            name="id"
+            type="integer"
+        ],
+        [
+            [
+                foreignKeyName="fk_connection_requester"
+                nullable="false"
+                references="users(id)"
+            ]
+            name="requester_id"
+            type="integer"
+        ],
+        [
+            [
+             ... [truncated in log] as d0a4a923467dc43516c127d7e853c2fd
+2025-05-21T19:36:59.060-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for createIndex:[
+    columns=[
+        [
+            name="requester_id"
+        ]
+    ]
+    indexName="idx_student_connections_requester"
+    tableName="student_connections"
+] as fc50286a19836143b3219b9b18a9348b
+2025-05-21T19:36:59.062-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for createIndex:[
+    columns=[
+        [
+            name="addressee_id"
+        ]
+    ]
+    indexName="idx_student_connections_addressee"
+    tableName="student_connections"
+] as b9206e63308d2fb65ab0bc1799ab3c8e
+2025-05-21T19:36:59.062-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for createIndex:[
+    columns=[
+        [
+            name="requester_id"
+        ],
+        [
+            name="addressee_id"
+        ]
+    ]
+    indexName="idx_student_connections_pair"
+    tableName="student_connections"
+] as 87ebf732f7eb50238c78dd737c45ad18
+2025-05-21T19:36:59.063-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for 9:9a42df1adf462266e4b2c3780dfbc391:9:d0a4a923467dc43516c127d7e853c2fd:9:fc50286a19836143b3219b9b18a9348b:9:b9206e63308d2fb65ab0bc1799ab3c8e:9:87ebf732f7eb50238c78dd737c45ad18: as 4ffcf57286d2c49f91e700874416fc79
+2025-05-21T19:36:59.064-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for createTable:[
+    columns=[
+        [
+            [
+                nullable="false"
+                primaryKey="true"
+            ]
+            autoIncrement="true"
+            name="id"
+            type="bigint"
+        ],
+        [
+            [
+                nullable="false"
+                unique="true"
+            ]
+            name="role_name"
+            type="varchar(255)"
+        ]
+    ]
+    tableName="roles"
+] as 18083811bdd5c429f094d4ae0fd447d4
+2025-05-21T19:36:59.065-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for createTable:[
+    columns=[
+        [
+            [
+                nullable="false"
+                primaryKey="true"
+            ]
+            autoIncrement="true"
+            name="id"
+            type="integer"
+        ],
+        [
+            [
+                nullable="false"
+            ]
+            name="discriminator"
+            type="varchar(31)"
+        ],
+        [
+            [
+                nullable="false"
+            ]
+            name="address"
+            type="varchar(255)... [truncated in log] as 816c5fa88f705ef57f4cdbca03571929
+2025-05-21T19:36:59.065-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for createTable:[
+    columns=[
+        [
+            [
+                nullable="false"
+                primaryKey="true"
+            ]
+            autoIncrement="true"
+            name="id"
+            type="integer"
+        ],
+        [
+            [
+                nullable="false"
+            ]
+            name="image_data"
+            type="bytea"
+        ],
+        [
+            [
+                nullable="false"
+            ]
+            name="inserted_on"
+            type="timestamp"
+      ... [truncated in log] as e3cc03877131756477b9b70a9436866e
+2025-05-21T19:36:59.066-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for createTable:[
+    columns=[
+        [
+            [
+                nullable="false"
+                primaryKey="true"
+            ]
+            autoIncrement="true"
+            name="id"
+            type="integer"
+        ],
+        [
+            [
+                nullable="false"
+            ]
+            name="discriminator"
+            type="varchar(31)"
+        ],
+        [
+            name="refresh_token"
+            type="varchar(255)"
+        ],
+        [
+            name="refresh_token_... [truncated in log] as 52f2535ca4a9cd25b0c23cc3ff0cabbd
+2025-05-21T19:36:59.066-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for createTable:[
+    columns=[
+        [
+            [
+                nullable="false"
+                primaryKey="true"
+            ]
+            autoIncrement="true"
+            name="id"
+            type="integer"
+        ],
+        [
+            [
+                nullable="false"
+            ]
+            name="text"
+            type="varchar(255)"
+        ],
+        [
+            [
+                nullable="false"
+            ]
+            name="moment"
+            type="timestamp"
+        ],... [truncated in log] as 0c68d8c1152422c95ffbc25a834c94c3
+2025-05-21T19:36:59.066-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for createTable:[
+    columns=[
+        [
+            [
+                foreignKeyName="fk_personality_user"
+                nullable="false"
+                references="users(id)"
+            ]
+            name="user_id"
+            type="integer"
+        ],
+        [
+            name="personality"
+            type="varchar(255)"
+        ]
+    ]
+    tableName="user_personalities"
+] as 6b2d03ab3b55ded169910a3ec7fca551
+2025-05-21T19:36:59.066-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for createTable:[
+    columns=[
+        [
+            [
+                foreignKeyName="fk_connection_student"
+                nullable="false"
+                references="users(id)"
+            ]
+            name="student_id"
+            type="integer"
+        ],
+        [
+            [
+                foreignKeyName="fk_connection_connected_student"
+                nullable="false"
+                references="users(id)"
+            ]
+            name="connected_student_id"
+            type="intege... [truncated in log] as aae653ff63fae917c90e4a2e4b2c6f29
+2025-05-21T19:36:59.066-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for createTable:[
+    columns=[
+        [
+            [
+                foreignKeyName="fk_second_college_student"
+                nullable="false"
+                references="users(id)"
+            ]
+            name="student_id"
+            type="integer"
+        ],
+        [
+            [
+                foreignKeyName="fk_second_college_college"
+                nullable="false"
+                references="buildings(id)"
+            ]
+            name="college_id"
+            type="integer"
+     ... [truncated in log] as 45cc8610a8eebbb33256dcf715f37317
+2025-05-21T19:36:59.067-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for createTable:[
+    columns=[
+        [
+            [
+                foreignKeyName="fk_property_like_student"
+                nullable="false"
+                references="users(id)"
+            ]
+            name="student_id"
+            type="integer"
+        ],
+        [
+            [
+                foreignKeyName="fk_property_like_property"
+                nullable="false"
+                references="buildings(id)"
+            ]
+            name="property_id"
+            type="integer"
+     ... [truncated in log] as fbc82e26980d510479bfc2996a6a751f
+2025-05-21T19:36:59.067-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for createTable:[
+    columns=[
+        [
+            [
+                foreignKeyName="fk_notification_user"
+                nullable="false"
+                references="users(id)"
+            ]
+            name="user_id"
+            type="integer"
+        ],
+        [
+            [
+                foreignKeyName="fk_notification_notification"
+                nullable="false"
+                references="notifications(id)"
+            ]
+            name="notification_id"
+            type="integer"
+ ... [truncated in log] as 68e562244f82b0824c995e6838325d18
+2025-05-21T19:36:59.068-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for createTable:[
+    columns=[
+        [
+            [
+                foreignKeyName="fk_user_role_user"
+                nullable="false"
+                references="users(id)"
+            ]
+            name="user_id"
+            type="integer"
+        ],
+        [
+            [
+                foreignKeyName="fk_user_role_role"
+                nullable="false"
+                references="roles(id)"
+            ]
+            name="role_id"
+            type="bigint"
+        ]
+    ]
+    tableName="u... [truncated in log] as 83ac6c70c08723da6a204a906a1c46dc
+2025-05-21T19:36:59.068-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for 9:18083811bdd5c429f094d4ae0fd447d4:9:816c5fa88f705ef57f4cdbca03571929:9:e3cc03877131756477b9b70a9436866e:9:52f2535ca4a9cd25b0c23cc3ff0cabbd:9:0c68d8c1152422c95ffbc25a834c94c3:9:6b2d03ab3b55ded169910a3ec7fca551:9:aae653ff63fae917c90e4a2e4b2c6f29:9:45cc8610a8eebbb33256dcf715f37317:9:fbc82e26980d510479bfc2996a6a751f:9:68e562244f82b0824c995e6838325d18:9:83ac6c70c08723da6a204a906a1c46dc: as 7bb5fc49e236b27d1bbeaacbfa363136
+2025-05-21T19:36:59.068-03:00  INFO 96558 --- [backend] [           main] liquibase.ui                             : Running Changeset: db/changelog/changes/001-create-tables.yaml::001-create-tables::joao-silveira
+2025-05-21T19:36:59.068-03:00 DEBUG 96558 --- [backend] [           main] liquibase.changelog                      : Running Changeset: db/changelog/changes/001-create-tables.yaml::001-create-tables::joao-silveira
+2025-05-21T19:36:59.068-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : Changeset db/changelog/changes/001-create-tables.yaml::001-create-tables::joao-silveira
+2025-05-21T19:36:59.068-03:00 DEBUG 96558 --- [backend] [           main] liquibase.changelog                      : Reading ChangeSet: db/changelog/changes/001-create-tables.yaml::001-create-tables::joao-silveira
+2025-05-21T19:36:59.069-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : Executing Statement: liquibase.statement.core.CreateTableStatement@1f05b63d
+2025-05-21T19:36:59.069-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : CREATE TABLE PUBLIC.roles (id BIGINT GENERATED BY DEFAULT AS IDENTITY NOT NULL, role_name VARCHAR(255) NOT NULL, CONSTRAINT PK_ROLES PRIMARY KEY (id), UNIQUE (role_name))
+2025-05-21T19:36:59.072-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : 0 row(s) affected
+2025-05-21T19:36:59.072-03:00  INFO 96558 --- [backend] [           main] liquibase.changelog                      : Table roles created
+2025-05-21T19:36:59.074-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : Executing Statement: liquibase.statement.core.CreateTableStatement@a55ed01
+2025-05-21T19:36:59.074-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : CREATE TABLE PUBLIC.buildings (id INT GENERATED BY DEFAULT AS IDENTITY NOT NULL, discriminator VARCHAR(31) NOT NULL, address VARCHAR(255) NOT NULL, home_number VARCHAR(255) NOT NULL, home_complement VARCHAR(255), neighborhood VARCHAR(255) NOT NULL, district VARCHAR(255) NOT NULL, latitude VARCHAR(255) NOT NULL, longitude VARCHAR(255) NOT NULL, college_name VARCHAR(255), owner_id INT, price DOUBLE PRECISION, CONSTRAINT PK_BUILDINGS PRIMARY KEY (id))
+2025-05-21T19:36:59.074-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : 0 row(s) affected
+2025-05-21T19:36:59.074-03:00  INFO 96558 --- [backend] [           main] liquibase.changelog                      : Table buildings created
+2025-05-21T19:36:59.075-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : Executing Statement: liquibase.statement.core.CreateTableStatement@1ebe17c9
+2025-05-21T19:36:59.075-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : CREATE TABLE PUBLIC.images (id INT GENERATED BY DEFAULT AS IDENTITY NOT NULL, image_data BYTEA NOT NULL, inserted_on TIMESTAMP NOT NULL, building_id INT, CONSTRAINT PK_IMAGES PRIMARY KEY (id), CONSTRAINT fk_image_building FOREIGN KEY (building_id) REFERENCES PUBLIC.buildings(id))
+2025-05-21T19:36:59.077-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : 0 row(s) affected
+2025-05-21T19:36:59.077-03:00  INFO 96558 --- [backend] [           main] liquibase.changelog                      : Table images created
+2025-05-21T19:36:59.078-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : Executing Statement: liquibase.statement.core.CreateTableStatement@1189f179
+2025-05-21T19:36:59.078-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : CREATE TABLE PUBLIC.users (id INT GENERATED BY DEFAULT AS IDENTITY NOT NULL, discriminator VARCHAR(31) NOT NULL, refresh_token VARCHAR(255), refresh_token_expiry_time TIMESTAMP, birth_date TIMESTAMP NOT NULL, created_date TIMESTAMP NOT NULL, gender CHAR(1) NOT NULL, user_name VARCHAR(255) NOT NULL, password_hash VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL, email_confirmed BOOLEAN, cpf VARCHAR(14) NOT NULL, phone_number VARCHAR(20) NOT NULL, phone_number_confirmed BOOLEAN, two_factor_enabled BOOLEAN, image_id INT, college_principal_id INT, description VARCHAR(255), CONSTRAINT PK_USERS PRIMARY KEY (id), CONSTRAINT fk_student_college FOREIGN KEY (college_principal_id) REFERENCES PUBLIC.buildings(id), CONSTRAINT fk_user_image FOREIGN KEY (image_id) REFERENCES PUBLIC.images(id), UNIQUE (email), UNIQUE (cpf), UNIQUE (phone_number))
+2025-05-21T19:36:59.082-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : 0 row(s) affected
+2025-05-21T19:36:59.082-03:00  INFO 96558 --- [backend] [           main] liquibase.changelog                      : Table users created
+2025-05-21T19:36:59.082-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : Executing Statement: liquibase.statement.core.CreateTableStatement@c7eb2a9
+2025-05-21T19:36:59.083-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : CREATE TABLE PUBLIC.notifications (id INT GENERATED BY DEFAULT AS IDENTITY NOT NULL, text VARCHAR(255) NOT NULL, moment TIMESTAMP NOT NULL, is_read BOOLEAN NOT NULL, CONSTRAINT PK_NOTIFICATIONS PRIMARY KEY (id))
+2025-05-21T19:36:59.083-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : 0 row(s) affected
+2025-05-21T19:36:59.083-03:00  INFO 96558 --- [backend] [           main] liquibase.changelog                      : Table notifications created
+2025-05-21T19:36:59.083-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : Executing Statement: liquibase.statement.core.CreateTableStatement@4ecd395f
+2025-05-21T19:36:59.083-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : CREATE TABLE PUBLIC.user_personalities (user_id INT NOT NULL, personality VARCHAR(255), CONSTRAINT fk_personality_user FOREIGN KEY (user_id) REFERENCES PUBLIC.users(id))
+2025-05-21T19:36:59.086-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : 0 row(s) affected
+2025-05-21T19:36:59.086-03:00  INFO 96558 --- [backend] [           main] liquibase.changelog                      : Table user_personalities created
+2025-05-21T19:36:59.087-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : Executing Statement: liquibase.statement.core.CreateTableStatement@2e40d8f9
+2025-05-21T19:36:59.087-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : CREATE TABLE PUBLIC.students_connections (student_id INT NOT NULL, connected_student_id INT NOT NULL, CONSTRAINT fk_connection_student FOREIGN KEY (student_id) REFERENCES PUBLIC.users(id), CONSTRAINT fk_connection_connected_student FOREIGN KEY (connected_student_id) REFERENCES PUBLIC.users(id))
+2025-05-21T19:36:59.088-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : 0 row(s) affected
+2025-05-21T19:36:59.088-03:00  INFO 96558 --- [backend] [           main] liquibase.changelog                      : Table students_connections created
+2025-05-21T19:36:59.088-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : Executing Statement: liquibase.statement.core.CreateTableStatement@c7ba58d
+2025-05-21T19:36:59.088-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : CREATE TABLE PUBLIC.students_seconds_colleges (student_id INT NOT NULL, college_id INT NOT NULL, CONSTRAINT fk_second_college_student FOREIGN KEY (student_id) REFERENCES PUBLIC.users(id), CONSTRAINT fk_second_college_college FOREIGN KEY (college_id) REFERENCES PUBLIC.buildings(id))
+2025-05-21T19:36:59.090-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : 0 row(s) affected
+2025-05-21T19:36:59.090-03:00  INFO 96558 --- [backend] [           main] liquibase.changelog                      : Table students_seconds_colleges created
+2025-05-21T19:36:59.090-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : Executing Statement: liquibase.statement.core.CreateTableStatement@7c5024c1
+2025-05-21T19:36:59.090-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : CREATE TABLE PUBLIC.students_properties_likes (student_id INT NOT NULL, property_id INT NOT NULL, CONSTRAINT fk_property_like_student FOREIGN KEY (student_id) REFERENCES PUBLIC.users(id), CONSTRAINT fk_property_like_property FOREIGN KEY (property_id) REFERENCES PUBLIC.buildings(id))
+2025-05-21T19:36:59.091-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : 0 row(s) affected
+2025-05-21T19:36:59.091-03:00  INFO 96558 --- [backend] [           main] liquibase.changelog                      : Table students_properties_likes created
+2025-05-21T19:36:59.091-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : Executing Statement: liquibase.statement.core.CreateTableStatement@52599443
+2025-05-21T19:36:59.091-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : CREATE TABLE PUBLIC.users_notifications (user_id INT NOT NULL, notification_id INT NOT NULL, CONSTRAINT fk_notification_notification FOREIGN KEY (notification_id) REFERENCES PUBLIC.notifications(id), CONSTRAINT fk_notification_user FOREIGN KEY (user_id) REFERENCES PUBLIC.users(id))
+2025-05-21T19:36:59.092-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : 0 row(s) affected
+2025-05-21T19:36:59.092-03:00  INFO 96558 --- [backend] [           main] liquibase.changelog                      : Table users_notifications created
+2025-05-21T19:36:59.093-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : Executing Statement: liquibase.statement.core.CreateTableStatement@179e0823
+2025-05-21T19:36:59.093-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : CREATE TABLE PUBLIC.user_roles (user_id INT NOT NULL, role_id BIGINT NOT NULL, CONSTRAINT fk_user_role_role FOREIGN KEY (role_id) REFERENCES PUBLIC.roles(id), CONSTRAINT fk_user_role_user FOREIGN KEY (user_id) REFERENCES PUBLIC.users(id))
+2025-05-21T19:36:59.094-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : 0 row(s) affected
+2025-05-21T19:36:59.094-03:00  INFO 96558 --- [backend] [           main] liquibase.changelog                      : Table user_roles created
+2025-05-21T19:36:59.094-03:00  INFO 96558 --- [backend] [           main] liquibase.changelog                      : ChangeSet db/changelog/changes/001-create-tables.yaml::001-create-tables::joao-silveira ran successfully in 26ms
+2025-05-21T19:36:59.096-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : Changelog query completed.
+2025-05-21T19:36:59.096-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : INSERT INTO PUBLIC.DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, CONTEXTS, LABELS, LIQUIBASE, DEPLOYMENT_ID) VALUES ('001-create-tables', 'joao-silveira', 'db/changelog/changes/001-create-tables.yaml', NOW(), 1, '9:7bb5fc49e236b27d1bbeaacbfa363136', 'createTable tableName=roles; createTable tableName=buildings; createTable tableName=images; createTable tableName=users; createTable tableName=notifications; createTable tableName=user_personalities; createTable tableName=students_connections; cre...', '', 'EXECUTED', NULL, NULL, '4.27.0', '7867019053')
+2025-05-21T19:36:59.096-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : 1 row(s) affected
+2025-05-21T19:36:59.096-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : Changelog query completed.
+2025-05-21T19:36:59.097-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for insert:[
+    columns=[
+        [
+            name="role_name"
+            value="ROLE_ADMIN"
+        ]
+    ]
+    tableName="roles"
+] as 15dbff4cebd9c0cb474d35b258872dbf
+2025-05-21T19:36:59.097-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for insert:[
+    columns=[
+        [
+            name="role_name"
+            value="ROLE_OWNER"
+        ]
+    ]
+    tableName="roles"
+] as e86be6cb9202529b3f8c116903037af4
+2025-05-21T19:36:59.097-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for insert:[
+    columns=[
+        [
+            name="role_name"
+            value="ROLE_STUDENT"
+        ]
+    ]
+    tableName="roles"
+] as c5713e32bf3a15a85d1b38afb26c8400
+2025-05-21T19:36:59.098-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for 9:15dbff4cebd9c0cb474d35b258872dbf:9:e86be6cb9202529b3f8c116903037af4:9:c5713e32bf3a15a85d1b38afb26c8400: as 45e22134d372c4867dc2780dfdd43a09
+2025-05-21T19:36:59.098-03:00  INFO 96558 --- [backend] [           main] liquibase.ui                             : Running Changeset: db/changelog/changes/001-create-tables.yaml::2::alugaai
+2025-05-21T19:36:59.098-03:00 DEBUG 96558 --- [backend] [           main] liquibase.changelog                      : Running Changeset: db/changelog/changes/001-create-tables.yaml::2::alugaai
+2025-05-21T19:36:59.098-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : Changeset db/changelog/changes/001-create-tables.yaml::2::alugaai
+2025-05-21T19:36:59.098-03:00 DEBUG 96558 --- [backend] [           main] liquibase.changelog                      : Reading ChangeSet: db/changelog/changes/001-create-tables.yaml::2::alugaai
+2025-05-21T19:36:59.098-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : Executing Statement: liquibase.statement.core.InsertStatement@784bb800
+2025-05-21T19:36:59.098-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : INSERT INTO PUBLIC.roles (role_name) VALUES ('ROLE_ADMIN')
+2025-05-21T19:36:59.098-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : 1 row(s) affected
+2025-05-21T19:36:59.098-03:00  INFO 96558 --- [backend] [           main] liquibase.changelog                      : New row inserted into roles
+2025-05-21T19:36:59.098-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : Executing Statement: liquibase.statement.core.InsertStatement@21ffedc7
+2025-05-21T19:36:59.098-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : INSERT INTO PUBLIC.roles (role_name) VALUES ('ROLE_OWNER')
+2025-05-21T19:36:59.099-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : 1 row(s) affected
+2025-05-21T19:36:59.099-03:00  INFO 96558 --- [backend] [           main] liquibase.changelog                      : New row inserted into roles
+2025-05-21T19:36:59.099-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : Executing Statement: liquibase.statement.core.InsertStatement@337d97e3
+2025-05-21T19:36:59.099-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : INSERT INTO PUBLIC.roles (role_name) VALUES ('ROLE_STUDENT')
+2025-05-21T19:36:59.099-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : 1 row(s) affected
+2025-05-21T19:36:59.099-03:00  INFO 96558 --- [backend] [           main] liquibase.changelog                      : New row inserted into roles
+2025-05-21T19:36:59.099-03:00  INFO 96558 --- [backend] [           main] liquibase.changelog                      : ChangeSet db/changelog/changes/001-create-tables.yaml::2::alugaai ran successfully in 1ms
+2025-05-21T19:36:59.099-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : INSERT INTO PUBLIC.DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, CONTEXTS, LABELS, LIQUIBASE, DEPLOYMENT_ID) VALUES ('2', 'alugaai', 'db/changelog/changes/001-create-tables.yaml', NOW(), 2, '9:45e22134d372c4867dc2780dfdd43a09', 'insert tableName=roles; insert tableName=roles; insert tableName=roles', '', 'EXECUTED', NULL, NULL, '4.27.0', '7867019053')
+2025-05-21T19:36:59.099-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : 1 row(s) affected
+2025-05-21T19:36:59.099-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : Changelog query completed.
+2025-05-21T19:36:59.100-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for dropTable:[
+    tableName="students_connections"
+] as 9a42df1adf462266e4b2c3780dfbc391
+2025-05-21T19:36:59.100-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for createTable:[
+    columns=[
+        [
+            [
+                nullable="false"
+                primaryKey="true"
+            ]
+            autoIncrement="true"
+            name="id"
+            type="integer"
+        ],
+        [
+            [
+                foreignKeyName="fk_connection_requester"
+                nullable="false"
+                references="users(id)"
+            ]
+            name="requester_id"
+            type="integer"
+        ],
+        [
+            [
+             ... [truncated in log] as d0a4a923467dc43516c127d7e853c2fd
+2025-05-21T19:36:59.100-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for createIndex:[
+    columns=[
+        [
+            name="requester_id"
+        ]
+    ]
+    indexName="idx_student_connections_requester"
+    tableName="student_connections"
+] as fc50286a19836143b3219b9b18a9348b
+2025-05-21T19:36:59.100-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for createIndex:[
+    columns=[
+        [
+            name="addressee_id"
+        ]
+    ]
+    indexName="idx_student_connections_addressee"
+    tableName="student_connections"
+] as b9206e63308d2fb65ab0bc1799ab3c8e
+2025-05-21T19:36:59.100-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for createIndex:[
+    columns=[
+        [
+            name="requester_id"
+        ],
+        [
+            name="addressee_id"
+        ]
+    ]
+    indexName="idx_student_connections_pair"
+    tableName="student_connections"
+] as 87ebf732f7eb50238c78dd737c45ad18
+2025-05-21T19:36:59.100-03:00 DEBUG 96558 --- [backend] [           main] liquibase.util                           : Computed checksum for 9:9a42df1adf462266e4b2c3780dfbc391:9:d0a4a923467dc43516c127d7e853c2fd:9:fc50286a19836143b3219b9b18a9348b:9:b9206e63308d2fb65ab0bc1799ab3c8e:9:87ebf732f7eb50238c78dd737c45ad18: as 4ffcf57286d2c49f91e700874416fc79
+2025-05-21T19:36:59.100-03:00  INFO 96558 --- [backend] [           main] liquibase.ui                             : Running Changeset: db/changelog/changes/002-update-student-connections.yaml::002-update-student-connections::joao-silveira
+2025-05-21T19:36:59.100-03:00 DEBUG 96558 --- [backend] [           main] liquibase.changelog                      : Running Changeset: db/changelog/changes/002-update-student-connections.yaml::002-update-student-connections::joao-silveira
+2025-05-21T19:36:59.101-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : Changeset db/changelog/changes/002-update-student-connections.yaml::002-update-student-connections::joao-silveira
+2025-05-21T19:36:59.101-03:00 DEBUG 96558 --- [backend] [           main] liquibase.changelog                      : Reading ChangeSet: db/changelog/changes/002-update-student-connections.yaml::002-update-student-connections::joao-silveira
+2025-05-21T19:36:59.101-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : Executing Statement: liquibase.statement.core.DropTableStatement@5ec80aad
+2025-05-21T19:36:59.101-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : DROP TABLE PUBLIC.students_connections
+2025-05-21T19:36:59.102-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : 0 row(s) affected
+2025-05-21T19:36:59.102-03:00  INFO 96558 --- [backend] [           main] liquibase.changelog                      : Table students_connections dropped
+2025-05-21T19:36:59.102-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : Executing Statement: liquibase.statement.core.CreateTableStatement@31b5db46
+2025-05-21T19:36:59.103-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : CREATE TABLE PUBLIC.student_connections (id INT GENERATED BY DEFAULT AS IDENTITY NOT NULL, requester_id INT NOT NULL, addressee_id INT NOT NULL, status VARCHAR(20) NOT NULL, request_date TIMESTAMP NOT NULL, response_date TIMESTAMP, CONSTRAINT PK_STUDENT_CONNECTIONS PRIMARY KEY (id), CONSTRAINT fk_connection_addressee FOREIGN KEY (addressee_id) REFERENCES PUBLIC.users(id), CONSTRAINT fk_connection_requester FOREIGN KEY (requester_id) REFERENCES PUBLIC.users(id))
+2025-05-21T19:36:59.105-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : 0 row(s) affected
+2025-05-21T19:36:59.105-03:00  INFO 96558 --- [backend] [           main] liquibase.changelog                      : Table student_connections created
+2025-05-21T19:36:59.105-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : Executing Statement: liquibase.statement.core.CreateIndexStatement@89eab25
+2025-05-21T19:36:59.105-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : CREATE INDEX PUBLIC.idx_student_connections_requester ON PUBLIC.student_connections(requester_id)
+2025-05-21T19:36:59.106-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : 0 row(s) affected
+2025-05-21T19:36:59.106-03:00  INFO 96558 --- [backend] [           main] liquibase.changelog                      : Index idx_student_connections_requester created
+2025-05-21T19:36:59.106-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : Executing Statement: liquibase.statement.core.CreateIndexStatement@25fc72c6
+2025-05-21T19:36:59.106-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : CREATE INDEX PUBLIC.idx_student_connections_addressee ON PUBLIC.student_connections(addressee_id)
+2025-05-21T19:36:59.107-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : 0 row(s) affected
+2025-05-21T19:36:59.107-03:00  INFO 96558 --- [backend] [           main] liquibase.changelog                      : Index idx_student_connections_addressee created
+2025-05-21T19:36:59.107-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : Executing Statement: liquibase.statement.core.CreateIndexStatement@6b3decaa
+2025-05-21T19:36:59.107-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : CREATE INDEX PUBLIC.idx_student_connections_pair ON PUBLIC.student_connections(requester_id, addressee_id)
+2025-05-21T19:36:59.107-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : 0 row(s) affected
+2025-05-21T19:36:59.107-03:00  INFO 96558 --- [backend] [           main] liquibase.changelog                      : Index idx_student_connections_pair created
+2025-05-21T19:36:59.107-03:00  INFO 96558 --- [backend] [           main] liquibase.changelog                      : ChangeSet db/changelog/changes/002-update-student-connections.yaml::002-update-student-connections::joao-silveira ran successfully in 6ms
+2025-05-21T19:36:59.108-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : INSERT INTO PUBLIC.DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, CONTEXTS, LABELS, LIQUIBASE, DEPLOYMENT_ID) VALUES ('002-update-student-connections', 'joao-silveira', 'db/changelog/changes/002-update-student-connections.yaml', NOW(), 3, '9:4ffcf57286d2c49f91e700874416fc79', 'dropTable tableName=students_connections; createTable tableName=student_connections; createIndex indexName=idx_student_connections_requester, tableName=student_connections; createIndex indexName=idx_student_connections_addressee, tableName=student...', '', 'EXECUTED', NULL, NULL, '4.27.0', '7867019053')
+2025-05-21T19:36:59.108-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : 1 row(s) affected
+2025-05-21T19:36:59.108-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : Changelog query completed.
+2025-05-21T19:36:59.108-03:00  INFO 96558 --- [backend] [           main] liquibase.util                           : UPDATE SUMMARY
+2025-05-21T19:36:59.108-03:00  INFO 96558 --- [backend] [           main] liquibase.util                           : Run:                          3
+2025-05-21T19:36:59.108-03:00  INFO 96558 --- [backend] [           main] liquibase.util                           : Previously run:               0
+2025-05-21T19:36:59.108-03:00  INFO 96558 --- [backend] [           main] liquibase.util                           : Filtered out:                 0
+2025-05-21T19:36:59.108-03:00  INFO 96558 --- [backend] [           main] liquibase.util                           : -------------------------------
+2025-05-21T19:36:59.108-03:00  INFO 96558 --- [backend] [           main] liquibase.util                           : Total change sets:            3
+2025-05-21T19:36:59.108-03:00  INFO 96558 --- [backend] [           main] liquibase.util                           : Update summary generated
+2025-05-21T19:36:59.109-03:00  INFO 96558 --- [backend] [           main] liquibase.command                        : Update command completed successfully.
+2025-05-21T19:36:59.109-03:00  INFO 96558 --- [backend] [           main] liquibase.ui                             : Liquibase: Update has been successful. Rows affected: 6
+2025-05-21T19:36:59.109-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : Release Database Lock
+2025-05-21T19:36:59.110-03:00 DEBUG 96558 --- [backend] [           main] liquibase.executor                       : Changelog query completed.
+2025-05-21T19:36:59.110-03:00  INFO 96558 --- [backend] [           main] liquibase.lockservice                    : Successfully released change log lock
+2025-05-21T19:36:59.110-03:00  INFO 96558 --- [backend] [           main] liquibase.command                        : Command execution complete
+2025-05-21T19:36:59.119-03:00  INFO 96558 --- [backend] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-21T19:36:59.121-03:00  INFO 96558 --- [backend] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-05-21T19:36:59.124-03:00  INFO 96558 --- [backend] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-21T19:36:59.128-03:00  WARN 96558 --- [backend] [           main] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-05-21T19:36:59.260-03:00  INFO 96558 --- [backend] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Hibernate: alter table if exists images alter column image_data set data type varbinary(255)
+Hibernate: alter table if exists users alter column cpf set data type varchar(255)
+Hibernate: alter table if exists users alter column phone_number set data type varchar(255)
+Hibernate: alter table if exists buildings add constraint FK6lejgo1xhcoebpha5u2q2cs7 foreign key (owner_id) references users
+2025-05-21T19:36:59.288-03:00  INFO 96558 --- [backend] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-21T19:36:59.339-03:00  INFO 96558 --- [backend] [           main] c.a.b.repositories.UserRepositoryTest    : Started UserRepositoryTest in 0.568 seconds (process running for 5.007)
+Hibernate: insert into users (birth_date,cpf,created_date,email,email_confirmed,gender,image_id,password_hash,phone_number,phone_number_confirmed,refresh_token,refresh_token_expiry_time,two_factor_enabled,user_name,discriminator,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,'OWNER',default)
+]]></system-out>
+  </testcase>
+  <testcase name="testInsertStudent" classname="com.alugaai.backend.repositories.UserRepositoryTest" time="0.037">
+    <system-out><![CDATA[Hibernate: insert into users (birth_date,cpf,created_date,email,email_confirmed,gender,image_id,password_hash,phone_number,phone_number_confirmed,refresh_token,refresh_token_expiry_time,two_factor_enabled,user_name,description,college_principal_id,discriminator,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,'STUDENT',default)
+Hibernate: SELECT discriminator FROM users WHERE id = ?
+]]></system-out>
+  </testcase>
+</testsuite>
